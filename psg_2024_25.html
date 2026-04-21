@@ -1,0 +1,1311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Paris Saint-Germain 2024-25 Season Report</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --fg: #1a1a1a;
+    --muted: #6b6b6b;
+    --muted-2: #8a8a8a;
+    --border: #e0e0e0;
+    --border-light: #eeeeee;
+    --surface: #fafafa;
+    --surface-2: #f5f5f5;
+
+    /* Position colors */
+    --gk: #d97706;
+    --gk-bg: #fef3c7;
+    --df: #2563eb;
+    --df-bg: #dbeafe;
+    --mf: #16a34a;
+    --mf-bg: #dcfce7;
+    --fw: #dc2626;
+    --fw-bg: #fee2e2;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Hiragino Sans", "Yu Gothic", sans-serif;
+    font-size: 14px;
+    line-height: 1.65;
+    color: var(--fg);
+    background: var(--bg);
+    margin: 0;
+    padding: 48px 20px;
+  }
+
+  .container {
+    max-width: 1080px;
+    margin: 0 auto;
+  }
+
+  /* =========================== */
+  /* Header                      */
+  /* =========================== */
+  header { margin-bottom: 32px; padding-bottom: 24px; border-bottom: 1px solid var(--border); }
+  .logo { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; text-decoration: none; color: var(--fg); cursor: pointer; width: fit-content; }
+  .logo-mark { width: 44px; height: 44px; border: 2px solid var(--fg); position: relative; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: var(--fg); color: #fff; }
+  .logo-mark::before { content: ""; position: absolute; top: 50%; left: 0; right: 0; height: 2px; background: #fff; transform: translateY(-50%); }
+  .logo-mark::after { content: ""; position: absolute; top: 0; bottom: 0; left: 50%; width: 2px; background: #fff; transform: translateX(-50%); }
+  .logo-mark span { position: relative; z-index: 1; font-family: "SF Mono", Menlo, Consolas, monospace; font-size: 18px; font-weight: 800; letter-spacing: -1px; background: var(--fg); padding: 0 2px; line-height: 1; }
+  .logo-text { display: flex; flex-direction: column; line-height: 1; }
+  .logo-text .word1 { font-size: 11px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+  .logo-text .word2 { font-size: 26px; font-weight: 800; letter-spacing: -0.5px; line-height: 1; }
+
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--muted); margin-bottom: 24px; flex-wrap: wrap; }
+  .breadcrumb a { color: var(--muted); text-decoration: none; cursor: pointer; padding: 4px 8px; border: 1px solid var(--border); background: var(--surface); transition: all 0.15s; display: inline-flex; align-items: center; gap: 6px; }
+  .breadcrumb a:hover { background: var(--hover, #f0f0f0); color: var(--fg); }
+  .breadcrumb .sep { color: var(--border); font-family: "SF Mono", Menlo, Consolas, monospace; }
+  .breadcrumb .current { padding: 4px 8px; color: var(--fg); font-weight: 600; display: inline-flex; align-items: center; gap: 6px; }
+  .breadcrumb .flag { width: 16px; height: 12px; border: 1px solid var(--border-light); object-fit: cover; }
+
+  .eyebrow {
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  h1 {
+    font-size: 28px;
+    font-weight: 700;
+    margin: 0 0 6px 0;
+    letter-spacing: -0.2px;
+  }
+
+  .subtitle {
+    font-size: 13px;
+    color: var(--muted);
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+
+  .subtitle span + span::before {
+    content: "/";
+    margin-right: 14px;
+    color: var(--border);
+  }
+
+  /* =========================== */
+  /* Section heading             */
+  /* =========================== */
+  section {
+    margin-top: 56px;
+  }
+
+  .section-num {
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 2px;
+    margin-bottom: 6px;
+  }
+
+  h2 {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0 0 20px 0;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--fg);
+    letter-spacing: -0.1px;
+  }
+
+  p {
+    margin: 0 0 14px 0;
+    text-align: justify;
+  }
+
+  /* =========================== */
+  /* Stat strip                  */
+  /* =========================== */
+  .stat-strip {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-bottom: 24px;
+  }
+
+  .stat-cell {
+    background: var(--bg);
+    padding: 14px 12px;
+    text-align: center;
+  }
+
+  .stat-cell .label {
+    font-size: 10px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+
+  .stat-cell .value {
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.1;
+  }
+
+  .stat-cell .sub {
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  /* Competition strip */
+  .comp-strip {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+
+  .comp-cell {
+    border: 1px solid var(--border);
+    padding: 12px 14px;
+    background: var(--bg);
+  }
+
+  .comp-cell .label {
+    font-size: 10px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+
+  .comp-cell .value {
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  /* =========================== */
+  /* Formation                   */
+  /* =========================== */
+  .formation {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 28px 16px 20px;
+    margin-top: 16px;
+  }
+
+  .pitch {
+    position: relative;
+    width: 100%;
+    max-width: 520px;
+    margin: 0 auto;
+    aspect-ratio: 2 / 3;
+    background: linear-gradient(to bottom, #ffffff 0%, #fcfcfc 100%);
+    border: 1px solid var(--border);
+  }
+
+  .pitch::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .pitch::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100px;
+    height: 100px;
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .player-dot {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    width: 94px;
+  }
+
+  .player-dot .circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin: 0 auto 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    color: #ffffff;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+  }
+
+  .player-dot .circle.gk { background: var(--gk); }
+  .player-dot .circle.df { background: var(--df); }
+  .player-dot .circle.mf { background: var(--mf); }
+  .player-dot .circle.fw { background: var(--fw); }
+
+  .player-dot .name {
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1.2;
+  }
+
+  .player-dot .pos {
+    font-size: 9px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 1px;
+  }
+
+  .formation-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 16px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .formation-label {
+    font-size: 11px;
+    color: var(--muted);
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    letter-spacing: 1px;
+  }
+
+  .legend {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  .legend-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .legend-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+  }
+  .legend-dot.gk { background: var(--gk); }
+  .legend-dot.df { background: var(--df); }
+  .legend-dot.mf { background: var(--mf); }
+  .legend-dot.fw { background: var(--fw); }
+
+  /* =========================== */
+  /* Position group heading      */
+  /* =========================== */
+  .pos-heading {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 32px 0 14px 0;
+    padding-bottom: 8px;
+    border-bottom: 1px dashed var(--border);
+  }
+
+  .pos-heading .bar {
+    width: 4px;
+    height: 18px;
+    border-radius: 2px;
+  }
+  .pos-heading.gk .bar { background: var(--gk); }
+  .pos-heading.df .bar { background: var(--df); }
+  .pos-heading.mf .bar { background: var(--mf); }
+  .pos-heading.fw .bar { background: var(--fw); }
+
+  .pos-heading .title {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+  }
+
+  .pos-heading .count {
+    font-size: 11px;
+    color: var(--muted);
+    font-weight: 400;
+    letter-spacing: 0.5px;
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    margin-left: auto;
+  }
+
+  /* =========================== */
+  /* Player cards                */
+  /* =========================== */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+    gap: 12px;
+  }
+
+  .card {
+    border: 1px solid var(--border);
+    border-top: 3px solid transparent;
+    background: var(--bg);
+    padding: 14px 16px 16px;
+    display: flex;
+    flex-direction: column;
+    transition: border-color 0.15s;
+  }
+
+  .card.gk { border-top-color: var(--gk); }
+  .card.df { border-top-color: var(--df); }
+  .card.mf { border-top-color: var(--mf); }
+  .card.fw { border-top-color: var(--fw); }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 4px;
+  }
+
+  .card-no {
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    font-size: 11px;
+    color: var(--muted);
+    font-weight: 600;
+    min-width: 28px;
+  }
+
+  .card-flag {
+    width: 20px;
+    height: 15px;
+    border: 1px solid var(--border-light);
+    flex-shrink: 0;
+    object-fit: cover;
+    display: block;
+  }
+
+  .card-name {
+    font-size: 15px;
+    font-weight: 600;
+    flex: 1;
+    letter-spacing: -0.1px;
+  }
+
+  .card-pos {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 3px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+  }
+
+  .card-pos.gk { background: var(--gk-bg); color: var(--gk); }
+  .card-pos.df { background: var(--df-bg); color: var(--df); }
+  .card-pos.mf { background: var(--mf-bg); color: var(--mf); }
+  .card-pos.fw { background: var(--fw-bg); color: var(--fw); }
+
+  .card-meta {
+    font-size: 11px;
+    color: var(--muted-2);
+    margin-bottom: 12px;
+    margin-left: 38px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .card-age {
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    font-size: 10px;
+  }
+
+  .card-meta .sep {
+    color: var(--border);
+  }
+
+  .card-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    padding: 10px 0;
+    margin-bottom: 12px;
+    border-top: 1px solid var(--border-light);
+    border-bottom: 1px solid var(--border-light);
+    background: var(--surface);
+    margin-left: -16px;
+    margin-right: -16px;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .stat {
+    text-align: center;
+    border-right: 1px solid var(--border-light);
+  }
+  .stat:last-child { border-right: none; }
+
+  .stat-value {
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.1;
+  }
+
+  .stat-label {
+    font-size: 9px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    margin-top: 3px;
+  }
+
+  .card-desc {
+    font-size: 12px;
+    color: #2a2a2a;
+    line-height: 1.6;
+    flex: 1;
+  }
+
+  .note {
+    font-size: 12px;
+    color: var(--muted);
+    font-style: italic;
+    margin-bottom: 20px;
+  }
+
+  footer {
+    margin-top: 64px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    font-size: 11px;
+    color: var(--muted);
+    text-align: center;
+    letter-spacing: 0.5px;
+  }
+
+  @media (max-width: 720px) {
+    body { padding: 24px 12px; font-size: 13px; }
+    h1 { font-size: 22px; }
+    .logo-mark { width: 38px; height: 38px; }
+    .logo-mark span { font-size: 15px; }
+    .logo-text .word2 { font-size: 22px; }
+    .stat-strip { grid-template-columns: repeat(3, 1fr); }
+    .comp-strip { grid-template-columns: repeat(2, 1fr); }
+    .player-dot { width: 76px; }
+    .player-dot .circle { width: 32px; height: 32px; font-size: 11px; }
+    .player-dot .name { font-size: 10px; }
+    .card-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <a class="logo" href="index.html">
+    <div class="logo-mark"><span>FA</span></div>
+    <div class="logo-text">
+      <div class="word1">Football</div>
+      <div class="word2">Archive</div>
+    </div>
+  </a>
+  <nav class="breadcrumb">
+    <a href="index.html">⌂ Home</a>
+    <span class="sep">/</span>
+    <a href="index.html?league=ligue-1"><img class="flag" src="https://flagcdn.com/w40/fr.png" alt="">Ligue 1</a>
+    <span class="sep">/</span>
+    <a href="index.html?league=ligue-1&team=psg"><img class="flag" src="https://flagcdn.com/w40/fr.png" alt="">Paris Saint-Germain</a>
+    <span class="sep">/</span>
+    <span class="current">2024–25</span>
+  </nav>
+  <div class="eyebrow">Season Report</div>
+  <h1>Paris Saint-Germain</h1>
+  <div class="subtitle">
+    <span>2024–25</span>
+    <span>Ligue 1</span>
+    <span>Manager: Luis Enrique</span>
+  </div>
+</header>
+
+<!-- =========================================== -->
+<!-- 0. Season Overview -->
+<!-- =========================================== -->
+<section>
+  <div class="section-num">00 / OVERVIEW</div>
+  <h2>Season Overview</h2>
+
+  <!-- Stat strip -->
+  <div class="stat-strip">
+    <div class="stat-cell">
+      <div class="label">Position</div>
+      <div class="value">1<span style="font-size: 12px; vertical-align: super;">st</span></div>
+      <div class="sub">Ligue 1</div>
+    </div>
+    <div class="stat-cell">
+      <div class="label">Points</div>
+      <div class="value">84</div>
+      <div class="sub">34 matches</div>
+    </div>
+    <div class="stat-cell">
+      <div class="label">W – D – L</div>
+      <div class="value">26·6·2</div>
+      <div class="sub">76% win rate</div>
+    </div>
+    <div class="stat-cell">
+      <div class="label">Goals</div>
+      <div class="value">92</div>
+      <div class="sub">scored</div>
+    </div>
+    <div class="stat-cell">
+      <div class="label">Conceded</div>
+      <div class="value">35</div>
+      <div class="sub">1.02 / match</div>
+    </div>
+    <div class="stat-cell">
+      <div class="label">GD</div>
+      <div class="value">+57</div>
+      <div class="sub">goal diff</div>
+    </div>
+  </div>
+
+  <!-- Competition strip -->
+  <div class="comp-strip">
+    <div class="comp-cell">
+      <div class="label">Coupe de France</div>
+      <div class="value">Winners</div>
+    </div>
+    <div class="comp-cell">
+      <div class="label">Trophée des Champions</div>
+      <div class="value">Winners</div>
+    </div>
+    <div class="comp-cell">
+      <div class="label">UEFA Champions League</div>
+      <div class="value">Winners</div>
+    </div>
+    <div class="comp-cell">
+      <div class="label">Top Scorer</div>
+      <div class="value">O. Dembélé · 21G</div>
+    </div>
+  </div>
+
+  <p>Paris Saint-Germain's 2024-25 season was a historic landmark. In their first campaign since 2016-17 without all-time top scorer Kylian Mbappé, manager Luis Enrique orchestrated an absolute masterclass, building a collective, dynamic, and fluid team. The additions of João Neves, Willian Pacho, and Désiré Doué perfectly complemented a young, hungry core. PSG dominated Ligue 1, securing their 13th league title with 84 points, 92 goals scored, and a breathtaking brand of possession football. Ousmane Dembélé emerged as the absolute talisman, winning the Golden Boot with 21 league goals, while Bradley Barcola provided a league-high 10 assists.</p>
+
+  <p>But it was in cup competitions where PSG truly cemented their legacy. They claimed the Coupe de France and the Trophée des Champions domestically, but the crowning achievement was their triumph in the UEFA Champions League. Driven by a stellar midfield trio of Vitinha, João Neves, and Warren Zaïre-Emery, and an impenetrable defense anchored by Marquinhos, PSG vanquished their European demons. They delivered an astonishing 5-0 victory over Inter Milan in the final, achieving the first-ever continental treble in French football history. The 2024-25 season will forever be remembered as the year PSG finally conquered Europe while maintaining absolute domestic supremacy.</p>
+</section>
+
+<!-- =========================================== -->
+<!-- Formation -->
+<!-- =========================================== -->
+<section>
+  <div class="section-num">01 / FORMATION</div>
+  <h2>Starting XI</h2>
+
+  <div class="formation">
+    <div class="pitch">
+      <!-- GK -->
+      <div class="player-dot" style="top: 92%; left: 50%;">
+        <div class="circle gk">1</div>
+        <div class="name">Donnarumma</div>
+        <div class="pos">GK</div>
+      </div>
+
+      <!-- Back 4 -->
+      <div class="player-dot" style="top: 73%; left: 15%;">
+        <div class="circle df">25</div>
+        <div class="name">N. Mendes</div>
+        <div class="pos">LB</div>
+      </div>
+      <div class="player-dot" style="top: 75%; left: 38%;">
+        <div class="circle df">51</div>
+        <div class="name">Pacho</div>
+        <div class="pos">LCB</div>
+      </div>
+      <div class="player-dot" style="top: 75%; left: 62%;">
+        <div class="circle df">5</div>
+        <div class="name">Marquinhos</div>
+        <div class="pos">RCB</div>
+      </div>
+      <div class="player-dot" style="top: 73%; left: 85%;">
+        <div class="circle df">2</div>
+        <div class="name">Hakimi</div>
+        <div class="pos">RB</div>
+      </div>
+
+      <!-- Midfield 3 -->
+      <div class="player-dot" style="top: 52%; left: 50%;">
+        <div class="circle mf">17</div>
+        <div class="name">Vitinha</div>
+        <div class="pos">DMF</div>
+      </div>
+      <div class="player-dot" style="top: 42%; left: 28%;">
+        <div class="circle mf">87</div>
+        <div class="name">Neves</div>
+        <div class="pos">CMF</div>
+      </div>
+      <div class="player-dot" style="top: 42%; left: 72%;">
+        <div class="circle mf">33</div>
+        <div class="name">Zaïre-Emery</div>
+        <div class="pos">CMF</div>
+      </div>
+
+      <!-- Front 3 -->
+      <div class="player-dot" style="top: 18%; left: 15%;">
+        <div class="circle fw">29</div>
+        <div class="name">Barcola</div>
+        <div class="pos">LW</div>
+      </div>
+      <div class="player-dot" style="top: 12%; left: 50%;">
+        <div class="circle fw">11</div>
+        <div class="name">Asensio</div>
+        <div class="pos">CF</div>
+      </div>
+      <div class="player-dot" style="top: 18%; left: 85%;">
+        <div class="circle fw">10</div>
+        <div class="name">Dembélé</div>
+        <div class="pos">RW</div>
+      </div>
+    </div>
+
+    <div class="formation-footer">
+      <div class="formation-label">4-3-3 / POSSESSION-BASED</div>
+      <div class="legend">
+        <span class="legend-item"><span class="legend-dot gk"></span>GK</span>
+        <span class="legend-item"><span class="legend-dot df"></span>DF</span>
+        <span class="legend-item"><span class="legend-dot mf"></span>MF</span>
+        <span class="legend-item"><span class="legend-dot fw"></span>FW</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================== -->
+<!-- 1. Full Squad -->
+<!-- =========================================== -->
+<section>
+  <div class="section-num">02 / SQUAD</div>
+  <h2>Full Squad</h2>
+  <p class="note">Based on the official squad information updated on May 17, 2025. Appearances, goals, and assists refer to 2024-25 Ligue 1 matches only. Ages shown as of the end of the season.</p>
+
+  <!-- ============ Goalkeepers ============ -->
+  <div class="pos-heading gk">
+    <span class="bar"></span>
+    <span class="title">Goalkeepers</span>
+    <span class="count">04</span>
+  </div>
+  <div class="card-grid">
+
+    <div class="card gk">
+      <div class="card-header">
+        <span class="card-no">01</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/it.png" alt="Italy">
+        <span class="card-name">Gianluigi Donnarumma</span>
+        <span class="card-pos gk">GK</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 26</span>
+        <span class="sep">·</span>
+        <span>from AC Milan (ITA)</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">28</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">The towering Italian international remained PSG's undisputed number one. Known for his elite shot-stopping and massive wingspan, Donnarumma matured into a vocal leader, guiding the backline and recording numerous crucial clean sheets during the treble-winning campaign.</div>
+    </div>
+
+    <div class="card gk">
+      <div class="card-header">
+        <span class="card-no">39</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/ru.png" alt="Russia">
+        <span class="card-name">Matvey Safonov</span>
+        <span class="card-pos gk">GK</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 26</span>
+        <span class="sep">·</span>
+        <span>from Krasnodar (RUS)</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">6</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">Arriving from Russia, Safonov provided excellent competition and backup. A highly athletic goalkeeper with sharp reflexes and strong distribution, he stepped up seamlessly in domestic cups and occasional league rotations when required.</div>
+    </div>
+
+    <div class="card gk">
+      <div class="card-header">
+        <span class="card-no">80</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/es.png" alt="Spain">
+        <span class="card-name">Arnau Tenas</span>
+        <span class="card-pos gk">GK</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 23</span>
+        <span class="sep">·</span>
+        <span>from Barcelona (ESP)</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">The former Barcelona academy graduate served as the third-choice keeper. Despite limited minutes, his exceptional ball-playing ability and proactive sweeping perfectly matched Luis Enrique's tactical philosophy in training and preparation.</div>
+    </div>
+
+    <div class="card gk">
+      <div class="card-header">
+        <span class="card-no">99</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/pt.png" alt="Portugal">
+        <span class="card-name">Louis Mouquet</span>
+        <span class="card-pos gk">GK</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 20</span>
+        <span class="sep">·</span>
+        <span>from PSG youth</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">A promising young goalkeeper from the Parisian academy, Mouquet gained valuable first-team exposure. While he didn't feature in Ligue 1, training alongside elite internationals significantly accelerated his development for the future.</div>
+    </div>
+
+  </div>
+
+  <!-- ============ Defenders ============ -->
+  <div class="pos-heading df">
+    <span class="bar"></span>
+    <span class="title">Defenders</span>
+    <span class="count">09</span>
+  </div>
+  <div class="card-grid">
+
+    <div class="card df">
+      <div class="card-header">
+        <span class="card-no">02</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/ma.png" alt="Morocco">
+        <span class="card-name">Achraf Hakimi</span>
+        <span class="card-pos df">RB</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 26</span>
+        <span class="sep">·</span>
+        <span>from Inter Milan (ITA)</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">29</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">5</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">6</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">An undisputed star on the right flank, the Moroccan international dominated his wing. Blending explosive pace, elite stamina, and clinical final-third delivery, Hakimi functioned as an extra attacker, crucial to PSG's possession and transition phases.</div>
+    </div>
+
+    <div class="card df">
+      <div class="card-header">
+        <span class="card-no">03</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/fr.png" alt="France">
+        <span class="card-name">Presnel Kimpembe</span>
+        <span class="card-pos df">CB</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 29</span>
+        <span class="sep">·</span>
+        <span>from PSG youth</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">5</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">After an extended battle with injuries, the homegrown fan favorite finally made his emotional return. While his minutes were carefully managed, Kimpembe's leadership, passion, and fierce left-footed challenges deeply resonated with the Parisian supporters.</div>
+    </div>
+
+    <div class="card df">
+      <div class="card-header">
+        <span class="card-no">05</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/br.png" alt="Brazil">
+        <span class="card-name">Marquinhos</span>
+        <span class="card-pos df">CB</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 31</span>
+        <span class="sep">·</span>
+        <span>from Roma (ITA)</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">30</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">2</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">1</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">The legendary Brazilian captain anchored the defense with immense composure. Entering his 12th season in Paris, his elite reading of the game, precise distribution, and aerial dominance were vital in delivering the historic continental treble.</div>
+    </div>
+
+    <div class="card df">
+      <div class="card-header">
+        <span class="card-no">21</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/fr.png" alt="France">
+        <span class="card-name">Lucas Hernandez</span>
+        <span class="card-pos df">CB/LB</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 29</span>
+        <span class="sep">·</span>
+        <span>from Bayern Munich (GER)</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">10</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">1</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">Returning from a severe knee injury, the French World Cup winner brought his trademark intensity and fighting spirit back to the pitch. His aggressive defending and versatility added crucial depth during the grueling final stretch of the season.</div>
+    </div>
+
+    <div class="card df">
+      <div class="card-header">
+        <span class="card-no">25</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/pt.png" alt="Portugal">
+        <span class="card-name">Nuno Mendes</span>
+        <span class="card-pos df">LB</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 22</span>
+        <span class="sep">·</span>
+        <span>from Sporting CP (POR)</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">26</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">1</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">4</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">Following an injury-plagued past, the dynamic Portuguese left-back returned to his absolute best. Operating with explosive speed and aggressive overlapping runs, Mendes was a constant offensive threat while remaining incredibly tenacious defensively.</div>
+    </div>
+
+    <div class="card df">
+      <div class="card-header">
+        <span class="card-no">35</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/br.png" alt="Brazil">
+        <span class="card-name">Lucas Beraldo</span>
+        <span class="card-pos df">CB/LB</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 21</span>
+        <span class="sep">·</span>
+        <span>from São Paulo (BRA)</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">22</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">1</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">The young Brazilian continued his development as a versatile, highly technical defender. Capable of playing center-back or left-back, his calmness under pressure and progressive passing perfectly suited the team's possession-heavy tactical setup.</div>
+    </div>
+
+    <div class="card df">
+      <div class="card-header">
+        <span class="card-no">37</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/sk.png" alt="Slovakia">
+        <span class="card-name">Milan Skriniar</span>
+        <span class="card-pos df">CB</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 30</span>
+        <span class="sep">·</span>
+        <span>from Inter Milan (ITA)</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">12</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">The experienced Slovakian international provided invaluable depth and leadership. Although shifting into a rotational role, his uncompromising tackling, aerial presence, and professionalism offered immense defensive security when closing out tight matches.</div>
+    </div>
+
+    <div class="card df">
+      <div class="card-header">
+        <span class="card-no">42</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/fr.png" alt="France">
+        <span class="card-name">Yoram Zague</span>
+        <span class="card-pos df">RB/LB</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 19</span>
+        <span class="sep">·</span>
+        <span>from PSG youth</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">8</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">1</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">An exciting prospect from the PSG youth ranks, Zague displayed maturity beyond his years. The energetic full-back showcased impressive defensive positioning and a willingness to attack, marking himself as a genuine talent for the coming seasons.</div>
+    </div>
+
+    <div class="card df">
+      <div class="card-header">
+        <span class="card-no">51</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/ec.png" alt="Ecuador">
+        <span class="card-name">Willian Pacho</span>
+        <span class="card-pos df">CB</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 23</span>
+        <span class="sep">·</span>
+        <span>from Eintracht Frankfurt (GER)</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">31</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">1</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">Signed from Eintracht Frankfurt, the Ecuadorian center-back was a revelation. A robust, left-footed defender, Pacho combined immense physical strength with excellent ball-playing skills, instantly becoming a staple in Luis Enrique's defensive structure.</div>
+    </div>
+
+  </div>
+
+  <!-- ============ Midfielders ============ -->
+  <div class="pos-heading mf">
+    <span class="bar"></span>
+    <span class="title">Midfielders</span>
+    <span class="count">08</span>
+  </div>
+  <div class="card-grid">
+
+    <div class="card mf">
+      <div class="card-header">
+        <span class="card-no">08</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/es.png" alt="Spain">
+        <span class="card-name">Fabián Ruiz</span>
+        <span class="card-pos mf">CMF</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 29</span>
+        <span class="sep">·</span>
+        <span>from Napoli (ITA)</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">25</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">3</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">3</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">The elegant Spanish international provided immense tactical intelligence and technical grace. Whether starting or coming off the bench, his smooth ball control, progressive passing, and ability to find pockets of space were crucial to breaking down deep blocks.</div>
+    </div>
+
+    <div class="card mf">
+      <div class="card-header">
+        <span class="card-no">14</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/fr.png" alt="France">
+        <span class="card-name">Désiré Doué</span>
+        <span class="card-pos mf">AMF</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 19</span>
+        <span class="sep">·</span>
+        <span>from Rennes</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">24</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">4</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">3</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">Arriving from Rennes, the highly coveted French teenager added an explosive edge to the midfield and flanks. Known for his audacious dribbling and ball-carrying abilities, Doué injected unpredictability and flair into the squad's attacking rotations.</div>
+    </div>
+
+    <div class="card mf">
+      <div class="card-header">
+        <span class="card-no">17</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/pt.png" alt="Portugal">
+        <span class="card-name">Vitinha</span>
+        <span class="card-pos mf">DMF/CMF</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 25</span>
+        <span class="sep">·</span>
+        <span>from Porto (POR)</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">32</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">7</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">8</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">The heartbeat of PSG's midfield. The Portuguese maestro dictated the tempo with his extraordinary vision, press resistance, and relentless work rate. His long-range shooting and decisive passing earned him the team's highest average rating.</div>
+    </div>
+
+    <div class="card mf">
+      <div class="card-header">
+        <span class="card-no">19</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/kr.png" alt="South Korea">
+        <span class="card-name">Kang-in Lee</span>
+        <span class="card-pos mf">AMF/WG</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 24</span>
+        <span class="sep">·</span>
+        <span>from Mallorca (ESP)</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">28</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">6</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">4</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">The South Korean superstar continued to shine with his incredible versatility. Deployed as a winger, false nine, or attacking midfielder, his mesmerizing dribbling, creative vision, and pinpoint set-piece delivery consistently unlocked stubborn defenses.</div>
+    </div>
+
+    <div class="card mf">
+      <div class="card-header">
+        <span class="card-no">24</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/fr.png" alt="France">
+        <span class="card-name">Senny Mayulu</span>
+        <span class="card-pos mf">CMF</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 19</span>
+        <span class="sep">·</span>
+        <span>from PSG youth</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">12</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">1</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">1</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">Another gem from the Parisian academy, the dynamic midfielder earned valuable minutes throughout the campaign. His tactical flexibility, quick footwork, and mature decision-making highlighted his immense potential within Luis Enrique's demanding system.</div>
+    </div>
+
+    <div class="card mf">
+      <div class="card-header">
+        <span class="card-no">33</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/fr.png" alt="France">
+        <span class="card-name">Warren Zaïre-Emery</span>
+        <span class="card-pos mf">CMF</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 19</span>
+        <span class="sep">·</span>
+        <span>from PSG youth</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">30</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">3</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">5</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">Still a teenager, the homegrown prodigy cemented his status as a world-class talent. Blending extreme physical power with supreme technical elegance, he drove the midfield forward and consistently delivered in the highest-pressure Champions League fixtures.</div>
+    </div>
+
+    <div class="card mf">
+      <div class="card-header">
+        <span class="card-no">41</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/fr.png" alt="France">
+        <span class="card-name">Ayman Kari</span>
+        <span class="card-pos mf">CMF</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 20</span>
+        <span class="sep">·</span>
+        <span>from PSG youth</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">5</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">Returning to the fold, the robust academy midfielder added physical depth to the squad. While opportunities were limited, Kari's strength in duels and composed passing under pressure showcased his readiness for top-flight football when called upon.</div>
+    </div>
+
+    <div class="card mf">
+      <div class="card-header">
+        <span class="card-no">87</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/pt.png" alt="Portugal">
+        <span class="card-name">João Neves</span>
+        <span class="card-pos mf">CMF/DMF</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 20</span>
+        <span class="sep">·</span>
+        <span>from Benfica (POR)</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">33</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">4</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">6</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">A massive summer signing from Benfica, the young Portuguese star immediately transformed the midfield. His tireless engine, intelligent interceptions, and flawless passing circulation made him the indispensable pivot of Luis Enrique's treble-winning machine.</div>
+    </div>
+
+  </div>
+
+  <!-- ============ Forwards ============ -->
+  <div class="pos-heading fw">
+    <span class="bar"></span>
+    <span class="title">Forwards</span>
+    <span class="count">06</span>
+  </div>
+  <div class="card-grid">
+
+    <div class="card fw">
+      <div class="card-header">
+        <span class="card-no">09</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/pt.png" alt="Portugal">
+        <span class="card-name">Gonçalo Ramos</span>
+        <span class="card-pos fw">CF</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 23</span>
+        <span class="sep">·</span>
+        <span>from Benfica (POR)</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">22</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">10</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">3</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">The Portuguese striker served as the ultimate penalty-box predator. Leading the line with relentless pressing and intelligent movement, Ramos scored crucial goals across all competitions, providing a lethal focal point for PSG's intricate build-up play.</div>
+    </div>
+
+    <div class="card fw">
+      <div class="card-header">
+        <span class="card-no">10</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/fr.png" alt="France">
+        <span class="card-name">Ousmane Dembélé</span>
+        <span class="card-pos fw">RW</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 28</span>
+        <span class="sep">·</span>
+        <span>from Barcelona (ESP)</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">29</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">21</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">8</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">The absolute talisman of the historic season. The French winger delivered a legendary campaign, netting 21 league goals. With his ambidextrous dribbling, blistering pace, and newfound clinical finishing, Dembélé was completely unplayable and the heart of the attack.</div>
+    </div>
+
+    <div class="card fw">
+      <div class="card-header">
+        <span class="card-no">11</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/es.png" alt="Spain">
+        <span class="card-name">Marco Asensio</span>
+        <span class="card-pos fw">SS/WG</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 29</span>
+        <span class="sep">·</span>
+        <span>from Real Madrid (ESP)</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">25</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">6</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">5</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">The former Real Madrid star showcased his immense footballing IQ. Operating often as a false nine or inverted winger, his lethal left foot, creative link-up play, and unmatched experience were instrumental in navigating the complex European knockout stages.</div>
+    </div>
+
+    <div class="card fw">
+      <div class="card-header">
+        <span class="card-no">23</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/fr.png" alt="France">
+        <span class="card-name">Randal Kolo Muani</span>
+        <span class="card-pos fw">CF/WG</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 26</span>
+        <span class="sep">·</span>
+        <span>from Eintracht Frankfurt (GER)</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">24</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">8</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">2</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">The versatile French forward offered an incredibly direct, powerful attacking option. Utilizing his elite speed and aggressive runs in behind the defense, he stretched opposing backlines and contributed vital goals as both a starter and an impact substitute.</div>
+    </div>
+
+    <div class="card fw">
+      <div class="card-header">
+        <span class="card-no">29</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/fr.png" alt="France">
+        <span class="card-name">Bradley Barcola</span>
+        <span class="card-pos fw">LW</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 22</span>
+        <span class="sep">·</span>
+        <span>from Lyon</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">31</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">12</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">10</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">A sensational sophomore season for the rapid French winger. Claiming the league's top assist provider crown, Barcola terrorized right-backs with his devastating acceleration, tricky wing play, and vastly improved decision-making in the final third.</div>
+    </div>
+
+    <div class="card fw">
+      <div class="card-header">
+        <span class="card-no">49</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/fr.png" alt="France">
+        <span class="card-name">Ibrahim Mbaye</span>
+        <span class="card-pos fw">WG</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 17</span>
+        <span class="sep">·</span>
+        <span>from PSG youth</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">6</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">1</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">At just 17, the electric academy forward burst onto the scene. Possessing raw pace and fearless dribbling, Mbaye scored his maiden professional goal, proving that the PSG youth pipeline remains a cornerstone of the club's long-term sporting project.</div>
+    </div>
+
+  </div>
+
+</section>
+
+<!-- =========================================== -->
+<!-- 2. Tactics -->
+<!-- =========================================== -->
+<section>
+  <div class="section-num">03 / TACTICS</div>
+  <h2>Tactics</h2>
+
+  <p>PSG under Luis Enrique evolved into a relentless, possession-based 4-3-3 machine. Their game was fundamentally built on extreme ball control, high-intensity counter-pressing, and fluid positional rotations. From the back, Gianluigi Donnarumma and the center-back pairing of Marquinhos and Willian Pacho acted as the primary distributors, effortlessly bypassing opposing presses. The midfield was the true engine of the team; Vitinha operated as the deep-lying playmaker alongside the tireless João Neves and Warren Zaïre-Emery, forming a trio that suffocated opponents through sheer technical superiority and unmatched stamina.</p>
+
+  <p>In attack, PSG showcased a highly adaptable and unpredictable structure. Unlike previous seasons that relied heavily on individual superstars, the 2024-25 side thrived on collective movement. Ousmane Dembélé operated as an inverted playmaker from the right, drifting inside to devastating effect, while Bradley Barcola hugged the left touchline to isolate defenders in one-on-one situations. Through the middle, Marco Asensio or Kang-in Lee frequently dropped deep as false nines, creating overloads in midfield, or Gonçalo Ramos offered a more traditional focal point when physical presence was required inside the penalty area.</p>
+
+  <p>A crucial element of Luis Enrique's tactical blueprint was the asymmetric role of the full-backs. Achraf Hakimi practically functioned as an auxiliary right-winger, stretching the pitch and providing a constant overlapping threat. On the opposite side, Nuno Mendes offered explosive underlaps or maintained a deeper position to form a back three during the build-up phase, ensuring defensive stability against swift counter-attacks. This structural fluidity made PSG nearly impossible to press effectively.</p>
+
+  <p>While the system was demanding and occasionally left space behind the high defensive line, the collective work rate and sheer dominance of possession mitigated those risks. The team defended aggressively from the front, suffocating opponents before they could even cross the halfway line. This tactical masterpiece culminated in the ultimate reward: a historic continental treble, cementing this iteration of PSG as one of the most tactically astute and dominant sides in modern European football.</p>
+</section>
+
+<footer>
+  PARIS SAINT-GERMAIN · 2024—25 · SEASON REPORT
+</footer>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,1331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manchester United 2007-08 Season Report</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --fg: #1a1a1a;
+    --muted: #6b6b6b;
+    --muted-2: #8a8a8a;
+    --border: #e0e0e0;
+    --border-light: #eeeeee;
+    --surface: #fafafa;
+    --surface-2: #f5f5f5;
+
+    /* Position colors */
+    --gk: #d97706;
+    --gk-bg: #fef3c7;
+    --df: #2563eb;
+    --df-bg: #dbeafe;
+    --mf: #16a34a;
+    --mf-bg: #dcfce7;
+    --fw: #dc2626;
+    --fw-bg: #fee2e2;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Hiragino Sans", "Yu Gothic", sans-serif;
+    font-size: 14px;
+    line-height: 1.65;
+    color: var(--fg);
+    background: var(--bg);
+    margin: 0;
+    padding: 48px 20px;
+  }
+
+  .container {
+    max-width: 1080px;
+    margin: 0 auto;
+  }
+
+  /* =========================== */
+  /* Header                      */
+  /* =========================== */
+  header { margin-bottom: 32px; padding-bottom: 24px; border-bottom: 1px solid var(--border); }
+  .logo { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; text-decoration: none; color: var(--fg); cursor: pointer; width: fit-content; }
+  .logo-mark { width: 44px; height: 44px; border: 2px solid var(--fg); position: relative; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: var(--fg); color: #fff; }
+  .logo-mark::before { content: ""; position: absolute; top: 50%; left: 0; right: 0; height: 2px; background: #fff; transform: translateY(-50%); }
+  .logo-mark::after { content: ""; position: absolute; top: 0; bottom: 0; left: 50%; width: 2px; background: #fff; transform: translateX(-50%); }
+  .logo-mark span { position: relative; z-index: 1; font-family: "SF Mono", Menlo, Consolas, monospace; font-size: 18px; font-weight: 800; letter-spacing: -1px; background: var(--fg); padding: 0 2px; line-height: 1; }
+  .logo-text { display: flex; flex-direction: column; line-height: 1; }
+  .logo-text .word1 { font-size: 11px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+  .logo-text .word2 { font-size: 26px; font-weight: 800; letter-spacing: -0.5px; line-height: 1; }
+
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--muted); margin-bottom: 24px; flex-wrap: wrap; }
+  .breadcrumb a { color: var(--muted); text-decoration: none; cursor: pointer; padding: 4px 8px; border: 1px solid var(--border); background: var(--surface); transition: all 0.15s; display: inline-flex; align-items: center; gap: 6px; }
+  .breadcrumb a:hover { background: var(--hover, #f0f0f0); color: var(--fg); }
+  .breadcrumb .sep { color: var(--border); font-family: "SF Mono", Menlo, Consolas, monospace; }
+  .breadcrumb .current { padding: 4px 8px; color: var(--fg); font-weight: 600; display: inline-flex; align-items: center; gap: 6px; }
+  .breadcrumb .flag { width: 16px; height: 12px; border: 1px solid var(--border-light); object-fit: cover; }
+
+  .eyebrow {
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  h1 {
+    font-size: 28px;
+    font-weight: 700;
+    margin: 0 0 6px 0;
+    letter-spacing: -0.2px;
+  }
+
+  .subtitle {
+    font-size: 13px;
+    color: var(--muted);
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+
+  .subtitle span + span::before {
+    content: "/";
+    margin-right: 14px;
+    color: var(--border);
+  }
+
+  /* =========================== */
+  /* Section heading             */
+  /* =========================== */
+  section {
+    margin-top: 56px;
+  }
+
+  .section-num {
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 2px;
+    margin-bottom: 6px;
+  }
+
+  h2 {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0 0 20px 0;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--fg);
+    letter-spacing: -0.1px;
+  }
+
+  p {
+    margin: 0 0 14px 0;
+    text-align: justify;
+  }
+
+  /* =========================== */
+  /* Stat strip                  */
+  /* =========================== */
+  .stat-strip {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-bottom: 24px;
+  }
+
+  .stat-cell {
+    background: var(--bg);
+    padding: 14px 12px;
+    text-align: center;
+  }
+
+  .stat-cell .label {
+    font-size: 10px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+
+  .stat-cell .value {
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.1;
+  }
+
+  .stat-cell .sub {
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  /* Competition strip */
+  .comp-strip {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+
+  .comp-cell {
+    border: 1px solid var(--border);
+    padding: 12px 14px;
+    background: var(--bg);
+  }
+
+  .comp-cell .label {
+    font-size: 10px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+
+  .comp-cell .value {
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  /* =========================== */
+  /* Formation                   */
+  /* =========================== */
+  .formation {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 28px 16px 20px;
+    margin-top: 16px;
+  }
+
+  .pitch {
+    position: relative;
+    width: 100%;
+    max-width: 520px;
+    margin: 0 auto;
+    aspect-ratio: 2 / 3;
+    background: linear-gradient(to bottom, #ffffff 0%, #fcfcfc 100%);
+    border: 1px solid var(--border);
+  }
+
+  .pitch::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .pitch::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100px;
+    height: 100px;
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .player-dot {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    width: 94px;
+  }
+
+  .player-dot .circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin: 0 auto 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    color: #ffffff;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+  }
+
+  .player-dot .circle.gk { background: var(--gk); }
+  .player-dot .circle.df { background: var(--df); }
+  .player-dot .circle.mf { background: var(--mf); }
+  .player-dot .circle.fw { background: var(--fw); }
+
+  .player-dot .name {
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1.2;
+  }
+
+  .player-dot .pos {
+    font-size: 9px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 1px;
+  }
+
+  .formation-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 16px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .formation-label {
+    font-size: 11px;
+    color: var(--muted);
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    letter-spacing: 1px;
+  }
+
+  .legend {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  .legend-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .legend-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+  }
+  .legend-dot.gk { background: var(--gk); }
+  .legend-dot.df { background: var(--df); }
+  .legend-dot.mf { background: var(--mf); }
+  .legend-dot.fw { background: var(--fw); }
+
+  /* =========================== */
+  /* Position group heading      */
+  /* =========================== */
+  .pos-heading {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 32px 0 14px 0;
+    padding-bottom: 8px;
+    border-bottom: 1px dashed var(--border);
+  }
+
+  .pos-heading .bar {
+    width: 4px;
+    height: 18px;
+    border-radius: 2px;
+  }
+  .pos-heading.gk .bar { background: var(--gk); }
+  .pos-heading.df .bar { background: var(--df); }
+  .pos-heading.mf .bar { background: var(--mf); }
+  .pos-heading.fw .bar { background: var(--fw); }
+
+  .pos-heading .title {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+  }
+
+  .pos-heading .count {
+    font-size: 11px;
+    color: var(--muted);
+    font-weight: 400;
+    letter-spacing: 0.5px;
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    margin-left: auto;
+  }
+
+  /* =========================== */
+  /* Player cards                */
+  /* =========================== */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+    gap: 12px;
+  }
+
+  .card {
+    border: 1px solid var(--border);
+    border-top: 3px solid transparent;
+    background: var(--bg);
+    padding: 14px 16px 16px;
+    display: flex;
+    flex-direction: column;
+    transition: border-color 0.15s;
+  }
+
+  .card.gk { border-top-color: var(--gk); }
+  .card.df { border-top-color: var(--df); }
+  .card.mf { border-top-color: var(--mf); }
+  .card.fw { border-top-color: var(--fw); }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 4px;
+  }
+
+  .card-no {
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    font-size: 11px;
+    color: var(--muted);
+    font-weight: 600;
+    min-width: 28px;
+  }
+
+  .card-flag {
+    width: 20px;
+    height: 15px;
+    border: 1px solid var(--border-light);
+    flex-shrink: 0;
+    object-fit: cover;
+    display: block;
+  }
+
+  .card-name {
+    font-size: 15px;
+    font-weight: 600;
+    flex: 1;
+    letter-spacing: -0.1px;
+  }
+
+  .card-pos {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 3px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+  }
+
+  .card-pos.gk { background: var(--gk-bg); color: var(--gk); }
+  .card-pos.df { background: var(--df-bg); color: var(--df); }
+  .card-pos.mf { background: var(--mf-bg); color: var(--mf); }
+  .card-pos.fw { background: var(--fw-bg); color: var(--fw); }
+
+  .card-meta {
+    font-size: 11px;
+    color: var(--muted-2);
+    margin-bottom: 12px;
+    margin-left: 38px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .card-age {
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    font-size: 10px;
+  }
+
+  .card-meta .sep {
+    color: var(--border);
+  }
+
+  .card-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    padding: 10px 0;
+    margin-bottom: 12px;
+    border-top: 1px solid var(--border-light);
+    border-bottom: 1px solid var(--border-light);
+    background: var(--surface);
+    margin-left: -16px;
+    margin-right: -16px;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .stat {
+    text-align: center;
+    border-right: 1px solid var(--border-light);
+  }
+  .stat:last-child { border-right: none; }
+
+  .stat-value {
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.1;
+  }
+
+  .stat-label {
+    font-size: 9px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    margin-top: 3px;
+  }
+
+  .card-desc {
+    font-size: 12px;
+    color: #2a2a2a;
+    line-height: 1.6;
+    flex: 1;
+  }
+
+  .note {
+    font-size: 12px;
+    color: var(--muted);
+    font-style: italic;
+    margin-bottom: 20px;
+  }
+
+  footer {
+    margin-top: 64px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    font-size: 11px;
+    color: var(--muted);
+    text-align: center;
+    letter-spacing: 0.5px;
+  }
+
+  @media (max-width: 720px) {
+    body { padding: 24px 12px; font-size: 13px; }
+    h1 { font-size: 22px; }
+    .logo-mark { width: 38px; height: 38px; }
+    .logo-mark span { font-size: 15px; }
+    .logo-text .word2 { font-size: 22px; }
+    .stat-strip { grid-template-columns: repeat(3, 1fr); }
+    .comp-strip { grid-template-columns: repeat(2, 1fr); }
+    .player-dot { width: 76px; }
+    .player-dot .circle { width: 32px; height: 32px; font-size: 11px; }
+    .player-dot .name { font-size: 10px; }
+    .card-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <a class="logo" href="index.html">
+    <div class="logo-mark"><span>FA</span></div>
+    <div class="logo-text">
+      <div class="word1">Football</div>
+      <div class="word2">Archive</div>
+    </div>
+  </a>
+  <nav class="breadcrumb">
+    <a href="index.html">⌂ Home</a>
+    <span class="sep">/</span>
+    <a href="index.html?league=premier-league"><img class="flag" src="https://flagcdn.com/w40/gb-eng.png" alt="">Premier League</a>
+    <span class="sep">/</span>
+    <a href="index.html?league=premier-league&team=manchester-united"><img class="flag" src="https://flagcdn.com/w40/gb-eng.png" alt="">Manchester United</a>
+    <span class="sep">/</span>
+    <span class="current">2007–08</span>
+  </nav>
+  <div class="eyebrow">Season Report</div>
+  <h1>Manchester United</h1>
+  <div class="subtitle">
+    <span>2007–08</span>
+    <span>Premier League</span>
+    <span>Manager: Sir Alex Ferguson</span>
+  </div>
+</header>
+
+<!-- =========================================== -->
+<!-- 0. Season Overview -->
+<!-- =========================================== -->
+<section>
+  <div class="section-num">00 / OVERVIEW</div>
+  <h2>Season Overview</h2>
+
+  <!-- Stat strip -->
+  <div class="stat-strip">
+    <div class="stat-cell">
+      <div class="label">Position</div>
+      <div class="value">1<span style="font-size: 12px; vertical-align: super;">st</span></div>
+      <div class="sub">Premier League</div>
+    </div>
+    <div class="stat-cell">
+      <div class="label">Points</div>
+      <div class="value">87</div>
+      <div class="sub">38 matches</div>
+    </div>
+    <div class="stat-cell">
+      <div class="label">W – D – L</div>
+      <div class="value">27·6·5</div>
+      <div class="sub">71% win rate</div>
+    </div>
+    <div class="stat-cell">
+      <div class="label">Goals</div>
+      <div class="value">80</div>
+      <div class="sub">scored</div>
+    </div>
+    <div class="stat-cell">
+      <div class="label">Conceded</div>
+      <div class="value">22</div>
+      <div class="sub">0.58 / match</div>
+    </div>
+    <div class="stat-cell">
+      <div class="label">GD</div>
+      <div class="value">+58</div>
+      <div class="sub">goal diff</div>
+    </div>
+  </div>
+
+  <!-- Competition strip -->
+  <div class="comp-strip">
+    <div class="comp-cell">
+      <div class="label">FA Cup</div>
+      <div class="value">Sixth Round</div>
+    </div>
+    <div class="comp-cell">
+      <div class="label">League Cup</div>
+      <div class="value">Third Round</div>
+    </div>
+    <div class="comp-cell">
+      <div class="label">UEFA Champions League</div>
+      <div class="value">Winners</div>
+    </div>
+    <div class="comp-cell">
+      <div class="label">Top Scorer</div>
+      <div class="value">C. Ronaldo · 31G</div>
+    </div>
+  </div>
+
+  <p>Manchester United's 2007-08 season was one of the greatest in the club's history. Under Sir Alex Ferguson, the side completed the European Double, winning both the Premier League and the UEFA Champions League. In the league, United finished with 87 points — 27 wins, 6 draws, and 5 defeats — scoring 80 goals and conceding just 22. The title race went to the final day, with Chelsea finishing two points behind on 85 and Arsenal on 83. Cristiano Ronaldo was the undeniable star, scoring 31 league goals to win the Golden Boot and setting a new benchmark for attacking output from a wide position. Carlos Tevez and Wayne Rooney provided further firepower, while Rio Ferdinand and Nemanja Vidić formed one of the most formidable centre-back pairings in Premier League history.</p>
+
+  <p>In Europe, the journey was equally compelling. United topped their Champions League group with 16 points from six matches, then overcame Lyon, Roma, and Barcelona to reach the final in Moscow. There, they faced Chelsea in the first all-English Champions League final. After a 1-1 draw through extra time — Ronaldo's header cancelled out by Frank Lampard — the match went to penalties. John Terry's infamous slip allowed United back into the shootout, and Edwin van der Sar saved Nicolas Anelka's effort to clinch the club's third European Cup. Domestically, the cup runs were less successful: United fell to Coventry City in the League Cup third round and lost to eventual winners Portsmouth in the FA Cup sixth round. Nevertheless, the league and Champions League double cemented the 2007-08 squad as one of the finest in Manchester United's history, blending experienced veterans like Ryan Giggs and Paul Scholes with emerging talents like Anderson and Nani, and world-class performers like Ronaldo, Rooney, and Tevez at the peak of their powers.</p>
+</section>
+
+<!-- =========================================== -->
+<!-- Formation -->
+<!-- =========================================== -->
+<section>
+  <div class="section-num">01 / FORMATION</div>
+  <h2>Starting XI</h2>
+
+  <div class="formation">
+    <div class="pitch">
+      <!-- GK -->
+      <div class="player-dot" style="top: 92%; left: 50%;">
+        <div class="circle gk">1</div>
+        <div class="name">Van der Sar</div>
+        <div class="pos">GK</div>
+      </div>
+
+      <!-- Back 4 -->
+      <div class="player-dot" style="top: 73%; left: 15%;">
+        <div class="circle df">3</div>
+        <div class="name">Evra</div>
+        <div class="pos">LB</div>
+      </div>
+      <div class="player-dot" style="top: 75%; left: 38%;">
+        <div class="circle df">5</div>
+        <div class="name">Ferdinand</div>
+        <div class="pos">LCB</div>
+      </div>
+      <div class="player-dot" style="top: 75%; left: 62%;">
+        <div class="circle df">15</div>
+        <div class="name">Vidić</div>
+        <div class="pos">RCB</div>
+      </div>
+      <div class="player-dot" style="top: 73%; left: 85%;">
+        <div class="circle df">6</div>
+        <div class="name">Brown</div>
+        <div class="pos">RB</div>
+      </div>
+
+      <!-- Midfield 4 -->
+      <div class="player-dot" style="top: 50%; left: 15%;">
+        <div class="circle mf">11</div>
+        <div class="name">Giggs</div>
+        <div class="pos">LM</div>
+      </div>
+      <div class="player-dot" style="top: 52%; left: 38%;">
+        <div class="circle mf">18</div>
+        <div class="name">Scholes</div>
+        <div class="pos">CM</div>
+      </div>
+      <div class="player-dot" style="top: 52%; left: 62%;">
+        <div class="circle mf">16</div>
+        <div class="name">Carrick</div>
+        <div class="pos">CM</div>
+      </div>
+      <div class="player-dot" style="top: 50%; left: 85%;">
+        <div class="circle mf">7</div>
+        <div class="name">Ronaldo</div>
+        <div class="pos">RM</div>
+      </div>
+
+      <!-- Front 2 -->
+      <div class="player-dot" style="top: 22%; left: 35%;">
+        <div class="circle fw">32</div>
+        <div class="name">Tevez</div>
+        <div class="pos">CF</div>
+      </div>
+      <div class="player-dot" style="top: 22%; left: 65%;">
+        <div class="circle fw">10</div>
+        <div class="name">Rooney</div>
+        <div class="pos">CF</div>
+      </div>
+    </div>
+
+    <div class="formation-footer">
+      <div class="formation-label">4-4-2 / FLEXIBLE</div>
+      <div class="legend">
+        <span class="legend-item"><span class="legend-dot gk"></span>GK</span>
+        <span class="legend-item"><span class="legend-dot df"></span>DF</span>
+        <span class="legend-item"><span class="legend-dot mf"></span>MF</span>
+        <span class="legend-item"><span class="legend-dot fw"></span>FW</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================== -->
+<!-- 1. Full Squad -->
+<!-- =========================================== -->
+<section>
+  <div class="section-num">02 / SQUAD</div>
+  <h2>Full Squad</h2>
+  <p class="note">Appearances, goals, and assists refer to 2007-08 Premier League league matches only. Ages shown as of the end of the season.</p>
+
+  <!-- ============ Goalkeepers ============ -->
+  <div class="pos-heading gk">
+    <span class="bar"></span>
+    <span class="title">Goalkeepers</span>
+    <span class="count">03</span>
+  </div>
+  <div class="card-grid">
+
+    <div class="card gk">
+      <div class="card-header">
+        <span class="card-no">01</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/nl.png" alt="Netherlands">
+        <span class="card-name">Edwin van der Sar</span>
+        <span class="card-pos gk">GK</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 37</span>
+        <span class="sep">·</span>
+        <span>from Fulham</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">29</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">A towering Dutchman with over 120 caps for the Netherlands, Van der Sar arrived at United in 2005 after spells with Ajax, Juventus, and Fulham. At 37, he remained a commanding presence: excellent positioning, calm distribution, and decisive in one-on-one situations. His penalty save from Anelka in the Champions League final in Moscow was the defining moment of the entire season.</div>
+    </div>
+
+    <div class="card gk">
+      <div class="card-header">
+        <span class="card-no">29</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/pl.png" alt="Poland">
+        <span class="card-name">Tomasz Kuszczak</span>
+        <span class="card-pos gk">GK</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 26</span>
+        <span class="sep">·</span>
+        <span>from West Bromwich Albion</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">9</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">A Polish international who served as the dependable backup to Van der Sar. Kuszczak was athletic, brave in crosses, and capable of filling in without a noticeable drop in quality. He made nine league appearances across the season, including a key run of games when the Dutchman was unavailable. His red card against Portsmouth in the FA Cup was an unfortunate highlight.</div>
+    </div>
+
+    <div class="card gk">
+      <div class="card-header">
+        <span class="card-no">12</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/gb-eng.png" alt="England">
+        <span class="card-name">Ben Foster</span>
+        <span class="card-pos gk">GK</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 25</span>
+        <span class="sep">·</span>
+        <span>from Stoke City (loan return)</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">1</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">A highly rated young English goalkeeper who had returned from loan spells at Watford and Stoke City. Foster made his sole league appearance in the 1-0 win at Derby County, producing several sharp saves to stake his claim for greater involvement. Quick off his line and with excellent reflexes, he was seen as a long-term successor to Van der Sar.</div>
+    </div>
+
+  </div>
+
+  <!-- ============ Defenders ============ -->
+  <div class="pos-heading df">
+    <span class="bar"></span>
+    <span class="title">Defenders</span>
+    <span class="count">09</span>
+  </div>
+  <div class="card-grid">
+
+    <div class="card df">
+      <div class="card-header">
+        <span class="card-no">02</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/gb-eng.png" alt="England">
+        <span class="card-name">Gary Neville</span>
+        <span class="card-pos df">RB</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 33</span>
+        <span class="sep">·</span>
+        <span>from Man Utd youth</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">The long-serving club captain and one of the iconic Class of '92 graduates. Neville's entire season was wiped out by ankle and knee injuries, preventing any league appearances. Despite his absence from the pitch, his leadership and dressing-room influence remained vital. A one-club man with over 85 England caps who defined the modern full-back role at United for over a decade.</div>
+    </div>
+
+    <div class="card df">
+      <div class="card-header">
+        <span class="card-no">03</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/fr.png" alt="France">
+        <span class="card-name">Patrice Evra</span>
+        <span class="card-pos df">LB</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 27</span>
+        <span class="sep">·</span>
+        <span>from Monaco (FRA)</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">33</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">A dynamic, attack-minded left-back who was integral to United's build-up play. Evra joined from Monaco in January 2006 and quickly became first choice, offering relentless energy, pace up and down the flank, and combative defending. A regular France international, he was one of the most consistent performers across the entire campaign and a key part of the side's defensive solidity.</div>
+    </div>
+
+    <div class="card df">
+      <div class="card-header">
+        <span class="card-no">05</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/gb-eng.png" alt="England">
+        <span class="card-name">Rio Ferdinand</span>
+        <span class="card-pos df">CB</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 29</span>
+        <span class="sep">·</span>
+        <span>from Leeds United</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">35</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">2</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">One of the finest centre-backs of his generation, Ferdinand combined elegance on the ball with pace, composure, and excellent reading of the game. He was the defensive leader alongside Vidić, and the pair conceded just 22 league goals between them. An established England international who signed from Leeds for £30 million in 2002, he remained the heartbeat of the backline and was named in the PFA Team of the Year.</div>
+    </div>
+
+    <div class="card df">
+      <div class="card-header">
+        <span class="card-no">06</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/gb-eng.png" alt="England">
+        <span class="card-name">Wes Brown</span>
+        <span class="card-pos df">RB/CB</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 28</span>
+        <span class="sep">·</span>
+        <span>from Man Utd youth</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">36</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">1</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">A versatile defender who excelled at both right-back and centre-back throughout the season. With Gary Neville injured, Brown became the first-choice right-back and responded with his best campaign in years — 36 league appearances and a memorable headed goal against Liverpool. Quick, powerful, and an excellent crosser, he was also a useful outlet in attack and provided the cross for Ronaldo's headed goal in the Champions League final.</div>
+    </div>
+
+    <div class="card df">
+      <div class="card-header">
+        <span class="card-no">15</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/rs.png" alt="Serbia">
+        <span class="card-name">Nemanja Vidić</span>
+        <span class="card-pos df">CB</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 26</span>
+        <span class="sep">·</span>
+        <span>from Spartak Moscow (RUS)</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">32</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">1</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">A warrior of a centre-back whose aerial dominance, timing, and fearless tackling made him one of the most imposing defenders in world football. Vidić arrived from Spartak Moscow in January 2006 and had fully established himself as Ferdinand's ideal partner by this season. A Serbia international, he was named in the PFA Team of the Year and regularly put his body on the line, suffering a concussion at Chelsea late in the campaign.</div>
+    </div>
+
+    <div class="card df">
+      <div class="card-header">
+        <span class="card-no">22</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/ie.png" alt="Ireland">
+        <span class="card-name">John O'Shea</span>
+        <span class="card-pos df">CB/RB/LB</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 27</span>
+        <span class="sep">·</span>
+        <span>from Man Utd youth</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">28</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">The ultimate utility defender who could play anywhere across the back four — and even in midfield. An Ireland international with a calm temperament and reliable technique, O'Shea was a hugely trusted squad player for Ferguson. He filled in capably whenever called upon, including a spell at centre-back after Vidić's injury against Roma in the Champions League quarter-final.</div>
+    </div>
+
+    <div class="card df">
+      <div class="card-header">
+        <span class="card-no">27</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/fr.png" alt="France">
+        <span class="card-name">Mikaël Silvestre</span>
+        <span class="card-pos df">CB/LB</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 31</span>
+        <span class="sep">·</span>
+        <span>from Internazionale (ITA)</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">3</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">A long-serving French international who had been at Old Trafford since 1999, originally signed from Inter Milan. Once a regular starter under Ferguson, Silvestre's role had diminished by 2007-08, with a knee ligament injury keeping him out for nearly seven months. He made only three league appearances but still offered experience and left-footed balance when called upon in the closing stages of the season.</div>
+    </div>
+
+    <div class="card df">
+      <div class="card-header">
+        <span class="card-no">19</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/es.png" alt="Spain">
+        <span class="card-name">Gerard Piqué</span>
+        <span class="card-pos df">CB</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 21</span>
+        <span class="sep">·</span>
+        <span>from Barcelona youth (ESP)</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">9</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">A tall, composed young centre-back from Barcelona's La Masia academy who joined United in 2004 as a teenager. Piqué had all the tools — passing ability, intelligence, aerial presence, and comfort under pressure. He made nine league appearances and scored twice in the Champions League group stage, but would return to Barcelona at the end of the season, going on to become one of the finest defenders of his era.</div>
+    </div>
+
+    <div class="card df">
+      <div class="card-header">
+        <span class="card-no">25</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/gb-eng.png" alt="England">
+        <span class="card-name">Danny Simpson</span>
+        <span class="card-pos df">RB</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 21</span>
+        <span class="sep">·</span>
+        <span>from Man Utd youth</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">3</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">A young right-back from the academy who made three league appearances, most notably featuring in the 6-0 win over Newcastle. Simpson was solid, hard-working, and a capable defender, but could not compete with Brown and O'Shea for regular minutes. He spent the second half of the season on loan at Ipswich and would later enjoy a distinguished career at Newcastle, QPR, and Leicester City, winning the Premier League title with the latter in 2016.</div>
+    </div>
+
+  </div>
+
+  <!-- ============ Midfielders ============ -->
+  <div class="pos-heading mf">
+    <span class="bar"></span>
+    <span class="title">Midfielders</span>
+    <span class="count">10</span>
+  </div>
+  <div class="card-grid">
+
+    <div class="card mf">
+      <div class="card-header">
+        <span class="card-no">07</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/pt.png" alt="Portugal">
+        <span class="card-name">Cristiano Ronaldo</span>
+        <span class="card-pos mf">RW</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 23</span>
+        <span class="sep">·</span>
+        <span>from Sporting CP (POR)</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">34</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">31</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">6</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">The defining player of the season and arguably the best individual campaign by any player in Premier League history. Ronaldo scored 31 league goals from the right wing — an extraordinary number — winning the Golden Boot, the PFA Players' Player of the Year, the FWA Footballer of the Year, and the Ballon d'Or. His combination of pace, power, heading, free kicks, and sheer will to score made him unstoppable. Already a Portugal star with 50+ caps, he delivered on the biggest stages all season long.</div>
+    </div>
+
+    <div class="card mf">
+      <div class="card-header">
+        <span class="card-no">04</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/ca.png" alt="Canada">
+        <span class="card-name">Owen Hargreaves</span>
+        <span class="card-pos mf">CM/RB</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 27</span>
+        <span class="sep">·</span>
+        <span>from Bayern Munich (GER)</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">23</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">2</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">A Canadian-born England international signed from Bayern Munich in the summer of 2007. Hargreaves brought discipline, pressing intensity, and tactical intelligence to the midfield. Equally comfortable at right-back, he played a vital role in the run-in, scoring a brilliant free kick against Arsenal and another against Fulham. His versatility and big-game temperament — honed by years in the Bundesliga and Champions League — made him one of the signings of the season.</div>
+    </div>
+
+    <div class="card mf">
+      <div class="card-header">
+        <span class="card-no">08</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/br.png" alt="Brazil">
+        <span class="card-name">Anderson</span>
+        <span class="card-pos mf">CM</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 20</span>
+        <span class="sep">·</span>
+        <span>from Porto (POR)</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">24</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">A gifted young Brazilian midfielder signed from Porto for a combined fee with Nani. Anderson was energetic, technically confident, and fearless in possession. Still only 20, he made 24 league appearances — a blend of starts and substitute outings — and showed flashes of real quality with his driving runs and ball-carrying ability. He also converted his penalty in the Champions League final shootout, a moment of remarkable composure for a player of his age.</div>
+    </div>
+
+    <div class="card mf">
+      <div class="card-header">
+        <span class="card-no">11</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/gb-wls.png" alt="Wales">
+        <span class="card-name">Ryan Giggs</span>
+        <span class="card-pos mf">LM/CM</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 34</span>
+        <span class="sep">·</span>
+        <span>from Man Utd youth</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">31</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">3</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">3</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">The most decorated player in English football history, Giggs was in his 17th season at Old Trafford and showed no signs of decline. He had reinvented himself from a flying winger into a composed, intelligent central or wide midfielder who controlled tempo and delivered precise passes. He equalled Bobby Charlton's all-time club appearance record during the season and scored the title-clinching second goal at Wigan on the final day. A Wales legend with over 60 caps.</div>
+    </div>
+
+    <div class="card mf">
+      <div class="card-header">
+        <span class="card-no">13</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/kr.png" alt="South Korea">
+        <span class="card-name">Park Ji-sung</span>
+        <span class="card-pos mf">RM/CM</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 27</span>
+        <span class="sep">·</span>
+        <span>from PSV Eindhoven (NED)</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">12</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">1</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">A tireless South Korean international signed from PSV Eindhoven in 2005, known for his extraordinary stamina, tactical discipline, and willingness to sacrifice for the team. Park missed a significant portion of the season recovering from cruciate ligament damage but returned to contribute in key matches, including the 3-0 win over Liverpool where he helped set up Rooney's equaliser against Middlesbrough. Ferguson valued him enormously for big European nights.</div>
+    </div>
+
+    <div class="card mf">
+      <div class="card-header">
+        <span class="card-no">16</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/gb-eng.png" alt="England">
+        <span class="card-name">Michael Carrick</span>
+        <span class="card-pos mf">CM</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 26</span>
+        <span class="sep">·</span>
+        <span>from Tottenham Hotspur</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">31</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">2</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">2</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">A deep-lying playmaker whose vision, passing range, and ability to dictate tempo made him the metronome of United's midfield. Signed from Tottenham in 2006, Carrick was quietly one of the most important players in the side — setting the rhythm, recycling possession, and providing the platform for more explosive teammates. An England international, he scored a fine deflected goal against West Ham and was ever-present in the Champions League run.</div>
+    </div>
+
+    <div class="card mf">
+      <div class="card-header">
+        <span class="card-no">17</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/pt.png" alt="Portugal">
+        <span class="card-name">Nani</span>
+        <span class="card-pos mf">RW/LW</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 21</span>
+        <span class="sep">·</span>
+        <span>from Sporting CP (POR)</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">26</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">3</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">2</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">A young Portuguese winger signed from Sporting CP alongside Anderson in the summer of 2007. Nani was raw but electric — unpredictable dribbling, pace, and a powerful shot made him a dangerous option from either flank. He scored his first United goal against Tottenham and netted a fine strike in the 3-0 demolition of Liverpool. Inconsistency was an issue at this stage, but his ceiling was obvious, and he offered a genuinely different profile to Giggs on the left or as Ronaldo's deputy on the right.</div>
+    </div>
+
+    <div class="card mf">
+      <div class="card-header">
+        <span class="card-no">18</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/gb-eng.png" alt="England">
+        <span class="card-name">Paul Scholes</span>
+        <span class="card-pos mf">CM</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 33</span>
+        <span class="sep">·</span>
+        <span>from Man Utd youth</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">24</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">1</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">3</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">Widely regarded as one of the most naturally gifted English midfielders of all time, Scholes was 33 but still producing moments of genius. His passing range, shooting power, and ability to find pockets of space remained elite. He had retired from international football in 2004 with 66 England caps but continued to be central to United's plans. His thunderous volley against Barcelona in the Champions League semi-final was the goal that sent United to Moscow.</div>
+    </div>
+
+    <div class="card mf">
+      <div class="card-header">
+        <span class="card-no">24</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/gb-sct.png" alt="Scotland">
+        <span class="card-name">Darren Fletcher</span>
+        <span class="card-pos mf">CM/RM</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 24</span>
+        <span class="sep">·</span>
+        <span>from Man Utd youth</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">16</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">1</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">A Scotland international from United's academy who offered energy, intelligence, and selfless running. Fletcher was not always a regular starter but proved invaluable as a squad player who could be trusted in any midfield role. He scored twice in the 4-0 FA Cup win over Arsenal and made 16 league appearances, contributing disciplined performances both with and without the ball. A natural leader who would grow into a much bigger role in subsequent seasons.</div>
+    </div>
+
+    <div class="card mf">
+      <div class="card-header">
+        <span class="card-no">33</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/gb-eng.png" alt="England">
+        <span class="card-name">Chris Eagles</span>
+        <span class="card-pos mf">RW</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 22</span>
+        <span class="sep">·</span>
+        <span>from Man Utd youth</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">4</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">A product of United's academy who was lively, direct, and technically capable on the ball. Eagles made four league appearances across the season, mostly from the bench, but found it impossible to break into the first team given the quality ahead of him. He scored in pre-season against FC Seoul and Shenzhen but could not earn regular minutes in the competitive campaign. He would move to Burnley the following summer.</div>
+    </div>
+
+  </div>
+
+  <!-- ============ Forwards ============ -->
+  <div class="pos-heading fw">
+    <span class="bar"></span>
+    <span class="title">Forwards</span>
+    <span class="count">06</span>
+  </div>
+  <div class="card-grid">
+
+    <div class="card fw">
+      <div class="card-header">
+        <span class="card-no">10</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/gb-eng.png" alt="England">
+        <span class="card-name">Wayne Rooney</span>
+        <span class="card-pos fw">CF</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 22</span>
+        <span class="sep">·</span>
+        <span>from Everton</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">27</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">12</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">5</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">England's most naturally gifted striker of his generation, Rooney combined raw power, technical skill, and an insatiable work rate. He scored 12 league goals despite missing time early on with a metatarsal injury, and provided five assists — often dropping deep to create for others. Signed from Everton as an 18-year-old sensation in 2004, he was already an established England international with over 40 caps. His partnership with Tevez was one of the most effective in the league.</div>
+    </div>
+
+    <div class="card fw">
+      <div class="card-header">
+        <span class="card-no">32</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/ar.png" alt="Argentina">
+        <span class="card-name">Carlos Tevez</span>
+        <span class="card-pos fw">CF/SS</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 24</span>
+        <span class="sep">·</span>
+        <span>from West Ham United (loan via MSI)</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">34</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">14</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">5</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">An Argentine international of relentless intensity who arrived on a two-year loan deal via a complex ownership arrangement. Tevez was adored by the Old Trafford crowd for his tireless pressing, combative spirit, and eye for goal. He scored 14 league goals including crucial strikes against Liverpool, Birmingham, and Chelsea, and was also decisive in Europe with goals against Sporting, Lyon, and Roma. His late equaliser at Blackburn in April was pivotal to the title race.</div>
+    </div>
+
+    <div class="card fw">
+      <div class="card-header">
+        <span class="card-no">09</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/fr.png" alt="France">
+        <span class="card-name">Louis Saha</span>
+        <span class="card-pos fw">CF</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 29</span>
+        <span class="sep">·</span>
+        <span>from Fulham</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">17</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">5</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">1</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">A French international centre-forward with tremendous natural ability — pace, power, technique, and an excellent left foot. Saha's career at United was persistently hampered by injuries, and this season was no different: he managed only 17 league appearances, many from the bench. When fit, however, he was a genuine threat, scoring five league goals including a penalty against Chelsea and two at Sunderland. He left for Everton at the end of the season.</div>
+    </div>
+
+    <div class="card fw">
+      <div class="card-header">
+        <span class="card-no">20</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/no.png" alt="Norway">
+        <span class="card-name">Ole Gunnar Solskjær</span>
+        <span class="card-pos fw">CF</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 34</span>
+        <span class="sep">·</span>
+        <span>from Molde (NOR)</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">A club legend who scored the winning goal in the 1999 Champions League final, Solskjær had been fighting a serious knee injury for over two years by the start of this season. He was still registered in the squad but did not make a single appearance before announcing his retirement in August 2007. A Norway international with 67 caps and 23 goals, his record of 126 goals in 366 United appearances remains one of the finest by any substitute or squad player in the club's history.</div>
+    </div>
+
+    <div class="card fw">
+      <div class="card-header">
+        <span class="card-no">21</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/cn.png" alt="China">
+        <span class="card-name">Dong Fangzhuo</span>
+        <span class="card-pos fw">CF</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 23</span>
+        <span class="sep">·</span>
+        <span>from Dalian Shide (CHN)</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">A Chinese forward signed in 2004 who was United's first ever Chinese player. After loan spells at Royal Antwerp, where he scored prolifically in the Belgian second division, Dong was given brief opportunities in cup and European matches but never appeared in the league. He had pace and physical presence but lacked the quality to break into such a competitive squad. He would leave United in 2008 without establishing himself.</div>
+    </div>
+
+    <div class="card fw">
+      <div class="card-header">
+        <span class="card-no">39</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/gb-eng.png" alt="England">
+        <span class="card-name">Fraizer Campbell</span>
+        <span class="card-pos fw">CF</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 20</span>
+        <span class="sep">·</span>
+        <span>from Man Utd youth</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">1</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">A pacy young English striker from United's academy who spent most of the season on loan at Hull City, where he impressed sufficiently to earn a permanent move the following year. Campbell made a single substitute league appearance for the first team. Quick and direct, he was an England youth international with promise, though his career ultimately unfolded away from Old Trafford at Sunderland, Cardiff, and Hull.</div>
+    </div>
+
+  </div>
+
+</section>
+
+<!-- =========================================== -->
+<!-- 2. Tactics -->
+<!-- =========================================== -->
+<section>
+  <div class="section-num">03 / TACTICS</div>
+  <h2>Tactics</h2>
+
+  <p>Sir Alex Ferguson's Manchester United operated in a flexible 4-4-2 system that could shift into a 4-4-1-1 or 4-2-3-1 depending on the opponent and the phase of the game. The foundation was the Ferdinand–Vidić partnership at centre-back, two defenders with contrasting but complementary qualities: Ferdinand's composure and distribution alongside Vidić's aggression and aerial dominance. Behind them, Van der Sar provided the calmness and command of a world-class goalkeeper, while Evra and Brown pushed high from the full-back positions to create width and support attacks.</p>
+
+  <p>In midfield, the balance between Scholes and Carrick at the base was crucial. Scholes provided the creative spark and long-range passing, while Carrick controlled tempo and recycled possession. The wide positions were where United generated their most devastating threat. Ronaldo on the right was given enormous freedom to drift inside, shoot from distance, and attack the penalty area, while Giggs, Nani, or Park offered different solutions on the opposite flank — Giggs with intelligence and passing, Nani with directness, Park with pressing energy. Hargreaves could also slot into the centre or at right-back, adding steel and defensive discipline.</p>
+
+  <p>The front two of Rooney and Tevez gave the side relentless energy. Both were willing to press from the front, drop deep to link play, and run the channels. Rooney offered power and creativity; Tevez brought intensity and an extraordinary work rate. Saha, when available, provided a different option with his pace and finishing ability. Ferguson rotated his squad skilfully throughout the season, keeping players fresh across all competitions and adapting his system depending on the challenge. Against Barcelona in the Champions League semi-final, for example, the side was set up to defend deeper and counter-attack, while in the league the approach was typically more aggressive and front-footed.</p>
+
+  <p>The hallmark of this team was its mentality. Time and again, United scored late goals to rescue or win matches — Tevez at Blackburn, Tevez at Tottenham, Carrick against Manchester City. Ferguson's ability to manage the squad, manage the occasion, and instil a belief that the game was never lost until the final whistle was perhaps the greatest tactical weapon at the club's disposal. The 2007-08 side combined experience, youth, individual brilliance, and collective resolve in a way that produced one of the most successful seasons in the history of English football.</p>
+</section>
+
+<footer>
+  MANCHESTER UNITED · 2007—08 · SEASON REPORT
+</footer>
+
+</div>
+</body>
+</html>

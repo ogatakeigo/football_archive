@@ -1,0 +1,1269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Real Madrid 2014-15 Season Report</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --fg: #1a1a1a;
+    --muted: #6b6b6b;
+    --muted-2: #8a8a8a;
+    --border: #e0e0e0;
+    --border-light: #eeeeee;
+    --surface: #fafafa;
+    --surface-2: #f5f5f5;
+
+    /* Position colors */
+    --gk: #d97706;
+    --gk-bg: #fef3c7;
+    --df: #2563eb;
+    --df-bg: #dbeafe;
+    --mf: #16a34a;
+    --mf-bg: #dcfce7;
+    --fw: #dc2626;
+    --fw-bg: #fee2e2;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Hiragino Sans", "Yu Gothic", sans-serif;
+    font-size: 14px;
+    line-height: 1.65;
+    color: var(--fg);
+    background: var(--bg);
+    margin: 0;
+    padding: 48px 20px;
+  }
+
+  .container {
+    max-width: 1080px;
+    margin: 0 auto;
+  }
+
+  /* =========================== */
+  /* Header                      */
+  /* =========================== */
+  header { margin-bottom: 32px; padding-bottom: 24px; border-bottom: 1px solid var(--border); }
+  .logo { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; text-decoration: none; color: var(--fg); cursor: pointer; width: fit-content; }
+  .logo-mark { width: 44px; height: 44px; border: 2px solid var(--fg); position: relative; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: var(--fg); color: #fff; }
+  .logo-mark::before { content: ""; position: absolute; top: 50%; left: 0; right: 0; height: 2px; background: #fff; transform: translateY(-50%); }
+  .logo-mark::after { content: ""; position: absolute; top: 0; bottom: 0; left: 50%; width: 2px; background: #fff; transform: translateX(-50%); }
+  .logo-mark span { position: relative; z-index: 1; font-family: "SF Mono", Menlo, Consolas, monospace; font-size: 18px; font-weight: 800; letter-spacing: -1px; background: var(--fg); padding: 0 2px; line-height: 1; }
+  .logo-text { display: flex; flex-direction: column; line-height: 1; }
+  .logo-text .word1 { font-size: 11px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+  .logo-text .word2 { font-size: 26px; font-weight: 800; letter-spacing: -0.5px; line-height: 1; }
+
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--muted); margin-bottom: 24px; flex-wrap: wrap; }
+  .breadcrumb a { color: var(--muted); text-decoration: none; cursor: pointer; padding: 4px 8px; border: 1px solid var(--border); background: var(--surface); transition: all 0.15s; display: inline-flex; align-items: center; gap: 6px; }
+  .breadcrumb a:hover { background: var(--hover, #f0f0f0); color: var(--fg); }
+  .breadcrumb .sep { color: var(--border); font-family: "SF Mono", Menlo, Consolas, monospace; }
+  .breadcrumb .current { padding: 4px 8px; color: var(--fg); font-weight: 600; display: inline-flex; align-items: center; gap: 6px; }
+  .breadcrumb .flag { width: 16px; height: 12px; border: 1px solid var(--border-light); object-fit: cover; }
+
+  .eyebrow {
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  h1 {
+    font-size: 28px;
+    font-weight: 700;
+    margin: 0 0 6px 0;
+    letter-spacing: -0.2px;
+  }
+
+  .subtitle {
+    font-size: 13px;
+    color: var(--muted);
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+
+  .subtitle span + span::before {
+    content: "/";
+    margin-right: 14px;
+    color: var(--border);
+  }
+
+  /* =========================== */
+  /* Section heading             */
+  /* =========================== */
+  section {
+    margin-top: 56px;
+  }
+
+  .section-num {
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 2px;
+    margin-bottom: 6px;
+  }
+
+  h2 {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0 0 20px 0;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--fg);
+    letter-spacing: -0.1px;
+  }
+
+  p {
+    margin: 0 0 14px 0;
+    text-align: justify;
+  }
+
+  /* =========================== */
+  /* Stat strip                  */
+  /* =========================== */
+  .stat-strip {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-bottom: 24px;
+  }
+
+  .stat-cell {
+    background: var(--bg);
+    padding: 14px 12px;
+    text-align: center;
+  }
+
+  .stat-cell .label {
+    font-size: 10px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+
+  .stat-cell .value {
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.1;
+  }
+
+  .stat-cell .sub {
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  /* Competition strip */
+  .comp-strip {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+
+  .comp-cell {
+    border: 1px solid var(--border);
+    padding: 12px 14px;
+    background: var(--bg);
+  }
+
+  .comp-cell .label {
+    font-size: 10px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+
+  .comp-cell .value {
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  /* =========================== */
+  /* Formation                   */
+  /* =========================== */
+  .formation {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 28px 16px 20px;
+    margin-top: 16px;
+  }
+
+  .pitch {
+    position: relative;
+    width: 100%;
+    max-width: 520px;
+    margin: 0 auto;
+    aspect-ratio: 2 / 3;
+    background: linear-gradient(to bottom, #ffffff 0%, #fcfcfc 100%);
+    border: 1px solid var(--border);
+  }
+
+  .pitch::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .pitch::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100px;
+    height: 100px;
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .player-dot {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    width: 94px;
+  }
+
+  .player-dot .circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin: 0 auto 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    color: #ffffff;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+  }
+
+  .player-dot .circle.gk { background: var(--gk); }
+  .player-dot .circle.df { background: var(--df); }
+  .player-dot .circle.mf { background: var(--mf); }
+  .player-dot .circle.fw { background: var(--fw); }
+
+  .player-dot .name {
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1.2;
+  }
+
+  .player-dot .pos {
+    font-size: 9px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 1px;
+  }
+
+  .formation-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 16px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .formation-label {
+    font-size: 11px;
+    color: var(--muted);
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    letter-spacing: 1px;
+  }
+
+  .legend {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  .legend-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .legend-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+  }
+  .legend-dot.gk { background: var(--gk); }
+  .legend-dot.df { background: var(--df); }
+  .legend-dot.mf { background: var(--mf); }
+  .legend-dot.fw { background: var(--fw); }
+
+  /* =========================== */
+  /* Position group heading      */
+  /* =========================== */
+  .pos-heading {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 32px 0 14px 0;
+    padding-bottom: 8px;
+    border-bottom: 1px dashed var(--border);
+  }
+
+  .pos-heading .bar {
+    width: 4px;
+    height: 18px;
+    border-radius: 2px;
+  }
+  .pos-heading.gk .bar { background: var(--gk); }
+  .pos-heading.df .bar { background: var(--df); }
+  .pos-heading.mf .bar { background: var(--mf); }
+  .pos-heading.fw .bar { background: var(--fw); }
+
+  .pos-heading .title {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+  }
+
+  .pos-heading .count {
+    font-size: 11px;
+    color: var(--muted);
+    font-weight: 400;
+    letter-spacing: 0.5px;
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    margin-left: auto;
+  }
+
+  /* =========================== */
+  /* Player cards                */
+  /* =========================== */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+    gap: 12px;
+  }
+
+  .card {
+    border: 1px solid var(--border);
+    border-top: 3px solid transparent;
+    background: var(--bg);
+    padding: 14px 16px 16px;
+    display: flex;
+    flex-direction: column;
+    transition: border-color 0.15s;
+  }
+
+  .card.gk { border-top-color: var(--gk); }
+  .card.df { border-top-color: var(--df); }
+  .card.mf { border-top-color: var(--mf); }
+  .card.fw { border-top-color: var(--fw); }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 4px;
+  }
+
+  .card-no {
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    font-size: 11px;
+    color: var(--muted);
+    font-weight: 600;
+    min-width: 28px;
+  }
+
+  .card-flag {
+    width: 20px;
+    height: 15px;
+    border: 1px solid var(--border-light);
+    flex-shrink: 0;
+    object-fit: cover;
+    display: block;
+  }
+
+  .card-name {
+    font-size: 15px;
+    font-weight: 600;
+    flex: 1;
+    letter-spacing: -0.1px;
+  }
+
+  .card-pos {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 3px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+  }
+
+  .card-pos.gk { background: var(--gk-bg); color: var(--gk); }
+  .card-pos.df { background: var(--df-bg); color: var(--df); }
+  .card-pos.mf { background: var(--mf-bg); color: var(--mf); }
+  .card-pos.fw { background: var(--fw-bg); color: var(--fw); }
+
+  .card-meta {
+    font-size: 11px;
+    color: var(--muted-2);
+    margin-bottom: 12px;
+    margin-left: 38px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .card-age {
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    font-size: 10px;
+  }
+
+  .card-meta .sep {
+    color: var(--border);
+  }
+
+  .card-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    padding: 10px 0;
+    margin-bottom: 12px;
+    border-top: 1px solid var(--border-light);
+    border-bottom: 1px solid var(--border-light);
+    background: var(--surface);
+    margin-left: -16px;
+    margin-right: -16px;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .stat {
+    text-align: center;
+    border-right: 1px solid var(--border-light);
+  }
+  .stat:last-child { border-right: none; }
+
+  .stat-value {
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.1;
+  }
+
+  .stat-label {
+    font-size: 9px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    margin-top: 3px;
+  }
+
+  .card-desc {
+    font-size: 12px;
+    color: #2a2a2a;
+    line-height: 1.6;
+    flex: 1;
+  }
+
+  .note {
+    font-size: 12px;
+    color: var(--muted);
+    font-style: italic;
+    margin-bottom: 20px;
+  }
+
+  footer {
+    margin-top: 64px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    font-size: 11px;
+    color: var(--muted);
+    text-align: center;
+    letter-spacing: 0.5px;
+  }
+
+  @media (max-width: 720px) {
+    body { padding: 24px 12px; font-size: 13px; }
+    h1 { font-size: 22px; }
+    .logo-mark { width: 38px; height: 38px; }
+    .logo-mark span { font-size: 15px; }
+    .logo-text .word2 { font-size: 22px; }
+    .stat-strip { grid-template-columns: repeat(3, 1fr); }
+    .comp-strip { grid-template-columns: repeat(2, 1fr); }
+    .player-dot { width: 76px; }
+    .player-dot .circle { width: 32px; height: 32px; font-size: 11px; }
+    .player-dot .name { font-size: 10px; }
+    .card-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <a class="logo" href="index.html">
+    <div class="logo-mark"><span>FA</span></div>
+    <div class="logo-text">
+      <div class="word1">Football</div>
+      <div class="word2">Archive</div>
+    </div>
+  </a>
+  <nav class="breadcrumb">
+    <a href="index.html">⌂ Home</a>
+    <span class="sep">/</span>
+    <a href="index.html?league=la-liga"><img class="flag" src="https://flagcdn.com/w40/es.png" alt="">La Liga</a>
+    <span class="sep">/</span>
+    <a href="index.html?league=la-liga&team=real-madrid"><img class="flag" src="https://flagcdn.com/w40/es.png" alt="">Real Madrid</a>
+    <span class="sep">/</span>
+    <span class="current">2014–15</span>
+  </nav>
+  <div class="eyebrow">Season Report</div>
+  <h1>Real Madrid</h1>
+  <div class="subtitle">
+    <span>2014–15</span>
+    <span>La Liga</span>
+    <span>Manager: Carlo Ancelotti</span>
+  </div>
+</header>
+
+<!-- =========================================== -->
+<!-- 0. Season Overview -->
+<!-- =========================================== -->
+<section>
+  <div class="section-num">00 / OVERVIEW</div>
+  <h2>Season Overview</h2>
+
+  <!-- Stat strip -->
+  <div class="stat-strip">
+    <div class="stat-cell">
+      <div class="label">Position</div>
+      <div class="value">2<span style="font-size: 12px; vertical-align: super;">nd</span></div>
+      <div class="sub">La Liga</div>
+    </div>
+    <div class="stat-cell">
+      <div class="label">Points</div>
+      <div class="value">92</div>
+      <div class="sub">38 matches</div>
+    </div>
+    <div class="stat-cell">
+      <div class="label">W – D – L</div>
+      <div class="value">30·2·6</div>
+      <div class="sub">78% win rate</div>
+    </div>
+    <div class="stat-cell">
+      <div class="label">Goals</div>
+      <div class="value">118</div>
+      <div class="sub">scored</div>
+    </div>
+    <div class="stat-cell">
+      <div class="label">Conceded</div>
+      <div class="value">38</div>
+      <div class="sub">1.00 / match</div>
+    </div>
+    <div class="stat-cell">
+      <div class="label">GD</div>
+      <div class="value">+80</div>
+      <div class="sub">goal diff</div>
+    </div>
+  </div>
+
+  <!-- Competition strip -->
+  <div class="comp-strip">
+    <div class="comp-cell">
+      <div class="label">Copa del Rey</div>
+      <div class="value">Round of 16</div>
+    </div>
+    <div class="comp-cell">
+      <div class="label">FIFA Club World Cup</div>
+      <div class="value">Winners</div>
+    </div>
+    <div class="comp-cell">
+      <div class="label">UEFA Champions League</div>
+      <div class="value">Semi-finals</div>
+    </div>
+    <div class="comp-cell">
+      <div class="label">Top Scorer</div>
+      <div class="value">C. Ronaldo · 48G</div>
+    </div>
+  </div>
+
+  <p>Real Madrid's 2014-15 season under Carlo Ancelotti was a rollercoaster of spectacular football and ultimate heartbreak. Following the historic "La Décima" triumph, the squad was bolstered by the arrivals of World Cup stars James Rodríguez, Toni Kroos, and Keylor Navas. The team played breathtaking, attacking football, embarking on a remarkable Spanish-record 22-match winning streak across all competitions during the autumn and winter, capturing both the UEFA Super Cup and the FIFA Club World Cup.</p>
+
+  <p>However, injuries to key players like Luka Modrić and James Rodríguez derailed their momentum in the new year. Despite amassing 92 points and scoring a staggering 118 goals in La Liga, they finished two points behind a treble-winning Barcelona. Cristiano Ronaldo had an extraordinary individual campaign, netting 48 league goals to win the Pichichi trophy. In the cup competitions, Madrid was eliminated by Atlético Madrid in the Copa del Rey Round of 16, and their Champions League defense ended in the semi-finals against Juventus. Ultimately, despite the dazzling football and individual brilliance, ending the season without a major domestic or European trophy led to Ancelotti's departure, closing a memorable yet frustrating chapter.</p>
+</section>
+
+<!-- =========================================== -->
+<!-- Formation -->
+<!-- =========================================== -->
+<section>
+  <div class="section-num">01 / FORMATION</div>
+  <h2>Starting XI</h2>
+
+  <div class="formation">
+    <div class="pitch">
+      <!-- GK -->
+      <div class="player-dot" style="top: 92%; left: 50%;">
+        <div class="circle gk">1</div>
+        <div class="name">Casillas</div>
+        <div class="pos">GK</div>
+      </div>
+
+      <!-- Back 4 -->
+      <div class="player-dot" style="top: 73%; left: 15%;">
+        <div class="circle df">12</div>
+        <div class="name">Marcelo</div>
+        <div class="pos">LB</div>
+      </div>
+      <div class="player-dot" style="top: 75%; left: 38%;">
+        <div class="circle df">4</div>
+        <div class="name">Ramos</div>
+        <div class="pos">LCB</div>
+      </div>
+      <div class="player-dot" style="top: 75%; left: 62%;">
+        <div class="circle df">3</div>
+        <div class="name">Pepe</div>
+        <div class="pos">RCB</div>
+      </div>
+      <div class="player-dot" style="top: 73%; left: 85%;">
+        <div class="circle df">15</div>
+        <div class="name">Carvajal</div>
+        <div class="pos">RB</div>
+      </div>
+
+      <!-- Midfield 3 -->
+      <div class="player-dot" style="top: 52%; left: 50%;">
+        <div class="circle mf">8</div>
+        <div class="name">Kroos</div>
+        <div class="pos">DMF</div>
+      </div>
+      <div class="player-dot" style="top: 42%; left: 28%;">
+        <div class="circle mf">10</div>
+        <div class="name">James</div>
+        <div class="pos">CMF</div>
+      </div>
+      <div class="player-dot" style="top: 42%; left: 72%;">
+        <div class="circle mf">19</div>
+        <div class="name">Modrić</div>
+        <div class="pos">CMF</div>
+      </div>
+
+      <!-- Front 3 -->
+      <div class="player-dot" style="top: 18%; left: 15%;">
+        <div class="circle fw">7</div>
+        <div class="name">Ronaldo</div>
+        <div class="pos">LW</div>
+      </div>
+      <div class="player-dot" style="top: 12%; left: 50%;">
+        <div class="circle fw">9</div>
+        <div class="name">Benzema</div>
+        <div class="pos">CF</div>
+      </div>
+      <div class="player-dot" style="top: 18%; left: 85%;">
+        <div class="circle fw">11</div>
+        <div class="name">Bale</div>
+        <div class="pos">RW</div>
+      </div>
+    </div>
+
+    <div class="formation-footer">
+      <div class="formation-label">4-3-3 / FLUID ATTACK</div>
+      <div class="legend">
+        <span class="legend-item"><span class="legend-dot gk"></span>GK</span>
+        <span class="legend-item"><span class="legend-dot df"></span>DF</span>
+        <span class="legend-item"><span class="legend-dot mf"></span>MF</span>
+        <span class="legend-item"><span class="legend-dot fw"></span>FW</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================== -->
+<!-- 1. Full Squad -->
+<!-- =========================================== -->
+<section>
+  <div class="section-num">02 / SQUAD</div>
+  <h2>Full Squad</h2>
+  <p class="note">Based on the official squad information updated on May 2015. Appearances, goals, and assists refer to 2014-15 La Liga matches only. Ages shown as of the end of the season.</p>
+
+  <!-- ============ Goalkeepers ============ -->
+  <div class="pos-heading gk">
+    <span class="bar"></span>
+    <span class="title">Goalkeepers</span>
+    <span class="count">03</span>
+  </div>
+  <div class="card-grid">
+
+    <div class="card gk">
+      <div class="card-header">
+        <span class="card-no">01</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/es.png" alt="Spain">
+        <span class="card-name">Iker Casillas</span>
+        <span class="card-pos gk">GK</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 34</span>
+        <span class="sep">·</span>
+        <span>from Real Madrid youth</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">32</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">A legendary goalkeeper and club captain, Casillas has been a symbol of Real Madrid for over a decade. A Spanish international with World Cup and Euro titles, he is known for his spectacular reflexes and leadership, though this season saw his undisputed starter status debated.</div>
+    </div>
+
+    <div class="card gk">
+      <div class="card-header">
+        <span class="card-no">13</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/cr.png" alt="Costa Rica">
+        <span class="card-name">Keylor Navas</span>
+        <span class="card-pos gk">GK</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 28</span>
+        <span class="sep">·</span>
+        <span>from Levante</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">6</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">Arriving after a standout World Cup with Costa Rica, Navas served primarily as a backup in his debut season. Extremely agile and quick off his line, he provided top-class competition and showed glimpses of the phenomenal shot-stopping that would define his future.</div>
+    </div>
+
+    <div class="card gk">
+      <div class="card-header">
+        <span class="card-no">25</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/es.png" alt="Spain">
+        <span class="card-name">Fernando Pacheco</span>
+        <span class="card-pos gk">GK</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 23</span>
+        <span class="sep">·</span>
+        <span>from Real Madrid youth</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">A product of the club's youth academy, the young Spanish goalkeeper spent the season as the third-choice option. While he didn't feature in La Liga, his presence provided reliable depth and training support for the senior squad.</div>
+    </div>
+
+  </div>
+
+  <!-- ============ Defenders ============ -->
+  <div class="pos-heading df">
+    <span class="bar"></span>
+    <span class="title">Defenders</span>
+    <span class="count">08</span>
+  </div>
+  <div class="card-grid">
+
+    <div class="card df">
+      <div class="card-header">
+        <span class="card-no">02</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/fr.png" alt="France">
+        <span class="card-name">Raphaël Varane</span>
+        <span class="card-pos df">CB</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 22</span>
+        <span class="sep">·</span>
+        <span>from Lens (FRA)</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">27</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">A young, elegant French international center-back known for his exceptional reading of the game and recovery pace. Despite his youth, he played with the maturity of a veteran, offering a smooth, modern alternative in the heart of the defense.</div>
+    </div>
+
+    <div class="card df">
+      <div class="card-header">
+        <span class="card-no">03</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/pt.png" alt="Portugal">
+        <span class="card-name">Pepe</span>
+        <span class="card-pos df">CB</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 32</span>
+        <span class="sep">·</span>
+        <span>from Porto (POR)</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">27</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">2</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">2</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">An aggressive and commanding center-back for both Real Madrid and Portugal. Known for his incredible physical strength, pace, and uncompromising tackling, he was a pillar of the defense, blending fierce competitiveness with much-improved tactical composure.</div>
+    </div>
+
+    <div class="card df">
+      <div class="card-header">
+        <span class="card-no">04</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/es.png" alt="Spain">
+        <span class="card-name">Sergio Ramos</span>
+        <span class="card-pos df">CB</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 29</span>
+        <span class="sep">·</span>
+        <span>from Sevilla</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">27</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">4</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">1</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">The vice-captain and emotional leader of the squad. A legendary Spanish international, Ramos combined elite defensive qualities with remarkable aerial ability and a knack for scoring crucial goals. His passion and passing range from the back were vital.</div>
+    </div>
+
+    <div class="card df">
+      <div class="card-header">
+        <span class="card-no">05</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/pt.png" alt="Portugal">
+        <span class="card-name">Fábio Coentrão</span>
+        <span class="card-pos df">LB</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 27</span>
+        <span class="sep">·</span>
+        <span>from Benfica (POR)</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">9</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">A Portuguese international left-back who provided a more defensively solid alternative to Marcelo. While injuries hampered his rhythm this season, his tactical discipline and experience in high-stakes matches remained a valuable asset for the squad.</div>
+    </div>
+
+    <div class="card df">
+      <div class="card-header">
+        <span class="card-no">12</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/br.png" alt="Brazil">
+        <span class="card-name">Marcelo</span>
+        <span class="card-pos df">LB</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 27</span>
+        <span class="sep">·</span>
+        <span>from Fluminense (BRA)</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">34</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">2</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">7</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">An incredibly gifted Brazilian left-back whose attacking flair is matched by few in world football. Serving as an auxiliary winger, his dribbling, vision, and combination play were fundamental to unlocking deep defenses on the left flank.</div>
+    </div>
+
+    <div class="card df">
+      <div class="card-header">
+        <span class="card-no">15</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/es.png" alt="Spain">
+        <span class="card-name">Dani Carvajal</span>
+        <span class="card-pos df">RB</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 23</span>
+        <span class="sep">·</span>
+        <span>from Bayer Leverkusen (GER)</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">30</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">3</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">An energetic and tenacious right-back who returned from Germany to become a fixture in the starting XI. A Spanish international, his relentless overlapping runs, defensive grit, and precise crossing perfectly complemented the team's attacking philosophy.</div>
+    </div>
+
+    <div class="card df">
+      <div class="card-header">
+        <span class="card-no">17</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/es.png" alt="Spain">
+        <span class="card-name">Álvaro Arbeloa</span>
+        <span class="card-pos df">RB</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 32</span>
+        <span class="sep">·</span>
+        <span>from Liverpool (ENG)</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">22</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">1</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">5</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">A versatile veteran defender and former Spanish international who provided crucial depth on both flanks. Having won top honors with club and country, his tactical discipline, leadership, and defensive solidity made him a trusted option for Ancelotti.</div>
+    </div>
+
+    <div class="card df">
+      <div class="card-header">
+        <span class="card-no">18</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/es.png" alt="Spain">
+        <span class="card-name">Nacho</span>
+        <span class="card-pos df">CB</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 25</span>
+        <span class="sep">·</span>
+        <span>from Real Madrid youth</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">14</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">1</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">A versatile, reliable defender from the youth academy capable of playing anywhere across the back line. Though mostly a rotation player, his Spanish international pedigree and tactical intelligence meant he never let the team down when called upon.</div>
+    </div>
+
+  </div>
+
+  <!-- ============ Midfielders ============ -->
+  <div class="pos-heading mf">
+    <span class="bar"></span>
+    <span class="title">Midfielders</span>
+    <span class="count">09</span>
+  </div>
+  <div class="card-grid">
+
+    <div class="card mf">
+      <div class="card-header">
+        <span class="card-no">06</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/de.png" alt="Germany">
+        <span class="card-name">Sami Khedira</span>
+        <span class="card-pos mf">CMF</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 28</span>
+        <span class="sep">·</span>
+        <span>from Stuttgart (GER)</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">11</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">A powerful German international and World Cup winner known for his box-to-box engine and physical presence. In his final season at the club, persistent injuries limited his impact, but his experience remained a valuable locker-room asset.</div>
+    </div>
+
+    <div class="card mf">
+      <div class="card-header">
+        <span class="card-no">08</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/de.png" alt="Germany">
+        <span class="card-name">Toni Kroos</span>
+        <span class="card-pos mf">DMF</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 25</span>
+        <span class="sep">·</span>
+        <span>from Bayern Munich (GER)</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">36</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">2</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">7</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">Arriving as a newly crowned World champion with Germany, Kroos seamlessly adapted to a deeper playmaking role. His flawless passing range, vision, and tempo-setting abilities quickly made him the indispensable metronome of the team's midfield.</div>
+    </div>
+
+    <div class="card mf">
+      <div class="card-header">
+        <span class="card-no">10</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/co.png" alt="Colombia">
+        <span class="card-name">James Rodríguez</span>
+        <span class="card-pos mf">AMF</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 23</span>
+        <span class="sep">·</span>
+        <span>from Monaco (FRA)</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">29</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">13</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">13</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">The Colombian star arrived following a sensational World Cup and immediately delivered. Combining lethal long-range shooting, pinpoint crossing, and creative flair, he enjoyed an incredibly productive debut season, registering double digits in both goals and assists.</div>
+    </div>
+
+    <div class="card mf">
+      <div class="card-header">
+        <span class="card-no">16</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/br.png" alt="Brazil">
+        <span class="card-name">Lucas Silva</span>
+        <span class="card-pos mf">CMF</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 22</span>
+        <span class="sep">·</span>
+        <span>from Cruzeiro (BRA)</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">8</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">The young Brazilian midfielder arrived in the winter window to bolster the squad's depth. Known for his clean passing and composure in South America, he faced a steep learning curve adapting to the high pace of European football.</div>
+    </div>
+
+    <div class="card mf">
+      <div class="card-header">
+        <span class="card-no">19</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/hr.png" alt="Croatia">
+        <span class="card-name">Luka Modrić</span>
+        <span class="card-pos mf">CMF</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 29</span>
+        <span class="sep">·</span>
+        <span>from Tottenham Hotspur (ENG)</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">16</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">1</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">3</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">The Croatian maestro was the connective tissue of the team, blending tireless work rate with sublime technical skill. His ability to carry the ball out of pressure was sorely missed during his long injury absence, which heavily impacted the season's outcome.</div>
+    </div>
+
+    <div class="card mf">
+      <div class="card-header">
+        <span class="card-no">23</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/es.png" alt="Spain">
+        <span class="card-name">Isco</span>
+        <span class="card-pos mf">AMF</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 23</span>
+        <span class="sep">·</span>
+        <span>from Málaga</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">34</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">4</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">9</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">A dazzling Spanish playmaker blessed with magical close control and creativity. He stepped up magnificently during the team's injury crises, mesmerizing fans with his dribbling while notably improving his defensive work rate under Ancelotti's guidance.</div>
+    </div>
+
+    <div class="card mf">
+      <div class="card-header">
+        <span class="card-no">24</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/es.png" alt="Spain">
+        <span class="card-name">Asier Illarramendi</span>
+        <span class="card-pos mf">DMF</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 25</span>
+        <span class="sep">·</span>
+        <span>from Real Sociedad</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">30</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">A technically sound Spanish holding midfielder brought in to provide balance and defensive cover. While he struggled to permanently break into the star-studded starting XI, his passing accuracy and tactical positioning offered reliable rotation in domestic fixtures.</div>
+    </div>
+
+    <div class="card mf">
+      <div class="card-header">
+        <span class="card-no">26</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/es.png" alt="Spain">
+        <span class="card-name">Álvaro Medrán</span>
+        <span class="card-pos mf">CMF</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 21</span>
+        <span class="sep">·</span>
+        <span>from Real Madrid youth</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">2</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">A promising talent from Real Madrid Castilla, the young Spanish midfielder made a few senior appearances this season. He showcased good energy, technical ability, and a willing work rate, representing the club's continuous development of homegrown youth.</div>
+    </div>
+
+    <div class="card mf">
+      <div class="card-header">
+        <span class="card-no">41</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/no.png" alt="Norway">
+        <span class="card-name">Martin Ødegaard</span>
+        <span class="card-pos mf">AMF</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 16</span>
+        <span class="sep">·</span>
+        <span>from Strømsgodset (NOR)</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">1</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">Arriving as a highly coveted Norwegian prodigy, he made headlines by becoming the club's youngest-ever debutant in La Liga at just 16. Blessed with exceptional vision and technique, his brief cameo previewed a remarkably bright future.</div>
+    </div>
+
+  </div>
+
+  <!-- ============ Forwards ============ -->
+  <div class="pos-heading fw">
+    <span class="bar"></span>
+    <span class="title">Forwards</span>
+    <span class="count">05</span>
+  </div>
+  <div class="card-grid">
+
+    <div class="card fw">
+      <div class="card-header">
+        <span class="card-no">07</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/pt.png" alt="Portugal">
+        <span class="card-name">Cristiano Ronaldo</span>
+        <span class="card-pos fw">LW</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 30</span>
+        <span class="sep">·</span>
+        <span>from Manchester United (ENG)</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">35</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">48</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">16</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">A phenomenal forward and arguably one of the greatest players in history. As Portugal's captain, he delivered a staggering 48 league goals this season. Known for his explosive pace, unmatched finishing, and relentless drive to break records.</div>
+    </div>
+
+    <div class="card fw">
+      <div class="card-header">
+        <span class="card-no">09</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/fr.png" alt="France">
+        <span class="card-name">Karim Benzema</span>
+        <span class="card-pos fw">CF</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 27</span>
+        <span class="sep">·</span>
+        <span>from Lyon (FRA)</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">29</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">15</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">10</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">A uniquely unselfish French striker whose elite link-up play made the entire attacking trio click. He seamlessly drifted between lines, combining clinical finishing with the vision of a playmaker to bring out the best in his forward partners.</div>
+    </div>
+
+    <div class="card fw">
+      <div class="card-header">
+        <span class="card-no">11</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/gb-wls.png" alt="Wales">
+        <span class="card-name">Gareth Bale</span>
+        <span class="card-pos fw">RW</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 25</span>
+        <span class="sep">·</span>
+        <span>from Tottenham Hotspur (ENG)</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">31</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">13</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">9</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">The explosive Welsh winger combined terrifying pace, power, and a lethal left foot. Although he faced intense scrutiny in his second season, his direct running, aerial threat, and knack for spectacular goals remained a major weapon on the right flank.</div>
+    </div>
+
+    <div class="card fw">
+      <div class="card-header">
+        <span class="card-no">14</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/mx.png" alt="Mexico">
+        <span class="card-name">Javier Hernández</span>
+        <span class="card-pos fw">CF</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 27</span>
+        <span class="sep">·</span>
+        <span>from Manchester United (ENG, loan)</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">23</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">7</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">4</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">The Mexican international arrived on loan and proved to be a beloved super-sub. Known as a poacher with incredible movement inside the box, "Chicharito" worked tirelessly and scored crucial goals, displaying an exemplary professional attitude throughout the campaign.</div>
+    </div>
+
+    <div class="card fw">
+      <div class="card-header">
+        <span class="card-no">20</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/es.png" alt="Spain">
+        <span class="card-name">Jesé</span>
+        <span class="card-pos fw">WG</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 22</span>
+        <span class="sep">·</span>
+        <span>from Real Madrid youth</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">16</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">3</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">A dynamic and direct forward from the youth academy who spent the season recovering his form after a serious knee injury. Fast, powerful, and capable of playing anywhere across the front line, he remained a highly rated homegrown talent.</div>
+    </div>
+
+  </div>
+
+</section>
+
+<!-- =========================================== -->
+<!-- 2. Tactics -->
+<!-- =========================================== -->
+<section>
+  <div class="section-num">03 / TACTICS</div>
+  <h2>Tactics</h2>
+
+  <p>Real Madrid under Carlo Ancelotti were characterized by an incredibly fluid and devastatingly potent attacking system, nominally structured as a 4-3-3 but highly adaptable depending on the phase of play. With the departure of Ángel Di María and Xabi Alonso, Ancelotti deployed Toni Kroos as the deep-lying playmaker, flanked by Luka Modrić and James Rodríguez (or Isco). This technically brilliant midfield trio excelled in retaining possession, switching play, and supplying the formidable "BBC" front line.</p>
+
+  <p>In attack, Cristiano Ronaldo operated from the left but was given absolute freedom to drift centrally as a primary goalscorer, resulting in his astonishing 48 league goals. Gareth Bale provided natural width and explosive directness on the right, while Karim Benzema served as the ultimate facilitator—dropping deep to link play and create space for the wingers cutting inside. Full-backs Marcelo and Dani Carvajal pushed aggressively high up the pitch, effectively acting as wingers in possession and ensuring the team maintained immense attacking width.</p>
+
+  <p>Defensively, the team relied on the athletic dominance and recovery pace of Sergio Ramos, Pepe, and Raphaël Varane. When out of possession, the shape often morphed into a 4-4-2, with Bale or James dropping into the midfield line to provide balance. While this system produced some of the most breathtaking, high-scoring football in Europe and powered a 22-match winning streak, it placed a heavy physical burden on the starting XI. Ultimately, critical injuries to Modrić and James disrupted the team's midfield control and tempo, exposing defensive vulnerabilities that cost them major titles in the crucial final months of the season.</p>
+</section>
+
+<footer>
+  REAL MADRID · 2014—15 · SEASON REPORT
+</footer>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,1312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Juventus 2012-13 Season Report</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --fg: #1a1a1a;
+    --muted: #6b6b6b;
+    --muted-2: #8a8a8a;
+    --border: #e0e0e0;
+    --border-light: #eeeeee;
+    --surface: #fafafa;
+    --surface-2: #f5f5f5;
+
+    /* Position colors */
+    --gk: #d97706;
+    --gk-bg: #fef3c7;
+    --df: #2563eb;
+    --df-bg: #dbeafe;
+    --mf: #16a34a;
+    --mf-bg: #dcfce7;
+    --fw: #dc2626;
+    --fw-bg: #fee2e2;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Hiragino Sans", "Yu Gothic", sans-serif;
+    font-size: 14px;
+    line-height: 1.65;
+    color: var(--fg);
+    background: var(--bg);
+    margin: 0;
+    padding: 48px 20px;
+  }
+
+  .container {
+    max-width: 1080px;
+    margin: 0 auto;
+  }
+
+  /* =========================== */
+  /* Header                      */
+  /* =========================== */
+  header { margin-bottom: 32px; padding-bottom: 24px; border-bottom: 1px solid var(--border); }
+  .logo { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; text-decoration: none; color: var(--fg); cursor: pointer; width: fit-content; }
+  .logo-mark { width: 44px; height: 44px; border: 2px solid var(--fg); position: relative; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: var(--fg); color: #fff; }
+  .logo-mark::before { content: ""; position: absolute; top: 50%; left: 0; right: 0; height: 2px; background: #fff; transform: translateY(-50%); }
+  .logo-mark::after { content: ""; position: absolute; top: 0; bottom: 0; left: 50%; width: 2px; background: #fff; transform: translateX(-50%); }
+  .logo-mark span { position: relative; z-index: 1; font-family: "SF Mono", Menlo, Consolas, monospace; font-size: 18px; font-weight: 800; letter-spacing: -1px; background: var(--fg); padding: 0 2px; line-height: 1; }
+  .logo-text { display: flex; flex-direction: column; line-height: 1; }
+  .logo-text .word1 { font-size: 11px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+  .logo-text .word2 { font-size: 26px; font-weight: 800; letter-spacing: -0.5px; line-height: 1; }
+
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--muted); margin-bottom: 24px; flex-wrap: wrap; }
+  .breadcrumb a { color: var(--muted); text-decoration: none; cursor: pointer; padding: 4px 8px; border: 1px solid var(--border); background: var(--surface); transition: all 0.15s; display: inline-flex; align-items: center; gap: 6px; }
+  .breadcrumb a:hover { background: var(--hover, #f0f0f0); color: var(--fg); }
+  .breadcrumb .sep { color: var(--border); font-family: "SF Mono", Menlo, Consolas, monospace; }
+  .breadcrumb .current { padding: 4px 8px; color: var(--fg); font-weight: 600; display: inline-flex; align-items: center; gap: 6px; }
+  .breadcrumb .flag { width: 16px; height: 12px; border: 1px solid var(--border-light); object-fit: cover; }
+
+  .eyebrow {
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  h1 {
+    font-size: 28px;
+    font-weight: 700;
+    margin: 0 0 6px 0;
+    letter-spacing: -0.2px;
+  }
+
+  .subtitle {
+    font-size: 13px;
+    color: var(--muted);
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+
+  .subtitle span + span::before {
+    content: "/";
+    margin-right: 14px;
+    color: var(--border);
+  }
+
+  /* =========================== */
+  /* Section heading             */
+  /* =========================== */
+  section {
+    margin-top: 56px;
+  }
+
+  .section-num {
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 2px;
+    margin-bottom: 6px;
+  }
+
+  h2 {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0 0 20px 0;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--fg);
+    letter-spacing: -0.1px;
+  }
+
+  p {
+    margin: 0 0 14px 0;
+    text-align: justify;
+  }
+
+  /* =========================== */
+  /* Stat strip                  */
+  /* =========================== */
+  .stat-strip {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-bottom: 24px;
+  }
+
+  .stat-cell {
+    background: var(--bg);
+    padding: 14px 12px;
+    text-align: center;
+  }
+
+  .stat-cell .label {
+    font-size: 10px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+
+  .stat-cell .value {
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.1;
+  }
+
+  .stat-cell .sub {
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  /* Competition strip */
+  .comp-strip {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+
+  .comp-cell {
+    border: 1px solid var(--border);
+    padding: 12px 14px;
+    background: var(--bg);
+  }
+
+  .comp-cell .label {
+    font-size: 10px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+
+  .comp-cell .value {
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  /* =========================== */
+  /* Formation                   */
+  /* =========================== */
+  .formation {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 28px 16px 20px;
+    margin-top: 16px;
+  }
+
+  .pitch {
+    position: relative;
+    width: 100%;
+    max-width: 520px;
+    margin: 0 auto;
+    aspect-ratio: 2 / 3;
+    background: linear-gradient(to bottom, #ffffff 0%, #fcfcfc 100%);
+    border: 1px solid var(--border);
+  }
+
+  .pitch::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .pitch::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100px;
+    height: 100px;
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .player-dot {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    width: 94px;
+  }
+
+  .player-dot .circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin: 0 auto 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    color: #ffffff;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+  }
+
+  .player-dot .circle.gk { background: var(--gk); }
+  .player-dot .circle.df { background: var(--df); }
+  .player-dot .circle.mf { background: var(--mf); }
+  .player-dot .circle.fw { background: var(--fw); }
+
+  .player-dot .name {
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1.2;
+  }
+
+  .player-dot .pos {
+    font-size: 9px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 1px;
+  }
+
+  .formation-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 16px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .formation-label {
+    font-size: 11px;
+    color: var(--muted);
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    letter-spacing: 1px;
+  }
+
+  .legend {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  .legend-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .legend-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+  }
+  .legend-dot.gk { background: var(--gk); }
+  .legend-dot.df { background: var(--df); }
+  .legend-dot.mf { background: var(--mf); }
+  .legend-dot.fw { background: var(--fw); }
+
+  /* =========================== */
+  /* Position group heading      */
+  /* =========================== */
+  .pos-heading {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 32px 0 14px 0;
+    padding-bottom: 8px;
+    border-bottom: 1px dashed var(--border);
+  }
+
+  .pos-heading .bar {
+    width: 4px;
+    height: 18px;
+    border-radius: 2px;
+  }
+  .pos-heading.gk .bar { background: var(--gk); }
+  .pos-heading.df .bar { background: var(--df); }
+  .pos-heading.mf .bar { background: var(--mf); }
+  .pos-heading.fw .bar { background: var(--fw); }
+
+  .pos-heading .title {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+  }
+
+  .pos-heading .count {
+    font-size: 11px;
+    color: var(--muted);
+    font-weight: 400;
+    letter-spacing: 0.5px;
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    margin-left: auto;
+  }
+
+  /* =========================== */
+  /* Player cards                */
+  /* =========================== */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+    gap: 12px;
+  }
+
+  .card {
+    border: 1px solid var(--border);
+    border-top: 3px solid transparent;
+    background: var(--bg);
+    padding: 14px 16px 16px;
+    display: flex;
+    flex-direction: column;
+    transition: border-color 0.15s;
+  }
+
+  .card.gk { border-top-color: var(--gk); }
+  .card.df { border-top-color: var(--df); }
+  .card.mf { border-top-color: var(--mf); }
+  .card.fw { border-top-color: var(--fw); }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 4px;
+  }
+
+  .card-no {
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    font-size: 11px;
+    color: var(--muted);
+    font-weight: 600;
+    min-width: 28px;
+  }
+
+  .card-flag {
+    width: 20px;
+    height: 15px;
+    border: 1px solid var(--border-light);
+    flex-shrink: 0;
+    object-fit: cover;
+    display: block;
+  }
+
+  .card-name {
+    font-size: 15px;
+    font-weight: 600;
+    flex: 1;
+    letter-spacing: -0.1px;
+  }
+
+  .card-pos {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 3px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+  }
+
+  .card-pos.gk { background: var(--gk-bg); color: var(--gk); }
+  .card-pos.df { background: var(--df-bg); color: var(--df); }
+  .card-pos.mf { background: var(--mf-bg); color: var(--mf); }
+  .card-pos.fw { background: var(--fw-bg); color: var(--fw); }
+
+  .card-meta {
+    font-size: 11px;
+    color: var(--muted-2);
+    margin-bottom: 12px;
+    margin-left: 38px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .card-age {
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    font-size: 10px;
+  }
+
+  .card-meta .sep {
+    color: var(--border);
+  }
+
+  .card-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    padding: 10px 0;
+    margin-bottom: 12px;
+    border-top: 1px solid var(--border-light);
+    border-bottom: 1px solid var(--border-light);
+    background: var(--surface);
+    margin-left: -16px;
+    margin-right: -16px;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .stat {
+    text-align: center;
+    border-right: 1px solid var(--border-light);
+  }
+  .stat:last-child { border-right: none; }
+
+  .stat-value {
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.1;
+  }
+
+  .stat-label {
+    font-size: 9px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    margin-top: 3px;
+  }
+
+  .card-desc {
+    font-size: 12px;
+    color: #2a2a2a;
+    line-height: 1.6;
+    flex: 1;
+  }
+
+  .note {
+    font-size: 12px;
+    color: var(--muted);
+    font-style: italic;
+    margin-bottom: 20px;
+  }
+
+  footer {
+    margin-top: 64px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    font-size: 11px;
+    color: var(--muted);
+    text-align: center;
+    letter-spacing: 0.5px;
+  }
+
+  @media (max-width: 720px) {
+    body { padding: 24px 12px; font-size: 13px; }
+    h1 { font-size: 22px; }
+    .logo-mark { width: 38px; height: 38px; }
+    .logo-mark span { font-size: 15px; }
+    .logo-text .word2 { font-size: 22px; }
+    .stat-strip { grid-template-columns: repeat(3, 1fr); }
+    .comp-strip { grid-template-columns: repeat(2, 1fr); }
+    .player-dot { width: 76px; }
+    .player-dot .circle { width: 32px; height: 32px; font-size: 11px; }
+    .player-dot .name { font-size: 10px; }
+    .card-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <a class="logo" href="index.html">
+    <div class="logo-mark"><span>FA</span></div>
+    <div class="logo-text">
+      <div class="word1">Football</div>
+      <div class="word2">Archive</div>
+    </div>
+  </a>
+  <nav class="breadcrumb">
+    <a href="index.html">⌂ Home</a>
+    <span class="sep">/</span>
+    <a href="index.html?league=serie-a"><img class="flag" src="https://flagcdn.com/w40/it.png" alt="">Serie A</a>
+    <span class="sep">/</span>
+    <a href="index.html?league=serie-a&team=juventus"><img class="flag" src="https://flagcdn.com/w40/it.png" alt="">Juventus</a>
+    <span class="sep">/</span>
+    <span class="current">2012–13</span>
+  </nav>
+  <div class="eyebrow">Season Report</div>
+  <h1>Juventus</h1>
+  <div class="subtitle">
+    <span>2012–13</span>
+    <span>Serie A</span>
+    <span>Manager: Antonio Conte</span>
+  </div>
+</header>
+
+<!-- =========================================== -->
+<!-- 0. Season Overview -->
+<!-- =========================================== -->
+<section>
+  <div class="section-num">00 / OVERVIEW</div>
+  <h2>Season Overview</h2>
+
+  <!-- Stat strip -->
+  <div class="stat-strip">
+    <div class="stat-cell">
+      <div class="label">Position</div>
+      <div class="value">1<span style="font-size: 12px; vertical-align: super;">st</span></div>
+      <div class="sub">Serie A</div>
+    </div>
+    <div class="stat-cell">
+      <div class="label">Points</div>
+      <div class="value">87</div>
+      <div class="sub">38 matches</div>
+    </div>
+    <div class="stat-cell">
+      <div class="label">W – D – L</div>
+      <div class="value">27·6·5</div>
+      <div class="sub">71% win rate</div>
+    </div>
+    <div class="stat-cell">
+      <div class="label">Goals</div>
+      <div class="value">71</div>
+      <div class="sub">scored</div>
+    </div>
+    <div class="stat-cell">
+      <div class="label">Conceded</div>
+      <div class="value">24</div>
+      <div class="sub">0.63 / match</div>
+    </div>
+    <div class="stat-cell">
+      <div class="label">GD</div>
+      <div class="value">+47</div>
+      <div class="sub">goal diff</div>
+    </div>
+  </div>
+
+  <!-- Competition strip -->
+  <div class="comp-strip">
+    <div class="comp-cell">
+      <div class="label">Coppa Italia</div>
+      <div class="value">Semi-finals</div>
+    </div>
+    <div class="comp-cell">
+      <div class="label">Supercoppa Italiana</div>
+      <div class="value">Winners</div>
+    </div>
+    <div class="comp-cell">
+      <div class="label">UEFA Champions League</div>
+      <div class="value">Quarter-finals</div>
+    </div>
+    <div class="comp-cell">
+      <div class="label">Top Scorer</div>
+      <div class="value">A. Vidal · 15G</div>
+    </div>
+  </div>
+
+  <p>Juventus' 2012-13 season was a powerful confirmation of their resurgence. Following an invincible league campaign the previous year, Antonio Conte’s side entered the season with immense expectations. They successfully defended their Serie A title, finishing 9 points clear of Napoli with 87 points. The team registered 27 wins, 6 draws, and 5 defeats, scoring 71 goals while boasting the league’s best defense, conceding a mere 24. The introduction of young phenom Paul Pogba to an already world-class midfield of Andrea Pirlo, Arturo Vidal, and Claudio Marchisio made Juventus almost untouchable domestically.</p>
+
+  <p>In Europe, Juventus returned to the Champions League and made a strong impression, topping a group that included defending champions Chelsea. They confidently eliminated Celtic in the Round of 16 before falling to eventual treble winners Bayern Munich in the quarter-finals. Domestically, they won the Supercoppa Italiana against Napoli and reached the semi-finals of the Coppa Italia. The season cemented Conte's 3-5-2 as one of the most cohesive tactical systems in Europe. This was a squad built on relentless work rate, tactical discipline, and a formidable defensive foundation, laying the groundwork for a long era of absolute domestic dominance.</p>
+</section>
+
+<!-- =========================================== -->
+<!-- Formation -->
+<!-- =========================================== -->
+<section>
+  <div class="section-num">01 / FORMATION</div>
+  <h2>Starting XI</h2>
+
+  <div class="formation">
+    <div class="pitch">
+      <!-- GK -->
+      <div class="player-dot" style="top: 92%; left: 50%;">
+        <div class="circle gk">1</div>
+        <div class="name">Buffon</div>
+        <div class="pos">GK</div>
+      </div>
+
+      <!-- Back 3 -->
+      <div class="player-dot" style="top: 78%; left: 25%;">
+        <div class="circle df">3</div>
+        <div class="name">Chiellini</div>
+        <div class="pos">LCB</div>
+      </div>
+      <div class="player-dot" style="top: 80%; left: 50%;">
+        <div class="circle df">19</div>
+        <div class="name">Bonucci</div>
+        <div class="pos">CB</div>
+      </div>
+      <div class="player-dot" style="top: 78%; left: 75%;">
+        <div class="circle df">15</div>
+        <div class="name">Barzagli</div>
+        <div class="pos">RCB</div>
+      </div>
+
+      <!-- Wing-backs & Midfield 3 -->
+      <div class="player-dot" style="top: 52%; left: 15%;">
+        <div class="circle mf">22</div>
+        <div class="name">Asamoah</div>
+        <div class="pos">LWB</div>
+      </div>
+      <div class="player-dot" style="top: 52%; left: 85%;">
+        <div class="circle mf">26</div>
+        <div class="name">Lichtsteiner</div>
+        <div class="pos">RWB</div>
+      </div>
+
+      <div class="player-dot" style="top: 62%; left: 50%;">
+        <div class="circle mf">21</div>
+        <div class="name">Pirlo</div>
+        <div class="pos">DMF</div>
+      </div>
+      <div class="player-dot" style="top: 48%; left: 30%;">
+        <div class="circle mf">8</div>
+        <div class="name">Marchisio</div>
+        <div class="pos">CMF</div>
+      </div>
+      <div class="player-dot" style="top: 48%; left: 70%;">
+        <div class="circle mf">23</div>
+        <div class="name">Vidal</div>
+        <div class="pos">CMF</div>
+      </div>
+
+      <!-- Front 2 -->
+      <div class="player-dot" style="top: 20%; left: 35%;">
+        <div class="circle fw">12</div>
+        <div class="name">Giovinco</div>
+        <div class="pos">CF</div>
+      </div>
+      <div class="player-dot" style="top: 20%; left: 65%;">
+        <div class="circle fw">9</div>
+        <div class="name">Vučinić</div>
+        <div class="pos">CF</div>
+      </div>
+    </div>
+
+    <div class="formation-footer">
+      <div class="formation-label">3-5-2 / HIGH PRESSING</div>
+      <div class="legend">
+        <span class="legend-item"><span class="legend-dot gk"></span>GK</span>
+        <span class="legend-item"><span class="legend-dot df"></span>DF</span>
+        <span class="legend-item"><span class="legend-dot mf"></span>MF</span>
+        <span class="legend-item"><span class="legend-dot fw"></span>FW</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================== -->
+<!-- 1. Full Squad -->
+<!-- =========================================== -->
+<section>
+  <div class="section-num">02 / SQUAD</div>
+  <h2>Full Squad</h2>
+  <p class="note">Based on the official squad information updated at the end of the season. Appearances, goals, and assists refer to 2012-13 Serie A matches only. Ages shown as of May 2013.</p>
+
+  <!-- ============ Goalkeepers ============ -->
+  <div class="pos-heading gk">
+    <span class="bar"></span>
+    <span class="title">Goalkeepers</span>
+    <span class="count">03</span>
+  </div>
+  <div class="card-grid">
+
+    <div class="card gk">
+      <div class="card-header">
+        <span class="card-no">01</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/it.png" alt="Italy">
+        <span class="card-name">Gianluigi Buffon</span>
+        <span class="card-pos gk">GK</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 35</span>
+        <span class="sep">·</span>
+        <span>from Parma</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">32</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">A legendary goalkeeper and Juventus captain. Known for his incredible reflexes, leadership, and commanding presence. A World Cup winner who remained the undisputed number one, conceding very few goals.</div>
+    </div>
+
+    <div class="card gk">
+      <div class="card-header">
+        <span class="card-no">30</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/it.png" alt="Italy">
+        <span class="card-name">Marco Storari</span>
+        <span class="card-pos gk">GK</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 36</span>
+        <span class="sep">·</span>
+        <span>from Milan</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">6</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">A highly reliable backup goalkeeper who stepped in seamlessly whenever called upon. Brought vast Serie A experience and strong shot-stopping skills, contributing effectively to the title-winning squad.</div>
+    </div>
+
+    <div class="card gk">
+      <div class="card-header">
+        <span class="card-no">34</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/br.png" alt="Brazil">
+        <span class="card-name">Rubinho</span>
+        <span class="card-pos gk">GK</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 30</span>
+        <span class="sep">·</span>
+        <span>from Palermo</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">1</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">An experienced Brazilian shot-stopper who provided deep cover for the squad. Although he only made a single league appearance, his professionalism and positive presence in the dressing room were valued.</div>
+    </div>
+
+  </div>
+
+  <!-- ============ Defenders ============ -->
+  <div class="pos-heading df">
+    <span class="bar"></span>
+    <span class="title">Defenders</span>
+    <span class="count">10</span>
+  </div>
+  <div class="card-grid">
+
+    <div class="card df">
+      <div class="card-header">
+        <span class="card-no">02</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/br.png" alt="Brazil">
+        <span class="card-name">Lúcio</span>
+        <span class="card-pos df">CB</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 35</span>
+        <span class="sep">·</span>
+        <span>from Inter</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">1</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">A veteran Brazilian defender and Champions League winner who arrived to add experience. His spell was incredibly brief, leaving mid-season, but he added initial depth to the central defensive ranks.</div>
+    </div>
+
+    <div class="card df">
+      <div class="card-header">
+        <span class="card-no">03</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/it.png" alt="Italy">
+        <span class="card-name">Giorgio Chiellini</span>
+        <span class="card-pos df">CB</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 28</span>
+        <span class="sep">·</span>
+        <span>from Fiorentina</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">24</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">1</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">2</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">A fierce and aggressive defender, completing the iconic 'BBC' trio. Known for his physical dominance, tenacious tackling, and passionate leadership. A mainstay for Italy, his resilience was world-class.</div>
+    </div>
+
+    <div class="card df">
+      <div class="card-header">
+        <span class="card-no">04</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/uy.png" alt="Uruguay">
+        <span class="card-name">Martín Cáceres</span>
+        <span class="card-pos df">CB/RB</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 26</span>
+        <span class="sep">·</span>
+        <span>from Sevilla (ESP)</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">18</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">1</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">A quick and versatile Uruguayan defender capable of playing anywhere across the back line. He provided crucial depth, pace, and aggression, stepping up flawlessly during defensive rotations all season.</div>
+    </div>
+
+    <div class="card df">
+      <div class="card-header">
+        <span class="card-no">11</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/it.png" alt="Italy">
+        <span class="card-name">Paolo De Ceglie</span>
+        <span class="card-pos df">LWB</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 26</span>
+        <span class="sep">·</span>
+        <span>from Juventus youth</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">14</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">A Juventus youth product with an excellent left foot. Provided direct running and crossing from the left wing-back position. A reliable squad player who always played with strong commitment and energy.</div>
+    </div>
+
+    <div class="card df">
+      <div class="card-header">
+        <span class="card-no">13</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/it.png" alt="Italy">
+        <span class="card-name">Federico Peluso</span>
+        <span class="card-pos df">LWB/CB</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 29</span>
+        <span class="sep">·</span>
+        <span>from Atalanta</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">12</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">1</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">Joined in January to bolster the left side. An aggressive and physically strong defender who brought balance and tactical discipline. He provided reliable cover as a wing-back and left-sided centre-back.</div>
+    </div>
+
+    <div class="card df">
+      <div class="card-header">
+        <span class="card-no">15</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/it.png" alt="Italy">
+        <span class="card-name">Andrea Barzagli</span>
+        <span class="card-pos df">CB</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 32</span>
+        <span class="sep">·</span>
+        <span>from Wolfsburg (GER)</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">34</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">A rock-solid centre-back and a crucial piece of the famed 'BBC' defense. An Italian international and World Cup winner known for his impeccable reading of the game, positioning, and absolute composure.</div>
+    </div>
+
+    <div class="card df">
+      <div class="card-header">
+        <span class="card-no">19</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/it.png" alt="Italy">
+        <span class="card-name">Leonardo Bonucci</span>
+        <span class="card-pos df">CB</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 26</span>
+        <span class="sep">·</span>
+        <span>from Bari</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">33</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">1</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">A brilliant ball-playing defender who anchored the back three. Renowned for his long-range passing, tactical intelligence, and strong aerial ability. He frequently initiated attacks from deep positions.</div>
+    </div>
+
+    <div class="card df">
+      <div class="card-header">
+        <span class="card-no">22</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/gh.png" alt="Ghana">
+        <span class="card-name">Kwadwo Asamoah</span>
+        <span class="card-pos df">LWB</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 24</span>
+        <span class="sep">·</span>
+        <span>from Udinese</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">27</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">2</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">6</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">A versatile left wing-back who transitioned perfectly into Conte's system. The Ghanaian international offered explosive pace, fine dribbling, and excellent crossing, becoming a crucial creative outlet.</div>
+    </div>
+
+    <div class="card df">
+      <div class="card-header">
+        <span class="card-no">26</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/ch.png" alt="Switzerland">
+        <span class="card-name">Stephan Lichtsteiner</span>
+        <span class="card-pos df">RWB</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 29</span>
+        <span class="sep">·</span>
+        <span>from Lazio</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">28</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">4</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">3</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">A tireless right wing-back who dominated the flank. Nicknamed 'The Swiss Express', he provided relentless energy, solid one-on-one defending, and crucial attacking runs, scoring key goals for the team.</div>
+    </div>
+
+    <div class="card df">
+      <div class="card-header">
+        <span class="card-no">33</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/cl.png" alt="Chile">
+        <span class="card-name">Mauricio Isla</span>
+        <span class="card-pos df">RWB/CM</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 24</span>
+        <span class="sep">·</span>
+        <span>from Udinese</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">11</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">2</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">A versatile Chilean international recovering from injury. Brought technical skill and high work rate to the right wing-back or central midfield roles. Still finding his rhythm but showed clear quality.</div>
+    </div>
+
+  </div>
+
+  <!-- ============ Midfielders ============ -->
+  <div class="pos-heading mf">
+    <span class="bar"></span>
+    <span class="title">Midfielders</span>
+    <span class="count">08</span>
+  </div>
+  <div class="card-grid">
+
+    <div class="card mf">
+      <div class="card-header">
+        <span class="card-no">06</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/fr.png" alt="France">
+        <span class="card-name">Paul Pogba</span>
+        <span class="card-pos mf">CMF</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 20</span>
+        <span class="sep">·</span>
+        <span>from Manchester United (ENG)</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">27</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">5</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">A phenomenal young talent who took Serie A by storm. The French prodigy showcased incredible athleticism, refined technique, and a ferocious long-range strike, quickly becoming a true global superstar.</div>
+    </div>
+
+    <div class="card mf">
+      <div class="card-header">
+        <span class="card-no">07</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/it.png" alt="Italy">
+        <span class="card-name">Simone Pepe</span>
+        <span class="card-pos mf">RM/WG</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 29</span>
+        <span class="sep">·</span>
+        <span>from Udinese</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">1</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">A hardworking and direct winger who unfortunately struggled with severe injuries this season. When fit, his incredible stamina, crossing ability, and absolute commitment made him highly appreciated.</div>
+    </div>
+
+    <div class="card mf">
+      <div class="card-header">
+        <span class="card-no">08</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/it.png" alt="Italy">
+        <span class="card-name">Claudio Marchisio</span>
+        <span class="card-pos mf">CMF</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 27</span>
+        <span class="sep">·</span>
+        <span>from Juventus youth</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">29</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">8</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">4</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">A homegrown hero and a vital cog in the midfield trio. Known as 'Il Principino', he offered brilliant off-the-ball movement, tactical intelligence, and a remarkable knack for scoring crucial, timely goals.</div>
+    </div>
+
+    <div class="card mf">
+      <div class="card-header">
+        <span class="card-no">20</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/it.png" alt="Italy">
+        <span class="card-name">Simone Padoin</span>
+        <span class="card-pos mf">CMF/WB</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 29</span>
+        <span class="sep">·</span>
+        <span>from Atalanta</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">20</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">The ultimate utility player. Known for his immense work rate, tactical discipline, and absolute reliability. He could seamlessly slot into midfield or wing-back roles, making him a vital squad asset.</div>
+    </div>
+
+    <div class="card mf">
+      <div class="card-header">
+        <span class="card-no">21</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/it.png" alt="Italy">
+        <span class="card-name">Andrea Pirlo</span>
+        <span class="card-pos mf">DMF</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 34</span>
+        <span class="sep">·</span>
+        <span>from Milan</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">32</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">5</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">7</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">A maestro and the team's creative heartbeat. A World Cup winner whose extraordinary vision, passing range, and deadly set-pieces dictated the tempo. The undeniable mastermind of Juventus' midfield.</div>
+    </div>
+
+    <div class="card mf">
+      <div class="card-header">
+        <span class="card-no">23</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/cl.png" alt="Chile">
+        <span class="card-name">Arturo Vidal</span>
+        <span class="card-pos mf">CMF</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 26</span>
+        <span class="sep">·</span>
+        <span>from Bayer Leverkusen (GER)</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">31</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">10</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">8</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">A dynamic and complete box-to-box midfielder. The Chilean warrior combined ferocious tackling, endless stamina, and a lethal scoring touch, finishing as the team's joint-top Serie A goalscorer.</div>
+    </div>
+
+    <div class="card mf">
+      <div class="card-header">
+        <span class="card-no">24</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/it.png" alt="Italy">
+        <span class="card-name">Emanuele Giaccherini</span>
+        <span class="card-pos mf">CMF/WG</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 28</span>
+        <span class="sep">·</span>
+        <span>from Cesena</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">17</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">3</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">2</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">An energetic and versatile midfielder. An Italian international who offered tactical flexibility, quick feet, and relentless pressing. A trusted favorite of Conte who always delivered when called upon.</div>
+    </div>
+
+    <div class="card mf">
+      <div class="card-header">
+        <span class="card-no">39</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/it.png" alt="Italy">
+        <span class="card-name">Luca Marrone</span>
+        <span class="card-pos mf">DMF/CB</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 23</span>
+        <span class="sep">·</span>
+        <span>from Juventus youth</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">10</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">A promising homegrown talent who operated as a deep-lying playmaker or central defender. Praised for his calm distribution and tactical awareness, providing very useful rotation options for the squad.</div>
+    </div>
+
+  </div>
+
+  <!-- ============ Forwards ============ -->
+  <div class="pos-heading fw">
+    <span class="bar"></span>
+    <span class="title">Forwards</span>
+    <span class="count">06</span>
+  </div>
+  <div class="card-grid">
+
+    <div class="card fw">
+      <div class="card-header">
+        <span class="card-no">09</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/me.png" alt="Montenegro">
+        <span class="card-name">Mirko Vučinić</span>
+        <span class="card-pos fw">CF</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 29</span>
+        <span class="sep">·</span>
+        <span>from Roma</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">31</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">10</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">6</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">A highly creative and unpredictable Montenegrin forward. The team's primary attacking link, known for his brilliant technique, superb vision, and crucial goals. Finished as joint-top scorer in the league.</div>
+    </div>
+
+    <div class="card fw">
+      <div class="card-header">
+        <span class="card-no">12</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/it.png" alt="Italy">
+        <span class="card-name">Sebastian Giovinco</span>
+        <span class="card-pos fw">SS</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 26</span>
+        <span class="sep">·</span>
+        <span>from Parma</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">31</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">7</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">7</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">'La Formica Atomica' returned to his boyhood club. A diminutive, lightning-fast forward with exceptional dribbling and free-kick skills. He offered a very dynamic and creative spark in the final third.</div>
+    </div>
+
+    <div class="card fw">
+      <div class="card-header">
+        <span class="card-no">17</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/dk.png" alt="Denmark">
+        <span class="card-name">Nicklas Bendtner</span>
+        <span class="card-pos fw">CF</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 25</span>
+        <span class="sep">·</span>
+        <span>from Arsenal (ENG)</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">9</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">A towering Danish international striker who added a unique physical dimension to the attack. Though his time was severely disrupted by injuries, he offered an aerial threat and solid hold-up play.</div>
+    </div>
+
+    <div class="card fw">
+      <div class="card-header">
+        <span class="card-no">18</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/fr.png" alt="France">
+        <span class="card-name">Nicolas Anelka</span>
+        <span class="card-pos fw">CF</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 34</span>
+        <span class="sep">·</span>
+        <span>from Shanghai Shenhua (CHN)</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">2</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">A legendary French striker with vast Premier League and international experience. Brought in as an emergency winter signing, offering veteran leadership and technical quality in the attacking rotation.</div>
+    </div>
+
+    <div class="card fw">
+      <div class="card-header">
+        <span class="card-no">27</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/it.png" alt="Italy">
+        <span class="card-name">Fabio Quagliarella</span>
+        <span class="card-pos fw">CF</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 30</span>
+        <span class="sep">·</span>
+        <span>from Napoli</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">27</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">9</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">4</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">A striker famous for scoring spectacular goals. A former Italian international with a lethal strike from distance. His highly intelligent movement and clinical finishing made him a crucial attacking asset.</div>
+    </div>
+
+    <div class="card fw">
+      <div class="card-header">
+        <span class="card-no">32</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/it.png" alt="Italy">
+        <span class="card-name">Alessandro Matri</span>
+        <span class="card-pos fw">CF</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 28</span>
+        <span class="sep">·</span>
+        <span>from Cagliari</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">22</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">8</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">2</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">A classic number nine with a great sense of positioning. Strong in the air and lethal inside the penalty area, his relentless work rate and clinical finishing provided vital goals throughout the campaign.</div>
+    </div>
+
+  </div>
+
+</section>
+
+<!-- =========================================== -->
+<!-- 2. Tactics -->
+<!-- =========================================== -->
+<section>
+  <div class="section-num">03 / TACTICS</div>
+  <h2>Tactics</h2>
+
+  <p>Antonio Conte’s Juventus was synonymous with the 3-5-2 formation, a tactical setup that maximized the strengths of their personnel. The foundation was the legendary "BBC" defensive line: Andrea Barzagli, Leonardo Bonucci, and Giorgio Chiellini. Protected by Gianluigi Buffon, this trio offered a perfect blend of aggressive marking, aerial dominance, and elite ball-playing ability, particularly from Bonucci, who often initiated attacks from deep.</p>
+
+  <p>The midfield was the true engine of the team. Andrea Pirlo operated as the deep-lying playmaker, dictating the tempo with his extraordinary vision and precise distribution. Ahead of him, Arturo Vidal and Claudio Marchisio functioned as extremely dynamic box-to-box midfielders, providing relentless pressing, essential defensive cover, and crucial late runs into the penalty area. The rapid emergence of Paul Pogba also added an immense physical and technical dimension to the midfield rotation.</p>
+
+  <p>The wing-backs, primarily Stephan Lichtsteiner on the right and Kwadwo Asamoah on the left, were tasked with providing the team's width. Their relentless running allowed Juventus to stretch opponents and transition rapidly from defense to attack. In the final third, Mirko Vučinić and Sebastian Giovinco (or Fabio Quagliarella and Alessandro Matri) formed a fluid partnership. Rather than relying on a traditional static target man, the forwards constantly dropped deep to link play, dragging defenders out of position to create vital space for the advancing central midfielders.</p>
+
+  <p>This systematic approach made Juventus incredibly difficult to break down and completely dominant in possession. Conte instilled a furious work ethic and absolute tactical discipline, meaning the entire team defended and attacked as a unified block. The 2012-13 season permanently solidified this Juventus side as a tactical masterpiece, securing consecutive domestic titles and returning the club to the upper echelon of European football.</p>
+</section>
+
+<footer>
+  JUVENTUS · 2012—13 · SEASON REPORT
+</footer>
+
+</div>
+</body>
+</html>
