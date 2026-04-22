@@ -1,0 +1,1329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inter Milan 2009-10 Season Report</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --fg: #1a1a1a;
+    --muted: #6b6b6b;
+    --muted-2: #8a8a8a;
+    --border: #e0e0e0;
+    --border-light: #eeeeee;
+    --surface: #fafafa;
+    --surface-2: #f5f5f5;
+
+    /* Position colors */
+    --gk: #d97706;
+    --gk-bg: #fef3c7;
+    --df: #2563eb;
+    --df-bg: #dbeafe;
+    --mf: #16a34a;
+    --mf-bg: #dcfce7;
+    --fw: #dc2626;
+    --fw-bg: #fee2e2;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Hiragino Sans", "Yu Gothic", sans-serif;
+    font-size: 14px;
+    line-height: 1.65;
+    color: var(--fg);
+    background: var(--bg);
+    margin: 0;
+    padding: 48px 20px;
+  }
+
+  .container {
+    max-width: 1080px;
+    margin: 0 auto;
+  }
+
+  /* =========================== */
+  /* Header                      */
+  /* =========================== */
+  header { margin-bottom: 32px; padding-bottom: 24px; border-bottom: 1px solid var(--border); }
+  .logo { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; text-decoration: none; color: var(--fg); cursor: pointer; width: fit-content; }
+  .logo-mark { width: 44px; height: 44px; border: 2px solid var(--fg); position: relative; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: var(--fg); color: #fff; }
+  .logo-mark::before { content: ""; position: absolute; top: 50%; left: 0; right: 0; height: 2px; background: #fff; transform: translateY(-50%); }
+  .logo-mark::after { content: ""; position: absolute; top: 0; bottom: 0; left: 50%; width: 2px; background: #fff; transform: translateX(-50%); }
+  .logo-mark span { position: relative; z-index: 1; font-family: "SF Mono", Menlo, Consolas, monospace; font-size: 18px; font-weight: 800; letter-spacing: -1px; background: var(--fg); padding: 0 2px; line-height: 1; }
+  .logo-text { display: flex; flex-direction: column; line-height: 1; }
+  .logo-text .word1 { font-size: 11px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+  .logo-text .word2 { font-size: 26px; font-weight: 800; letter-spacing: -0.5px; line-height: 1; }
+
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--muted); margin-bottom: 24px; flex-wrap: wrap; }
+  .breadcrumb a { color: var(--muted); text-decoration: none; cursor: pointer; padding: 4px 8px; border: 1px solid var(--border); background: var(--surface); transition: all 0.15s; display: inline-flex; align-items: center; gap: 6px; }
+  .breadcrumb a:hover { background: var(--hover, #f0f0f0); color: var(--fg); }
+  .breadcrumb .sep { color: var(--border); font-family: "SF Mono", Menlo, Consolas, monospace; }
+  .breadcrumb .current { padding: 4px 8px; color: var(--fg); font-weight: 600; display: inline-flex; align-items: center; gap: 6px; }
+  .breadcrumb .flag { width: 16px; height: 12px; border: 1px solid var(--border-light); object-fit: cover; }
+
+  .eyebrow {
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  h1 {
+    font-size: 28px;
+    font-weight: 700;
+    margin: 0 0 6px 0;
+    letter-spacing: -0.2px;
+  }
+
+  .subtitle {
+    font-size: 13px;
+    color: var(--muted);
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+
+  .subtitle span + span::before {
+    content: "/";
+    margin-right: 14px;
+    color: var(--border);
+  }
+
+  /* =========================== */
+  /* Section heading             */
+  /* =========================== */
+  section {
+    margin-top: 56px;
+  }
+
+  .section-num {
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 2px;
+    margin-bottom: 6px;
+  }
+
+  h2 {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0 0 20px 0;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--fg);
+    letter-spacing: -0.1px;
+  }
+
+  p {
+    margin: 0 0 14px 0;
+    text-align: justify;
+  }
+
+  /* =========================== */
+  /* Stat strip                  */
+  /* =========================== */
+  .stat-strip {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-bottom: 24px;
+  }
+
+  .stat-cell {
+    background: var(--bg);
+    padding: 14px 12px;
+    text-align: center;
+  }
+
+  .stat-cell .label {
+    font-size: 10px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+
+  .stat-cell .value {
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.1;
+  }
+
+  .stat-cell .sub {
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  /* Competition strip */
+  .comp-strip {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+
+  .comp-cell {
+    border: 1px solid var(--border);
+    padding: 12px 14px;
+    background: var(--bg);
+  }
+
+  .comp-cell .label {
+    font-size: 10px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+
+  .comp-cell .value {
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  /* =========================== */
+  /* Formation                   */
+  /* =========================== */
+  .formation {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 28px 16px 20px;
+    margin-top: 16px;
+  }
+
+  .pitch {
+    position: relative;
+    width: 100%;
+    max-width: 520px;
+    margin: 0 auto;
+    aspect-ratio: 2 / 3;
+    background: linear-gradient(to bottom, #ffffff 0%, #fcfcfc 100%);
+    border: 1px solid var(--border);
+  }
+
+  .pitch::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .pitch::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100px;
+    height: 100px;
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .player-dot {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    width: 94px;
+  }
+
+  .player-dot .circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin: 0 auto 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    color: #ffffff;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+  }
+
+  .player-dot .circle.gk { background: var(--gk); }
+  .player-dot .circle.df { background: var(--df); }
+  .player-dot .circle.mf { background: var(--mf); }
+  .player-dot .circle.fw { background: var(--fw); }
+
+  .player-dot .name {
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1.2;
+  }
+
+  .player-dot .pos {
+    font-size: 9px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 1px;
+  }
+
+  .formation-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 16px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .formation-label {
+    font-size: 11px;
+    color: var(--muted);
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    letter-spacing: 1px;
+  }
+
+  .legend {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  .legend-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .legend-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+  }
+  .legend-dot.gk { background: var(--gk); }
+  .legend-dot.df { background: var(--df); }
+  .legend-dot.mf { background: var(--mf); }
+  .legend-dot.fw { background: var(--fw); }
+
+  /* =========================== */
+  /* Position group heading      */
+  /* =========================== */
+  .pos-heading {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 32px 0 14px 0;
+    padding-bottom: 8px;
+    border-bottom: 1px dashed var(--border);
+  }
+
+  .pos-heading .bar {
+    width: 4px;
+    height: 18px;
+    border-radius: 2px;
+  }
+  .pos-heading.gk .bar { background: var(--gk); }
+  .pos-heading.df .bar { background: var(--df); }
+  .pos-heading.mf .bar { background: var(--mf); }
+  .pos-heading.fw .bar { background: var(--fw); }
+
+  .pos-heading .title {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+  }
+
+  .pos-heading .count {
+    font-size: 11px;
+    color: var(--muted);
+    font-weight: 400;
+    letter-spacing: 0.5px;
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    margin-left: auto;
+  }
+
+  /* =========================== */
+  /* Player cards                */
+  /* =========================== */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+    gap: 12px;
+  }
+
+  .card {
+    border: 1px solid var(--border);
+    border-top: 3px solid transparent;
+    background: var(--bg);
+    padding: 14px 16px 16px;
+    display: flex;
+    flex-direction: column;
+    transition: border-color 0.15s;
+  }
+
+  .card.gk { border-top-color: var(--gk); }
+  .card.df { border-top-color: var(--df); }
+  .card.mf { border-top-color: var(--mf); }
+  .card.fw { border-top-color: var(--fw); }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 4px;
+  }
+
+  .card-no {
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    font-size: 11px;
+    color: var(--muted);
+    font-weight: 600;
+    min-width: 28px;
+  }
+
+  .card-flag {
+    width: 20px;
+    height: 15px;
+    border: 1px solid var(--border-light);
+    flex-shrink: 0;
+    object-fit: cover;
+    display: block;
+  }
+
+  .card-name {
+    font-size: 15px;
+    font-weight: 600;
+    flex: 1;
+    letter-spacing: -0.1px;
+  }
+
+  .card-pos {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 3px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+  }
+
+  .card-pos.gk { background: var(--gk-bg); color: var(--gk); }
+  .card-pos.df { background: var(--df-bg); color: var(--df); }
+  .card-pos.mf { background: var(--mf-bg); color: var(--mf); }
+  .card-pos.fw { background: var(--fw-bg); color: var(--fw); }
+
+  .card-meta {
+    font-size: 11px;
+    color: var(--muted-2);
+    margin-bottom: 12px;
+    margin-left: 38px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .card-age {
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    font-size: 10px;
+  }
+
+  .card-meta .sep {
+    color: var(--border);
+  }
+
+  .card-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    padding: 10px 0;
+    margin-bottom: 12px;
+    border-top: 1px solid var(--border-light);
+    border-bottom: 1px solid var(--border-light);
+    background: var(--surface);
+    margin-left: -16px;
+    margin-right: -16px;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .stat {
+    text-align: center;
+    border-right: 1px solid var(--border-light);
+  }
+  .stat:last-child { border-right: none; }
+
+  .stat-value {
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.1;
+  }
+
+  .stat-label {
+    font-size: 9px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    margin-top: 3px;
+  }
+
+  .card-desc {
+    font-size: 12px;
+    color: #2a2a2a;
+    line-height: 1.6;
+    flex: 1;
+  }
+
+  .note {
+    font-size: 12px;
+    color: var(--muted);
+    font-style: italic;
+    margin-bottom: 20px;
+  }
+
+  footer {
+    margin-top: 64px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    font-size: 11px;
+    color: var(--muted);
+    text-align: center;
+    letter-spacing: 0.5px;
+  }
+
+  @media (max-width: 720px) {
+    body { padding: 24px 12px; font-size: 13px; }
+    h1 { font-size: 22px; }
+    .logo-mark { width: 38px; height: 38px; }
+    .logo-mark span { font-size: 15px; }
+    .logo-text .word2 { font-size: 22px; }
+    .stat-strip { grid-template-columns: repeat(3, 1fr); }
+    .comp-strip { grid-template-columns: repeat(2, 1fr); }
+    .player-dot { width: 76px; }
+    .player-dot .circle { width: 32px; height: 32px; font-size: 11px; }
+    .player-dot .name { font-size: 10px; }
+    .card-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <a class="logo" href="index.html">
+    <div class="logo-mark"><span>FA</span></div>
+    <div class="logo-text">
+      <div class="word1">Football</div>
+      <div class="word2">Archive</div>
+    </div>
+  </a>
+  <nav class="breadcrumb">
+    <a href="index.html">⌂ Home</a>
+    <span class="sep">/</span>
+    <a href="index.html?league=serie-a"><img class="flag" src="https://flagcdn.com/w40/it.png" alt="">Serie A</a>
+    <span class="sep">/</span>
+    <a href="index.html?league=serie-a&team=inter-milan"><img class="flag" src="https://flagcdn.com/w40/it.png" alt="">Inter Milan</a>
+    <span class="sep">/</span>
+    <span class="current">2009–10</span>
+  </nav>
+  <div class="eyebrow">Season Report</div>
+  <h1>Inter Milan</h1>
+  <div class="subtitle">
+    <span>2009–10</span>
+    <span>Serie A</span>
+    <span>Manager: José Mourinho</span>
+  </div>
+</header>
+
+<!-- =========================================== -->
+<!-- 0. Season Overview -->
+<!-- =========================================== -->
+<section>
+  <div class="section-num">00 / OVERVIEW</div>
+  <h2>Season Overview</h2>
+
+  <!-- Stat strip -->
+  <div class="stat-strip">
+    <div class="stat-cell">
+      <div class="label">Position</div>
+      <div class="value">1<span style="font-size: 12px; vertical-align: super;">st</span></div>
+      <div class="sub">Serie A</div>
+    </div>
+    <div class="stat-cell">
+      <div class="label">Points</div>
+      <div class="value">82</div>
+      <div class="sub">38 matches</div>
+    </div>
+    <div class="stat-cell">
+      <div class="label">W – D – L</div>
+      <div class="value">24·10·4</div>
+      <div class="sub">63% win rate</div>
+    </div>
+    <div class="stat-cell">
+      <div class="label">Goals</div>
+      <div class="value">75</div>
+      <div class="sub">scored</div>
+    </div>
+    <div class="stat-cell">
+      <div class="label">Conceded</div>
+      <div class="value">34</div>
+      <div class="sub">0.89 / match</div>
+    </div>
+    <div class="stat-cell">
+      <div class="label">GD</div>
+      <div class="value">+41</div>
+      <div class="sub">goal diff</div>
+    </div>
+  </div>
+
+  <!-- Competition strip -->
+  <div class="comp-strip">
+    <div class="comp-cell">
+      <div class="label">Coppa Italia</div>
+      <div class="value">Winner</div>
+    </div>
+    <div class="comp-cell">
+      <div class="label">Supercoppa Italiana</div>
+      <div class="value">Runner-up</div>
+    </div>
+    <div class="comp-cell">
+      <div class="label">UEFA Champions League</div>
+      <div class="value">Winner</div>
+    </div>
+    <div class="comp-cell">
+      <div class="label">Top Scorer</div>
+      <div class="value">D. Milito · 22G</div>
+    </div>
+  </div>
+
+  <p>Inter Milan's 2009-10 season stands as the greatest in the club's history and one of the most remarkable campaigns in European football. Under the masterful guidance of José Mourinho, the Nerazzurri became the first and only Italian team to win the historic Treble: Serie A, the Coppa Italia, and the UEFA Champions League. Following the departure of Zlatan Ibrahimović, the squad was brilliantly reconstructed. New arrivals Diego Milito, Samuel Eto'o, Wesley Sneijder, Lúcio, and Thiago Motta integrated flawlessly, creating a highly disciplined, tactically astute, and ruthless team.</p>
+
+  <p>In Serie A, Inter faced a fierce challenge from Roma but secured the Scudetto on the final day with an 82-point tally, conceding just 34 goals. In Europe, they produced iconic defensive masterclasses and clinical counter-attacks, notably eliminating Chelsea and Barcelona before defeating Bayern Munich 2-0 in the Madrid final. Domestically, they edged out Roma in the Coppa Italia final. The 2009-10 side epitomized Mourinho's philosophy: a united brotherhood capable of adapting to any opponent, defending with absolute resolve, and striking with devastating precision. It remains the gold standard of Italian club football.</p>
+</section>
+
+<!-- =========================================== -->
+<!-- Formation -->
+<!-- =========================================== -->
+<section>
+  <div class="section-num">01 / FORMATION</div>
+  <h2>Starting XI</h2>
+
+  <div class="formation">
+    <div class="pitch">
+      <!-- GK -->
+      <div class="player-dot" style="top: 92%; left: 50%;">
+        <div class="circle gk">12</div>
+        <div class="name">Júlio César</div>
+        <div class="pos">GK</div>
+      </div>
+
+      <!-- Back 4 -->
+      <div class="player-dot" style="top: 73%; left: 15%;">
+        <div class="circle df">4</div>
+        <div class="name">Zanetti</div>
+        <div class="pos">LSB</div>
+      </div>
+      <div class="player-dot" style="top: 75%; left: 38%;">
+        <div class="circle df">25</div>
+        <div class="name">Samuel</div>
+        <div class="pos">CB</div>
+      </div>
+      <div class="player-dot" style="top: 75%; left: 62%;">
+        <div class="circle df">6</div>
+        <div class="name">Lúcio</div>
+        <div class="pos">CB</div>
+      </div>
+      <div class="player-dot" style="top: 73%; left: 85%;">
+        <div class="circle df">13</div>
+        <div class="name">Maicon</div>
+        <div class="pos">RSB</div>
+      </div>
+
+      <!-- Double Pivot -->
+      <div class="player-dot" style="top: 55%; left: 35%;">
+        <div class="circle mf">19</div>
+        <div class="name">Cambiasso</div>
+        <div class="pos">DM</div>
+      </div>
+      <div class="player-dot" style="top: 55%; left: 65%;">
+        <div class="circle mf">8</div>
+        <div class="name">Motta</div>
+        <div class="pos">CM</div>
+      </div>
+
+      <!-- AM & Wingers -->
+      <div class="player-dot" style="top: 25%; left: 20%;">
+        <div class="circle fw">9</div>
+        <div class="name">Eto'o</div>
+        <div class="pos">LW</div>
+      </div>
+      <div class="player-dot" style="top: 35%; left: 50%;">
+        <div class="circle mf">10</div>
+        <div class="name">Sneijder</div>
+        <div class="pos">AM</div>
+      </div>
+      <div class="player-dot" style="top: 25%; left: 80%;">
+        <div class="circle fw">27</div>
+        <div class="name">Pandev</div>
+        <div class="pos">RW</div>
+      </div>
+
+      <!-- Striker -->
+      <div class="player-dot" style="top: 15%; left: 50%;">
+        <div class="circle fw">22</div>
+        <div class="name">Milito</div>
+        <div class="pos">CF</div>
+      </div>
+    </div>
+
+    <div class="formation-footer">
+      <div class="formation-label">4-2-3-1 / COMPACT & COUNTER-ATTACKING</div>
+      <div class="legend">
+        <span class="legend-item"><span class="legend-dot gk"></span>GK</span>
+        <span class="legend-item"><span class="legend-dot df"></span>DF</span>
+        <span class="legend-item"><span class="legend-dot mf"></span>MF</span>
+        <span class="legend-item"><span class="legend-dot fw"></span>FW</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================== -->
+<!-- 1. Full Squad -->
+<!-- =========================================== -->
+<section>
+  <div class="section-num">02 / SQUAD</div>
+  <h2>Full Squad</h2>
+  <p class="note">Based on the official squad information updated on May 2010. Appearances, goals, and assists refer to 2009-10 Serie A league matches only. Ages shown as of the end of the season.</p>
+
+  <!-- ============ Goalkeepers ============ -->
+  <div class="pos-heading gk">
+    <span class="bar"></span>
+    <span class="title">Goalkeepers</span>
+    <span class="count">04</span>
+  </div>
+  <div class="card-grid">
+
+    <div class="card gk">
+      <div class="card-header">
+        <span class="card-no">12</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/br.png" alt="Brazil">
+        <span class="card-name">Júlio César</span>
+        <span class="card-pos gk">GK</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 30</span>
+        <span class="sep">·</span>
+        <span>from Chievo</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">38</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">Joined in 2005 from Chievo. The Brazilian international was undeniably the world’s best goalkeeper this season. He kept 17 league clean sheets, displaying incredible reflexes, penalty-saving prowess, and command of his box. His crucial saves across all competitions anchored the historic treble.</div>
+    </div>
+
+    <div class="card gk">
+      <div class="card-header">
+        <span class="card-no">01</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/it.png" alt="Italy">
+        <span class="card-name">Francesco Toldo</span>
+        <span class="card-pos gk">GK</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 38</span>
+        <span class="sep">·</span>
+        <span>from Fiorentina</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">Arrived from Fiorentina in 2001. A former Italy international and Euro 2000 hero, the veteran served as a reliable backup this season. Although he made zero league appearances, his immense experience, locker-room leadership, and towering physical presence remained invaluable for the squad.</div>
+    </div>
+
+    <div class="card gk">
+      <div class="card-header">
+        <span class="card-no">21</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/it.png" alt="Italy">
+        <span class="card-name">Paolo Orlandoni</span>
+        <span class="card-pos gk">GK</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 37</span>
+        <span class="sep">·</span>
+        <span>from Piacenza</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">An Inter youth product who returned in 2005 after spells across Italy. The veteran goalkeeper didn't feature in Serie A this season. Never playing for the national team, he was highly respected for his professionalism, training dedication, and morale-boosting presence within the treble-winning camp.</div>
+    </div>
+
+    <div class="card gk">
+      <div class="card-header">
+        <span class="card-no">51</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/si.png" alt="Slovenia">
+        <span class="card-name">Vid Belec</span>
+        <span class="card-pos gk">GK</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 19</span>
+        <span class="sep">·</span>
+        <span>from Inter youth</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">Promoted from the youth academy this year. The Slovenian U-21 international did not make a league appearance during this historic campaign. An agile, promising shot-stopper with great reflexes, he gained priceless experience training alongside world-class veterans in Mourinho’s demanding setup.</div>
+    </div>
+
+  </div>
+
+  <!-- ============ Defenders ============ -->
+  <div class="pos-heading df">
+    <span class="bar"></span>
+    <span class="title">Defenders</span>
+    <span class="count">08</span>
+  </div>
+  <div class="card-grid">
+
+    <div class="card df">
+      <div class="card-header">
+        <span class="card-no">04</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/ar.png" alt="Argentina">
+        <span class="card-name">Javier Zanetti</span>
+        <span class="card-pos df">LSB</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 36</span>
+        <span class="sep">·</span>
+        <span>from Banfield (ARG)</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">37</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">Joined from Banfield (ARG) in 1995. The legendary Argentine international captained the side brilliantly, missing only one league game. Playing at LSB, RSB, or CM, his endless stamina, tactical discipline, and leadership were the heartbeat of this treble-winning team, defining an era for Inter.</div>
+    </div>
+
+    <div class="card df">
+      <div class="card-header">
+        <span class="card-no">06</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/br.png" alt="Brazil">
+        <span class="card-name">Lúcio</span>
+        <span class="card-pos df">CB</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 32</span>
+        <span class="sep">·</span>
+        <span>from Bayern Munich (GER)</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">31</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">1</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">2</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">Arriving from Bayern Munich (GER) in 2009, the Brazil captain immediately transformed Inter’s defense. He played 31 league matches, forming an impenetrable wall. Known for his aggressive tackling, aerial dominance, and surging forward runs, he was instrumental in the Champions League triumph.</div>
+    </div>
+
+    <div class="card df">
+      <div class="card-header">
+        <span class="card-no">13</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/br.png" alt="Brazil">
+        <span class="card-name">Maicon</span>
+        <span class="card-pos df">RSB</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 28</span>
+        <span class="sep">·</span>
+        <span>from Monaco (FRA)</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">33</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">6</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">11</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">Joined from Monaco (FRA) in 2006. The Brazilian international had the season of his life, registering 6 goals and 11 assists in Serie A. An unstoppable force at RSB, his explosive pace, physical dominance, and pinpoint crosses made him the world’s best attacking fullback during this treble run.</div>
+    </div>
+
+    <div class="card df">
+      <div class="card-header">
+        <span class="card-no">25</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/ar.png" alt="Argentina">
+        <span class="card-name">Walter Samuel</span>
+        <span class="card-pos df">CB</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 32</span>
+        <span class="sep">·</span>
+        <span>from Real Madrid (ESP)</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">28</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">3</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">Arrived from Real Madrid (ESP) in 2005. The Argentine international was the ultimate defensive rock. Nicknamed "Il Muro", his aggressive marking, aerial power, and unmatched reading of the game shone in his 28 league outings, including a dramatic late winner against Siena to keep the title race alive.</div>
+    </div>
+
+    <div class="card df">
+      <div class="card-header">
+        <span class="card-no">26</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/ro.png" alt="Romania">
+        <span class="card-name">Cristian Chivu</span>
+        <span class="card-pos df">LSB</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 29</span>
+        <span class="sep">·</span>
+        <span>from Roma</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">20</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">1</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">2</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">Joined from Roma in 2007. The Romanian international overcame a horrific, life-threatening skull fracture midway through this season to return in protective headgear. Versatile at CB or LSB, his sweet left foot and tactical intelligence provided crucial balance during the treble-winning run.</div>
+    </div>
+
+    <div class="card df">
+      <div class="card-header">
+        <span class="card-no">02</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/co.png" alt="Colombia">
+        <span class="card-name">Iván Córdoba</span>
+        <span class="card-pos df">CB</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 33</span>
+        <span class="sep">·</span>
+        <span>from San Lorenzo (ARG)</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">21</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">Signed from San Lorenzo (ARG) in 2000. The rapid Colombian international vice-captain featured 21 times in Serie A this season. Despite losing his undisputed starting spot to Lúcio, his phenomenal leaping ability, recovery pace, and unwavering leadership proved vital during dense fixture lists.</div>
+    </div>
+
+    <div class="card df">
+      <div class="card-header">
+        <span class="card-no">23</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/it.png" alt="Italy">
+        <span class="card-name">Marco Materazzi</span>
+        <span class="card-pos df">CB</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 36</span>
+        <span class="sep">·</span>
+        <span>from Perugia</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">12</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">Arrived from Perugia in 2001. The iconic Italy international and 2006 World Cup winner was a sporadic rotational option this year, playing 12 league games. Renowned for his aggressive tackling, aerial threat, and fierce loyalty, his immense passion fueled the team's relentless winning mentality.</div>
+    </div>
+
+    <div class="card df">
+      <div class="card-header">
+        <span class="card-no">39</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/it.png" alt="Italy">
+        <span class="card-name">Davide Santon</span>
+        <span class="card-pos df">LSB</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 19</span>
+        <span class="sep">·</span>
+        <span>from Inter youth</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">12</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">Promoted from the youth ranks in 2008. The Italian international fullback struggled with injuries this season, limiting him to 12 league appearances. Naturally right-footed but capable at LSB, he combined solid pace with defensive maturity, serving as a promising young talent in a veteran squad.</div>
+    </div>
+
+  </div>
+
+  <!-- ============ Midfielders ============ -->
+  <div class="pos-heading mf">
+    <span class="bar"></span>
+    <span class="title">Midfielders</span>
+    <span class="count">08</span>
+  </div>
+  <div class="card-grid">
+
+    <div class="card mf">
+      <div class="card-header">
+        <span class="card-no">19</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/ar.png" alt="Argentina">
+        <span class="card-name">Esteban Cambiasso</span>
+        <span class="card-pos mf">DM</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 29</span>
+        <span class="sep">·</span>
+        <span>from Real Madrid (ESP)</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">30</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">3</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">2</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">Joined from Real Madrid (ESP) in 2004. The Argentine international was the ultimate tactical anchor, contributing 3 goals in 30 league games. Operating at DM, his brilliant reading of the game, passing rhythm, and tireless interceptions allowed the attacking talents to flourish all season long.</div>
+    </div>
+
+    <div class="card mf">
+      <div class="card-header">
+        <span class="card-no">05</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/rs.png" alt="Serbia">
+        <span class="card-name">Dejan Stanković</span>
+        <span class="card-pos mf">CM</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 31</span>
+        <span class="sep">·</span>
+        <span>from Lazio</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">29</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">3</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">4</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">Arrived from Lazio in 2004. The Serbian international captain was crucial this season, scoring memorable long-range volleys among his 3 goals in 29 league apps. Deployed as a CM or AM, his ferocious shooting, work rate, and fiery determination were central to Mourinho’s tactical masterplans.</div>
+    </div>
+
+    <div class="card mf">
+      <div class="card-header">
+        <span class="card-no">08</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/it.png" alt="Italy">
+        <span class="card-name">Thiago Motta</span>
+        <span class="card-pos mf">CM</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 27</span>
+        <span class="sep">·</span>
+        <span>from Genoa</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">26</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">4</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">3</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">Signed from Genoa in 2009. The Italian international seamlessly adapted to the midfield, scoring 4 goals in 26 league matches. Operating as a CM or DM, his elegant ball distribution, physical presence, and tactical discipline were crucial in transitioning defense into potent counterattacks.</div>
+    </div>
+
+    <div class="card mf">
+      <div class="card-header">
+        <span class="card-no">10</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/nl.png" alt="Netherlands">
+        <span class="card-name">Wesley Sneijder</span>
+        <span class="card-pos mf">AM</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 25</span>
+        <span class="sep">·</span>
+        <span>from Real Madrid (ESP)</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">26</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">4</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">6</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">Joined from Real Madrid (ESP) in 2009. The Dutch international was the missing creative puzzle piece. In 26 league apps, he tallied 4 goals and 6 assists. Operating at AM, his elite vision, deadly set-pieces, and two-footed brilliance single-handedly unlocked defenses throughout the historic treble.</div>
+    </div>
+
+    <div class="card mf">
+      <div class="card-header">
+        <span class="card-no">11</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/gh.png" alt="Ghana">
+        <span class="card-name">Sulley Muntari</span>
+        <span class="card-pos mf">CM</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 25</span>
+        <span class="sep">·</span>
+        <span>from Portsmouth (ENG)</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">27</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">2</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">2</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">Signed from Portsmouth (ENG) in 2008. The Ghanaian international offered immense physical presence, playing 27 league matches. Operating primarily as a CM, his aggressive pressing, powerful tackling, and endless engine provided necessary grit to close out tight, physically demanding fixtures.</div>
+    </div>
+
+    <div class="card mf">
+      <div class="card-header">
+        <span class="card-no">17</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/ke.png" alt="Kenya">
+        <span class="card-name">McDonald Mariga</span>
+        <span class="card-pos mf">CM</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 23</span>
+        <span class="sep">·</span>
+        <span>from Parma</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">8</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">1</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">Arrived mid-season in Jan 2010 from Parma. The first Kenyan international to play in the Champions League, he featured 8 times in Serie A. Operating as a CM, his sheer athleticism, powerful running, and ball-winning capabilities offered valuable midfield rotation during the intense spring schedule.</div>
+    </div>
+
+    <div class="card mf">
+      <div class="card-header">
+        <span class="card-no">15</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/si.png" alt="Slovenia">
+        <span class="card-name">René Krhin</span>
+        <span class="card-pos mf">DM</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 20</span>
+        <span class="sep">·</span>
+        <span>from Inter youth</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">5</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">Promoted from Inter's youth system in 2009. The Slovenian international made 5 Serie A appearances in his debut senior season. A tall, elegant DM with excellent passing range and composure, he showed glimpses of his immense potential while learning from world-class midfielders in training.</div>
+    </div>
+
+    <div class="card mf">
+      <div class="card-header">
+        <span class="card-no">14</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/fr.png" alt="France">
+        <span class="card-name">Patrick Vieira</span>
+        <span class="card-pos mf">DM</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 33</span>
+        <span class="sep">·</span>
+        <span>from Juventus</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">12</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">1</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">1</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">Joined from Juventus in 2006. The legendary French international played 12 league matches, scoring once, before departing for Man City in January 2010. Operating as a DM, his towering presence, ball-winning skills, and massive experience helped set the tone in the first half of the season.</div>
+    </div>
+
+  </div>
+
+  <!-- ============ Forwards ============ -->
+  <div class="pos-heading fw">
+    <span class="bar"></span>
+    <span class="title">Forwards</span>
+    <span class="count">08</span>
+  </div>
+  <div class="card-grid">
+
+    <div class="card fw">
+      <div class="card-header">
+        <span class="card-no">07</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/pt.png" alt="Portugal">
+        <span class="card-name">Ricardo Quaresma</span>
+        <span class="card-pos fw">RW</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 26</span>
+        <span class="sep">·</span>
+        <span>from Porto (POR)</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">11</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">Returned from a Chelsea loan, originally joining from Porto (POR) in 2008. The Portuguese international featured in 11 league matches. A highly technical RW known for his trademark "Trivela", he struggled for consistency but offered flashy dribbling and unpredictability off the bench.</div>
+    </div>
+
+    <div class="card fw">
+      <div class="card-header">
+        <span class="card-no">22</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/ar.png" alt="Argentina">
+        <span class="card-name">Diego Milito</span>
+        <span class="card-pos fw">CF</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 30</span>
+        <span class="sep">·</span>
+        <span>from Genoa</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">35</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">22</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">4</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">Joined from Genoa in 2009. The Argentine international enjoyed a legendary debut season, scoring 22 league goals. An elite CF, "El Príncipe" displayed lethal finishing, brilliant movement, and scored the decisive goals in all three competitions to secure the historic treble for Inter.</div>
+    </div>
+
+    <div class="card fw">
+      <div class="card-header">
+        <span class="card-no">09</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/cm.png" alt="Cameroon">
+        <span class="card-name">Samuel Eto'o</span>
+        <span class="card-pos fw">LW</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 29</span>
+        <span class="sep">·</span>
+        <span>from Barcelona (ESP)</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">32</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">12</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">5</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">Arriving from Barcelona (ESP) in 2009, the Cameroonian international scored 12 league goals in 32 matches. Sacrificing his usual CF role for the team, he played tirelessly at LW. His clinical finishing, blistering pace, and extraordinary defensive work rate were vital to Mourinho’s tactical setup.</div>
+    </div>
+
+    <div class="card fw">
+      <div class="card-header">
+        <span class="card-no">27</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/mk.png" alt="North Macedonia">
+        <span class="card-name">Goran Pandev</span>
+        <span class="card-pos fw">SS</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 26</span>
+        <span class="sep">·</span>
+        <span>from Lazio</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">19</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">3</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">5</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">Signed on a free transfer in January 2010 from Lazio. The North Macedonian international had an immediate impact, registering 3 goals and 5 assists in 19 league apps. Deployed at RW or SS, his clever link-up play, dribbling, and immense work rate balanced the front line perfectly.</div>
+    </div>
+
+    <div class="card fw">
+      <div class="card-header">
+        <span class="card-no">45</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/it.png" alt="Italy">
+        <span class="card-name">Mario Balotelli</span>
+        <span class="card-pos fw">LW</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 19</span>
+        <span class="sep">·</span>
+        <span>from Inter youth</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">26</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">9</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">5</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">An Inter youth product debuting in 2007. The Italian international scored 9 league goals in 26 appearances this season. Capable of playing anywhere across the front line, his raw power, blistering pace, and lethal shot made him a massive threat, despite occasional disciplinary controversies.</div>
+    </div>
+
+    <div class="card fw">
+      <div class="card-header">
+        <span class="card-no">89</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/at.png" alt="Austria">
+        <span class="card-name">Marko Arnautović</span>
+        <span class="card-pos fw">CF</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 21</span>
+        <span class="sep">·</span>
+        <span>from Twente (NED)</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">3</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">Joined on loan from Twente (NED) in 2009. The Austrian international struggled with injuries and Mourinho’s demands, making just 3 league appearances. A physically imposing CF with great technique and flair, he mostly served as a colorful, energetic squad character during the treble run.</div>
+    </div>
+
+    <div class="card fw">
+      <div class="card-header">
+        <span class="card-no">30</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/br.png" alt="Brazil">
+        <span class="card-name">Amantino Mancini</span>
+        <span class="card-pos fw">RW</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 29</span>
+        <span class="sep">·</span>
+        <span>from Roma</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">6</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">Arrived from Roma in 2008. The Brazilian international made only 6 league appearances before moving on loan to Milan in January. An explosive RW known for his stepovers and trickery, he found himself marginalized in Mourinho’s system, unable to replicate his dazzling past form.</div>
+    </div>
+
+    <div class="card fw">
+      <div class="card-header">
+        <span class="card-no">18</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/hn.png" alt="Honduras">
+        <span class="card-name">David Suazo</span>
+        <span class="card-pos fw">CF</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 30</span>
+        <span class="sep">·</span>
+        <span>from Cagliari</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">1</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">Signed from Cagliari in 2007. The Honduran international managed just 1 league appearance this season before moving to Genoa on loan in January 2010. A lightning-fast CF who thrived on counter-attacks, his opportunities were drastically limited by the arrivals of Milito and Eto'o.</div>
+    </div>
+
+  </div>
+
+</section>
+
+<!-- =========================================== -->
+<!-- 2. Tactics -->
+<!-- =========================================== -->
+<section>
+  <div class="section-num">03 / TACTICS</div>
+  <h2>Tactics</h2>
+
+  <p>Tactically, José Mourinho transformed Inter into a formidable 4-2-3-1 machine, moving away from the previous 4-3-1-2 diamond. The defensive foundation was built on an impenetrable center-back pairing of Lúcio and Walter Samuel, flanked by the relentless Maicon on the right and Javier Zanetti or Cristian Chivu on the left. In midfield, Esteban Cambiasso anchored the side, intercepting play and initiating transitions, usually partnered by the physical and composed Thiago Motta.</p>
+
+  <p>The true tactical revolution happened in the attacking third. Wesley Sneijder operated as the ultimate number 10, utilizing his elite vision and two-footed distribution to unlock defenses on the counter. The wide roles demanded immense sacrifice; Samuel Eto'o, a natural striker, famously reinvented himself as a hard-working left-winger, while Goran Pandev provided balance on the right. Up front, Diego Milito was the flawless focal point, offering exceptional hold-up play, clever movement, and lethal finishing. Inter was characterized by its low-block resilience, unmatched psychological fortitude, and lightning-fast transitions.</p>
+</section>
+
+<footer>
+  INTER MILAN · 2009—10 · SEASON REPORT
+</footer>
+
+</div>
+</body>
+</html>

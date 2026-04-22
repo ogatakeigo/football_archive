@@ -1,0 +1,1331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FC Barcelona 2005-06 Season Report</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --fg: #1a1a1a;
+    --muted: #6b6b6b;
+    --muted-2: #8a8a8a;
+    --border: #e0e0e0;
+    --border-light: #eeeeee;
+    --surface: #fafafa;
+    --surface-2: #f5f5f5;
+
+    /* Position colors */
+    --gk: #d97706;
+    --gk-bg: #fef3c7;
+    --df: #2563eb;
+    --df-bg: #dbeafe;
+    --mf: #16a34a;
+    --mf-bg: #dcfce7;
+    --fw: #dc2626;
+    --fw-bg: #fee2e2;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Hiragino Sans", "Yu Gothic", sans-serif;
+    font-size: 14px;
+    line-height: 1.65;
+    color: var(--fg);
+    background: var(--bg);
+    margin: 0;
+    padding: 48px 20px;
+  }
+
+  .container {
+    max-width: 1080px;
+    margin: 0 auto;
+  }
+
+  /* =========================== */
+  /* Header                      */
+  /* =========================== */
+  header { margin-bottom: 32px; padding-bottom: 24px; border-bottom: 1px solid var(--border); }
+  .logo { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; text-decoration: none; color: var(--fg); cursor: pointer; width: fit-content; }
+  .logo-mark { width: 44px; height: 44px; border: 2px solid var(--fg); position: relative; flex-shrink: 0; display: flex; align-items: center; justify-content: center; background: var(--fg); color: #fff; }
+  .logo-mark::before { content: ""; position: absolute; top: 50%; left: 0; right: 0; height: 2px; background: #fff; transform: translateY(-50%); }
+  .logo-mark::after { content: ""; position: absolute; top: 0; bottom: 0; left: 50%; width: 2px; background: #fff; transform: translateX(-50%); }
+  .logo-mark span { position: relative; z-index: 1; font-family: "SF Mono", Menlo, Consolas, monospace; font-size: 18px; font-weight: 800; letter-spacing: -1px; background: var(--fg); padding: 0 2px; line-height: 1; }
+  .logo-text { display: flex; flex-direction: column; line-height: 1; }
+  .logo-text .word1 { font-size: 11px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+  .logo-text .word2 { font-size: 26px; font-weight: 800; letter-spacing: -0.5px; line-height: 1; }
+
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--muted); margin-bottom: 24px; flex-wrap: wrap; }
+  .breadcrumb a { color: var(--muted); text-decoration: none; cursor: pointer; padding: 4px 8px; border: 1px solid var(--border); background: var(--surface); transition: all 0.15s; display: inline-flex; align-items: center; gap: 6px; }
+  .breadcrumb a:hover { background: var(--hover, #f0f0f0); color: var(--fg); }
+  .breadcrumb .sep { color: var(--border); font-family: "SF Mono", Menlo, Consolas, monospace; }
+  .breadcrumb .current { padding: 4px 8px; color: var(--fg); font-weight: 600; display: inline-flex; align-items: center; gap: 6px; }
+  .breadcrumb .flag { width: 16px; height: 12px; border: 1px solid var(--border-light); object-fit: cover; }
+
+  .eyebrow {
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  h1 {
+    font-size: 28px;
+    font-weight: 700;
+    margin: 0 0 6px 0;
+    letter-spacing: -0.2px;
+  }
+
+  .subtitle {
+    font-size: 13px;
+    color: var(--muted);
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+
+  .subtitle span + span::before {
+    content: "/";
+    margin-right: 14px;
+    color: var(--border);
+  }
+
+  /* =========================== */
+  /* Section heading             */
+  /* =========================== */
+  section {
+    margin-top: 56px;
+  }
+
+  .section-num {
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 2px;
+    margin-bottom: 6px;
+  }
+
+  h2 {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0 0 20px 0;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--fg);
+    letter-spacing: -0.1px;
+  }
+
+  p {
+    margin: 0 0 14px 0;
+    text-align: justify;
+  }
+
+  /* =========================== */
+  /* Stat strip                  */
+  /* =========================== */
+  .stat-strip {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-bottom: 24px;
+  }
+
+  .stat-cell {
+    background: var(--bg);
+    padding: 14px 12px;
+    text-align: center;
+  }
+
+  .stat-cell .label {
+    font-size: 10px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+
+  .stat-cell .value {
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.1;
+  }
+
+  .stat-cell .sub {
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  /* Competition strip */
+  .comp-strip {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+
+  .comp-cell {
+    border: 1px solid var(--border);
+    padding: 12px 14px;
+    background: var(--bg);
+  }
+
+  .comp-cell .label {
+    font-size: 10px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+
+  .comp-cell .value {
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  /* =========================== */
+  /* Formation                   */
+  /* =========================== */
+  .formation {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 28px 16px 20px;
+    margin-top: 16px;
+  }
+
+  .pitch {
+    position: relative;
+    width: 100%;
+    max-width: 520px;
+    margin: 0 auto;
+    aspect-ratio: 2 / 3;
+    background: linear-gradient(to bottom, #ffffff 0%, #fcfcfc 100%);
+    border: 1px solid var(--border);
+  }
+
+  .pitch::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .pitch::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100px;
+    height: 100px;
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .player-dot {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    width: 94px;
+  }
+
+  .player-dot .circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin: 0 auto 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    color: #ffffff;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+  }
+
+  .player-dot .circle.gk { background: var(--gk); }
+  .player-dot .circle.df { background: var(--df); }
+  .player-dot .circle.mf { background: var(--mf); }
+  .player-dot .circle.fw { background: var(--fw); }
+
+  .player-dot .name {
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1.2;
+  }
+
+  .player-dot .pos {
+    font-size: 9px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 1px;
+  }
+
+  .formation-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 16px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .formation-label {
+    font-size: 11px;
+    color: var(--muted);
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    letter-spacing: 1px;
+  }
+
+  .legend {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  .legend-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .legend-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+  }
+  .legend-dot.gk { background: var(--gk); }
+  .legend-dot.df { background: var(--df); }
+  .legend-dot.mf { background: var(--mf); }
+  .legend-dot.fw { background: var(--fw); }
+
+  /* =========================== */
+  /* Position group heading      */
+  /* =========================== */
+  .pos-heading {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 32px 0 14px 0;
+    padding-bottom: 8px;
+    border-bottom: 1px dashed var(--border);
+  }
+
+  .pos-heading .bar {
+    width: 4px;
+    height: 18px;
+    border-radius: 2px;
+  }
+  .pos-heading.gk .bar { background: var(--gk); }
+  .pos-heading.df .bar { background: var(--df); }
+  .pos-heading.mf .bar { background: var(--mf); }
+  .pos-heading.fw .bar { background: var(--fw); }
+
+  .pos-heading .title {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+  }
+
+  .pos-heading .count {
+    font-size: 11px;
+    color: var(--muted);
+    font-weight: 400;
+    letter-spacing: 0.5px;
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    margin-left: auto;
+  }
+
+  /* =========================== */
+  /* Player cards                */
+  /* =========================== */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+    gap: 12px;
+  }
+
+  .card {
+    border: 1px solid var(--border);
+    border-top: 3px solid transparent;
+    background: var(--bg);
+    padding: 14px 16px 16px;
+    display: flex;
+    flex-direction: column;
+    transition: border-color 0.15s;
+  }
+
+  .card.gk { border-top-color: var(--gk); }
+  .card.df { border-top-color: var(--df); }
+  .card.mf { border-top-color: var(--mf); }
+  .card.fw { border-top-color: var(--fw); }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 4px;
+  }
+
+  .card-no {
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    font-size: 11px;
+    color: var(--muted);
+    font-weight: 600;
+    min-width: 28px;
+  }
+
+  .card-flag {
+    width: 20px;
+    height: 15px;
+    border: 1px solid var(--border-light);
+    flex-shrink: 0;
+    object-fit: cover;
+    display: block;
+  }
+
+  .card-name {
+    font-size: 15px;
+    font-weight: 600;
+    flex: 1;
+    letter-spacing: -0.1px;
+  }
+
+  .card-pos {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 3px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+  }
+
+  .card-pos.gk { background: var(--gk-bg); color: var(--gk); }
+  .card-pos.df { background: var(--df-bg); color: var(--df); }
+  .card-pos.mf { background: var(--mf-bg); color: var(--mf); }
+  .card-pos.fw { background: var(--fw-bg); color: var(--fw); }
+
+  .card-meta {
+    font-size: 11px;
+    color: var(--muted-2);
+    margin-bottom: 12px;
+    margin-left: 38px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .card-age {
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    font-size: 10px;
+  }
+
+  .card-meta .sep {
+    color: var(--border);
+  }
+
+  .card-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    padding: 10px 0;
+    margin-bottom: 12px;
+    border-top: 1px solid var(--border-light);
+    border-bottom: 1px solid var(--border-light);
+    background: var(--surface);
+    margin-left: -16px;
+    margin-right: -16px;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .stat {
+    text-align: center;
+    border-right: 1px solid var(--border-light);
+  }
+  .stat:last-child { border-right: none; }
+
+  .stat-value {
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.1;
+  }
+
+  .stat-label {
+    font-size: 9px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    margin-top: 3px;
+  }
+
+  .card-desc {
+    font-size: 12px;
+    color: #2a2a2a;
+    line-height: 1.6;
+    flex: 1;
+  }
+
+  .note {
+    font-size: 12px;
+    color: var(--muted);
+    font-style: italic;
+    margin-bottom: 20px;
+  }
+
+  footer {
+    margin-top: 64px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    font-size: 11px;
+    color: var(--muted);
+    text-align: center;
+    letter-spacing: 0.5px;
+  }
+
+  @media (max-width: 720px) {
+    body { padding: 24px 12px; font-size: 13px; }
+    h1 { font-size: 22px; }
+    .logo-mark { width: 38px; height: 38px; }
+    .logo-mark span { font-size: 15px; }
+    .logo-text .word2 { font-size: 22px; }
+    .stat-strip { grid-template-columns: repeat(3, 1fr); }
+    .comp-strip { grid-template-columns: repeat(2, 1fr); }
+    .player-dot { width: 76px; }
+    .player-dot .circle { width: 32px; height: 32px; font-size: 11px; }
+    .player-dot .name { font-size: 10px; }
+    .card-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <a class="logo" href="index.html">
+    <div class="logo-mark"><span>FA</span></div>
+    <div class="logo-text">
+      <div class="word1">Football</div>
+      <div class="word2">Archive</div>
+    </div>
+  </a>
+  <nav class="breadcrumb">
+    <a href="index.html">⌂ Home</a>
+    <span class="sep">/</span>
+    <a href="index.html?league=la-liga"><img class="flag" src="https://flagcdn.com/w40/es.png" alt="">La Liga</a>
+    <span class="sep">/</span>
+    <a href="index.html?league=la-liga&team=barcelona"><img class="flag" src="https://flagcdn.com/w40/es.png" alt="">FC Barcelona</a>
+    <span class="sep">/</span>
+    <span class="current">2005–06</span>
+  </nav>
+  <div class="eyebrow">Season Report</div>
+  <h1>FC Barcelona</h1>
+  <div class="subtitle">
+    <span>2005–06</span>
+    <span>La Liga</span>
+    <span>Manager: Frank Rijkaard</span>
+  </div>
+</header>
+
+<!-- =========================================== -->
+<!-- 0. Season Overview -->
+<!-- =========================================== -->
+<section>
+  <div class="section-num">00 / OVERVIEW</div>
+  <h2>Season Overview</h2>
+
+  <!-- Stat strip -->
+  <div class="stat-strip">
+    <div class="stat-cell">
+      <div class="label">Position</div>
+      <div class="value">1<span style="font-size: 12px; vertical-align: super;">st</span></div>
+      <div class="sub">La Liga</div>
+    </div>
+    <div class="stat-cell">
+      <div class="label">Points</div>
+      <div class="value">82</div>
+      <div class="sub">38 matches</div>
+    </div>
+    <div class="stat-cell">
+      <div class="label">W – D – L</div>
+      <div class="value">25·7·6</div>
+      <div class="sub">66% win rate</div>
+    </div>
+    <div class="stat-cell">
+      <div class="label">Goals</div>
+      <div class="value">80</div>
+      <div class="sub">scored</div>
+    </div>
+    <div class="stat-cell">
+      <div class="label">Conceded</div>
+      <div class="value">35</div>
+      <div class="sub">0.92 / match</div>
+    </div>
+    <div class="stat-cell">
+      <div class="label">GD</div>
+      <div class="value">+45</div>
+      <div class="sub">goal diff</div>
+    </div>
+  </div>
+
+  <!-- Competition strip -->
+  <div class="comp-strip">
+    <div class="comp-cell">
+      <div class="label">Copa del Rey</div>
+      <div class="value">Quarter-finals</div>
+    </div>
+    <div class="comp-cell">
+      <div class="label">Supercopa de España</div>
+      <div class="value">Winners</div>
+    </div>
+    <div class="comp-cell">
+      <div class="label">UEFA Champions League</div>
+      <div class="value">Winners</div>
+    </div>
+    <div class="comp-cell">
+      <div class="label">Top Scorer</div>
+      <div class="value">S. Eto'o · 26G</div>
+    </div>
+  </div>
+
+  <p>FC Barcelona's 2005-06 season was a spectacular triumph that cemented Frank Rijkaard's side as one of the most exciting teams in European history. Building on the previous season's league title, Barça reached new heights through an intoxicating brand of attacking football. Ronaldinho was at the peak of his powers, winning the Ballon d'Or and famously receiving a standing ovation from Real Madrid supporters at the Santiago Bernabéu. With Samuel Eto'o providing relentless pressing and a Pichichi-winning 26 league goals, and the sensational emergence of a teenage Lionel Messi, Barcelona's frontline was virtually unplayable. Despite a serious mid-season knee injury to midfield maestro Xavi, the team didn't miss a beat as Andrés Iniesta stepped up brilliantly alongside the tireless Deco and Mark van Bommel.</p>
+
+  <p>In La Liga, Barcelona secured the title comfortably, accumulating 82 points and scoring 80 goals. However, their ultimate crowning achievement came in Europe. After navigating past Chelsea, Benfica, and AC Milan in the knockout stages, they faced Arsenal in the Champions League final in Paris. Despite falling behind to a Sol Campbell header, Rijkaard's brilliant substitutions—bringing on Henrik Larsson and Juliano Belletti—turned the game around. Eto'o equalized, and Belletti struck the winner to secure Barcelona's second-ever European Cup. It was a season of profound joy, defining a golden era of football built on flair, possession, and joy, setting the cultural and tactical foundation for the club's modern identity.</p>
+</section>
+
+<!-- =========================================== -->
+<!-- Formation -->
+<!-- =========================================== -->
+<section>
+  <div class="section-num">01 / FORMATION</div>
+  <h2>Starting XI</h2>
+
+  <div class="formation">
+    <div class="pitch">
+      <!-- GK -->
+      <div class="player-dot" style="top: 92%; left: 50%;">
+        <div class="circle gk">1</div>
+        <div class="name">Valdés</div>
+        <div class="pos">GK</div>
+      </div>
+
+      <!-- Back 4 -->
+      <div class="player-dot" style="top: 73%; left: 15%;">
+        <div class="circle df">12</div>
+        <div class="name">Van Bronckhorst</div>
+        <div class="pos">LSB</div>
+      </div>
+      <div class="player-dot" style="top: 75%; left: 38%;">
+        <div class="circle df">4</div>
+        <div class="name">Márquez</div>
+        <div class="pos">CB</div>
+      </div>
+      <div class="player-dot" style="top: 75%; left: 62%;">
+        <div class="circle df">5</div>
+        <div class="name">Puyol</div>
+        <div class="pos">CB</div>
+      </div>
+      <div class="player-dot" style="top: 73%; left: 85%;">
+        <div class="circle df">23</div>
+        <div class="name">Oleguer</div>
+        <div class="pos">RSB</div>
+      </div>
+
+      <!-- Midfield 3 -->
+      <div class="player-dot" style="top: 52%; left: 50%;">
+        <div class="circle mf">15</div>
+        <div class="name">Edmílson</div>
+        <div class="pos">DM</div>
+      </div>
+      <div class="player-dot" style="top: 42%; left: 28%;">
+        <div class="circle mf">6</div>
+        <div class="name">Xavi</div>
+        <div class="pos">CM</div>
+      </div>
+      <div class="player-dot" style="top: 42%; left: 72%;">
+        <div class="circle mf">20</div>
+        <div class="name">Deco</div>
+        <div class="pos">CM</div>
+      </div>
+
+      <!-- Front 3 -->
+      <div class="player-dot" style="top: 18%; left: 15%;">
+        <div class="circle fw">10</div>
+        <div class="name">Ronaldinho</div>
+        <div class="pos">LW</div>
+      </div>
+      <div class="player-dot" style="top: 12%; left: 50%;">
+        <div class="circle fw">9</div>
+        <div class="name">Eto'o</div>
+        <div class="pos">CF</div>
+      </div>
+      <div class="player-dot" style="top: 18%; left: 85%;">
+        <div class="circle fw">8</div>
+        <div class="name">Giuly</div>
+        <div class="pos">RW</div>
+      </div>
+    </div>
+
+    <div class="formation-footer">
+      <div class="formation-label">4-3-3 / ATTACKING</div>
+      <div class="legend">
+        <span class="legend-item"><span class="legend-dot gk"></span>GK</span>
+        <span class="legend-item"><span class="legend-dot df"></span>DF</span>
+        <span class="legend-item"><span class="legend-dot mf"></span>MF</span>
+        <span class="legend-item"><span class="legend-dot fw"></span>FW</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================== -->
+<!-- 1. Full Squad -->
+<!-- =========================================== -->
+<section>
+  <div class="section-num">02 / SQUAD</div>
+  <h2>Full Squad</h2>
+  <p class="note">Based on the official squad information for the 2005-06 season. Appearances, goals, and assists refer to 2005-06 La Liga matches only. Ages shown as of the end of the season.</p>
+
+  <!-- ============ Goalkeepers ============ -->
+  <div class="pos-heading gk">
+    <span class="bar"></span>
+    <span class="title">Goalkeepers</span>
+    <span class="count">03</span>
+  </div>
+  <div class="card-grid">
+
+    <div class="card gk">
+      <div class="card-header">
+        <span class="card-no">01</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/es.png" alt="Spain">
+        <span class="card-name">Víctor Valdés</span>
+        <span class="card-pos gk">GK</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 24</span>
+        <span class="sep">·</span>
+        <span>from Barcelona youth</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">35</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">The undisputed first-choice goalkeeper for Frank Rijkaard. Known for his exceptional reflexes, one-on-one ability, and crucial comfort with the ball at his feet to build from the back. He was decisive in the Champions League final against Arsenal, cementing his status as a top-tier keeper for years.</div>
+    </div>
+
+    <div class="card gk">
+      <div class="card-header">
+        <span class="card-no">25</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/es.png" alt="Spain">
+        <span class="card-name">Albert Jorquera</span>
+        <span class="card-pos gk">GK</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 27</span>
+        <span class="sep">·</span>
+        <span>from Barcelona youth</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">3</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">A reliable backup goalkeeper who stepped in for domestic cup matches and minor league fixtures. An academy graduate, he understood the club's philosophy perfectly and provided solid cover whenever Valdés needed rest, always maintaining a highly professional attitude within the dressing room.</div>
+    </div>
+
+    <div class="card gk">
+      <div class="card-header">
+        <span class="card-no">28</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/es.png" alt="Spain">
+        <span class="card-name">Rubén Martínez</span>
+        <span class="card-pos gk">GK</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 21</span>
+        <span class="sep">·</span>
+        <span>from Barcelona youth</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">1</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">A young academy goalkeeper who made his La Liga debut this season due to a late red card for Valdés. He served primarily as the third-choice option behind the experienced duo but gained valuable first-team experience and training under Rijkaard.</div>
+    </div>
+
+  </div>
+
+  <!-- ============ Defenders ============ -->
+  <div class="pos-heading df">
+    <span class="bar"></span>
+    <span class="title">Defenders</span>
+    <span class="count">08</span>
+  </div>
+  <div class="card-grid">
+
+    <div class="card df">
+      <div class="card-header">
+        <span class="card-no">02</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/br.png" alt="Brazil">
+        <span class="card-name">Juliano Belletti</span>
+        <span class="card-pos df">RSB</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 29</span>
+        <span class="sep">·</span>
+        <span>from Villarreal</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">27</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">2</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">An attacking right-back who provided constant overlapping runs down the flank. Though he shared minutes with Oleguer, he etched his name into Barcelona history forever by scoring the winning goal in the Champions League final in Paris with a powerful low strike.</div>
+    </div>
+
+    <div class="card df">
+      <div class="card-header">
+        <span class="card-no">04</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/mx.png" alt="Mexico">
+        <span class="card-name">Rafael Márquez</span>
+        <span class="card-pos df">CB</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 27</span>
+        <span class="sep">·</span>
+        <span>from Monaco (FRA)</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">25</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">1</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">An elegant, ball-playing centre-back who was fundamental to the team's build-up. The Mexican international read the game brilliantly and could also step up into a holding midfield role. His long diagonal passes to the wingers were a major attacking weapon for the side.</div>
+    </div>
+
+    <div class="card df">
+      <div class="card-header">
+        <span class="card-no">05</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/es.png" alt="Spain">
+        <span class="card-name">Carles Puyol</span>
+        <span class="card-pos df">CB</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 28</span>
+        <span class="sep">·</span>
+        <span>from Barcelona youth</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">35</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">1</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">The captain and the ultimate defensive warrior. Known for his incredible work rate, aerial prowess despite his height, and unmatched leadership. He was the heart of the backline, covering tirelessly for his more attacking teammates and leading by fierce example.</div>
+    </div>
+
+    <div class="card df">
+      <div class="card-header">
+        <span class="card-no">12</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/nl.png" alt="Netherlands">
+        <span class="card-name">Gio van Bronckhorst</span>
+        <span class="card-pos df">LSB</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 31</span>
+        <span class="sep">·</span>
+        <span>from Arsenal (ENG)</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">19</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">1</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">A converted midfielder who thrived as an attacking left-back. The Dutch international provided width, delivered excellent crosses, and linked up smoothly with Ronaldinho on the left flank. His tactical intelligence made him a crucial starter in the biggest matches.</div>
+    </div>
+
+    <div class="card df">
+      <div class="card-header">
+        <span class="card-no">16</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/br.png" alt="Brazil">
+        <span class="card-name">Sylvinho</span>
+        <span class="card-pos df">LSB</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 32</span>
+        <span class="sep">·</span>
+        <span>from Celta Vigo</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">26</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">2</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">2</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">An experienced Brazilian left-back who provided strong competition for Van Bronckhorst. Blessed with a fantastic left foot, pace, and attacking intent, he was a highly reliable rotation option who performed admirably whenever called upon to stretch the opposition.</div>
+    </div>
+
+    <div class="card df">
+      <div class="card-header">
+        <span class="card-no">23</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/es.png" alt="Spain">
+        <span class="card-name">Oleguer</span>
+        <span class="card-pos df">RSB</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 26</span>
+        <span class="sep">·</span>
+        <span>from Barcelona youth</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">33</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">A local academy product who frequently started at right-back to balance the attacking nature of the left flank, or filled in at centre-back. His defensive discipline and positional awareness made him a trusted, unflashy but highly practical piece of Rijkaard's puzzle.</div>
+    </div>
+
+    <div class="card df">
+      <div class="card-header">
+        <span class="card-no">32</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/es.png" alt="Spain">
+        <span class="card-name">Rodri</span>
+        <span class="card-pos df">CB</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 21</span>
+        <span class="sep">·</span>
+        <span>from Barcelona youth</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">4</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">A promising young centre-back from the youth setup who made a handful of appearances when the first team suffered injuries. He offered strong tackling and decent distribution, gaining valuable minutes in the top flight and providing necessary depth for the squad.</div>
+    </div>
+
+    <div class="card df">
+      <div class="card-header">
+        <span class="card-no">33</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/es.png" alt="Spain">
+        <span class="card-name">Jesús Olmo</span>
+        <span class="card-pos df">CB</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 21</span>
+        <span class="sep">·</span>
+        <span>from Barcelona youth</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">1</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">Another La Masia defensive prospect who was given a brief taste of first-team action. Though his playing time was extremely limited, his call-up demonstrated the club's commitment to integrating youth into the senior squad and rewarding strong B-team performances.</div>
+    </div>
+
+  </div>
+
+  <!-- ============ Midfielders ============ -->
+  <div class="pos-heading mf">
+    <span class="bar"></span>
+    <span class="title">Midfielders</span>
+    <span class="count">09</span>
+  </div>
+  <div class="card-grid">
+
+    <div class="card mf">
+      <div class="card-header">
+        <span class="card-no">03</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/br.png" alt="Brazil">
+        <span class="card-name">Thiago Motta</span>
+        <span class="card-pos mf">DM</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 23</span>
+        <span class="sep">·</span>
+        <span>from Barcelona youth</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">15</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">1</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">1</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">A physically imposing and technically gifted defensive midfielder. When fit, the Brazilian-born engine provided crucial steel and ball retention in the center of the park. However, his season was once again disrupted by lingering injury issues that limited his consistency.</div>
+    </div>
+
+    <div class="card mf">
+      <div class="card-header">
+        <span class="card-no">06</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/es.png" alt="Spain">
+        <span class="card-name">Xavi</span>
+        <span class="card-pos mf">CM</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 26</span>
+        <span class="sep">·</span>
+        <span>from Barcelona youth</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">16</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">2</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">The heartbeat of Barcelona's midfield and the ultimate pass master. He set the tempo and dictated play until a severe knee injury in December ruled him out for months. His vision and ball retention were world-class, defining the club's possession philosophy.</div>
+    </div>
+
+    <div class="card mf">
+      <div class="card-header">
+        <span class="card-no">15</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/br.png" alt="Brazil">
+        <span class="card-name">Edmílson</span>
+        <span class="card-pos mf">DM</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 29</span>
+        <span class="sep">·</span>
+        <span>from Lyon (FRA)</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">28</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">A versatile Brazilian who beautifully filled the pivot role in front of the defense. After recovering from previous injuries, his tactical positioning, tackling, and clean distribution were vital in balancing the team's highly offensive setup and protecting the back line.</div>
+    </div>
+
+    <div class="card mf">
+      <div class="card-header">
+        <span class="card-no">17</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/nl.png" alt="Netherlands">
+        <span class="card-name">Mark van Bommel</span>
+        <span class="card-pos mf">CM</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 29</span>
+        <span class="sep">·</span>
+        <span>from PSV (NED)</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">24</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">2</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">3</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">Added a different dimension to the midfield with his physical presence, fierce tackling, and powerful late runs into the box. The Dutch international was an aggressive, hard-working enforcer who also chipped in with important goals and immense tactical discipline.</div>
+    </div>
+
+    <div class="card mf">
+      <div class="card-header">
+        <span class="card-no">18</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/es.png" alt="Spain">
+        <span class="card-name">Gabri</span>
+        <span class="card-pos mf">CM</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 27</span>
+        <span class="sep">·</span>
+        <span>from Barcelona youth</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">11</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">A versatile, hard-working La Masia graduate who could play in midfield or at right-back. Although his minutes were limited due to stiff competition and tactical adjustments, his energy, tactical flexibility, and deep loyalty to the club made him a useful squad player.</div>
+    </div>
+
+    <div class="card mf">
+      <div class="card-header">
+        <span class="card-no">20</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/pt.png" alt="Portugal">
+        <span class="card-name">Deco</span>
+        <span class="card-pos mf">CM</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 28</span>
+        <span class="sep">·</span>
+        <span>from Porto (POR)</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">29</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">3</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">6</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">The tactical engine and relentless worker of the team. The Portuguese international combined supreme creative vision with an incredible defensive work rate. He was instrumental in connecting the midfield to the star-studded attack, winning back possession constantly.</div>
+    </div>
+
+    <div class="card mf">
+      <div class="card-header">
+        <span class="card-no">24</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/es.png" alt="Spain">
+        <span class="card-name">Andrés Iniesta</span>
+        <span class="card-pos mf">CM</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 22</span>
+        <span class="sep">·</span>
+        <span>from Barcelona youth</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">33</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">4</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">Benefited from Xavi's long-term injury to truly establish himself on the world stage. The pale, ghost-like midfielder showed incredible close control, dribbling, and vision, eventually changing the dynamic when subbed on during the Champions League final comeback.</div>
+    </div>
+
+    <div class="card mf">
+      <div class="card-header">
+        <span class="card-no">31</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/es.png" alt="Spain">
+        <span class="card-name">Pitu</span>
+        <span class="card-pos mf">CM</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 22</span>
+        <span class="sep">·</span>
+        <span>from Barcelona youth</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">1</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">A young central midfielder from the B team who earned a single La Liga appearance. Known for his neat passing and left foot, he provided depth during a period of squad rotation but largely remained a reserve player focused on his development in the lower divisions.</div>
+    </div>
+
+    <div class="card mf">
+      <div class="card-header">
+        <span class="card-no">34</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/fr.png" alt="France">
+        <span class="card-name">Ludovic Sylvestre</span>
+        <span class="card-pos mf">CM</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 22</span>
+        <span class="sep">·</span>
+        <span>from Guingamp (FRA)</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">2</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">A French midfield prospect who spent most of the season with Barcelona B but was handed a couple of top-flight appearances. He possessed good technical skills and vision but predictably struggled to break into the star-studded first team's regular rotation.</div>
+    </div>
+
+  </div>
+
+  <!-- ============ Forwards ============ -->
+  <div class="pos-heading fw">
+    <span class="bar"></span>
+    <span class="title">Forwards</span>
+    <span class="count">08</span>
+  </div>
+  <div class="card-grid">
+
+    <div class="card fw">
+      <div class="card-header">
+        <span class="card-no">07</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/se.png" alt="Sweden">
+        <span class="card-name">Henrik Larsson</span>
+        <span class="card-pos fw">CF</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 34</span>
+        <span class="sep">·</span>
+        <span>from Celtic (SCO)</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">28</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">10</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">3</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">A veteran Swedish striker who proved to be the ultimate super-sub. Highly intelligent, unselfish, and an excellent finisher, his movement off the ball was elite. He famously provided both crucial assists in the Champions League final to turn the game around.</div>
+    </div>
+
+    <div class="card fw">
+      <div class="card-header">
+        <span class="card-no">08</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/fr.png" alt="France">
+        <span class="card-name">Ludovic Giuly</span>
+        <span class="card-pos fw">RW</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 29</span>
+        <span class="sep">·</span>
+        <span>from Monaco (FRA)</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">29</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">5</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">4</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">A quick, dynamic French winger whose darting runs behind the defense perfectly complemented Ronaldinho's playmaking. He scored crucial goals, including the winner against AC Milan in the UCL semi-final, and offered constant vertical threat on the right flank.</div>
+    </div>
+
+    <div class="card fw">
+      <div class="card-header">
+        <span class="card-no">09</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/cm.png" alt="Cameroon">
+        <span class="card-name">Samuel Eto'o</span>
+        <span class="card-pos fw">CF</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 25</span>
+        <span class="sep">·</span>
+        <span>from Mallorca</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">34</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">26</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">5</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">The ultimate number nine. The Cameroonian striker won the Pichichi with 26 league goals. He combined lethal finishing with relentless pressing and blistering pace. His incredible work ethic and crucial equalizer in the Champions League final cemented his legendary status.</div>
+    </div>
+
+    <div class="card fw">
+      <div class="card-header">
+        <span class="card-no">10</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/br.png" alt="Brazil">
+        <span class="card-name">Ronaldinho</span>
+        <span class="card-pos fw">LW</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 26</span>
+        <span class="sep">·</span>
+        <span>from PSG (FRA)</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">29</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">17</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">14</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">The reigning Ballon d'Or winner and the most entertaining player on the planet. He dazzled the world with his elastico dribbles, free-kicks, and joy. His incredible performance at the Bernabéu even earned him a rare standing ovation from Real Madrid supporters.</div>
+    </div>
+
+    <div class="card fw">
+      <div class="card-header">
+        <span class="card-no">11</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/ar.png" alt="Argentina">
+        <span class="card-name">Maxi López</span>
+        <span class="card-pos fw">CF</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 22</span>
+        <span class="sep">·</span>
+        <span>from River Plate (ARG)</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">6</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">A strong, physical Argentine striker who struggled to find minutes behind Eto'o and Larsson. While he possessed good aerial ability and strength, his limited technical fit with the possession-heavy system meant he rarely featured in the league and mostly sat on the bench.</div>
+    </div>
+
+    <div class="card fw">
+      <div class="card-header">
+        <span class="card-no">14</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/es.png" alt="Spain">
+        <span class="card-name">Santi Ezquerro</span>
+        <span class="card-pos fw">SS</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 29</span>
+        <span class="sep">·</span>
+        <span>from Athletic Bilbao</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">12</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">2</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">1</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">Signed to provide attacking depth, the versatile forward worked hard and offered rotation on the wings and centrally. While he rarely started the biggest matches, his constant movement and professionalism made him a useful squad option across multiple competitions.</div>
+    </div>
+
+    <div class="card fw">
+      <div class="card-header">
+        <span class="card-no">30</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/ar.png" alt="Argentina">
+        <span class="card-name">Lionel Messi</span>
+        <span class="card-pos fw">RW</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 18</span>
+        <span class="sep">·</span>
+        <span>from Barcelona youth</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">17</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">6</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">2</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">The teenage prodigy burst onto the world stage, terrorizing defenses with his incredible low center of gravity and dribbling. Although a severe hamstring injury against Chelsea ended his season prematurely, he had already proven he was destined for all-time greatness.</div>
+    </div>
+
+    <div class="card fw">
+      <div class="card-header">
+        <span class="card-no">35</span>
+        <img class="card-flag" src="https://flagcdn.com/w40/es.png" alt="Spain">
+        <span class="card-name">Andrea Orlandi</span>
+        <span class="card-pos fw">LW</span>
+      </div>
+      <div class="card-meta">
+        <span class="card-age">Age 21</span>
+        <span class="sep">·</span>
+        <span>from Alavés</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-value">1</div><div class="stat-label">App</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Goals</div></div>
+        <div class="stat"><div class="stat-value">0</div><div class="stat-label">Assists</div></div>
+      </div>
+      <div class="card-desc">A young left-sided player on loan from Alavés who featured primarily for the B team. He made a single La Liga appearance, showing glimpses of his crossing ability and technical comfort on the flank before returning to focus on his development away from the limelight.</div>
+    </div>
+
+  </div>
+
+</section>
+
+<!-- =========================================== -->
+<!-- 2. Tactics -->
+<!-- =========================================== -->
+<section>
+  <div class="section-num">03 / TACTICS</div>
+  <h2>Tactics</h2>
+
+  <p>Frank Rijkaard's Barcelona were the absolute benchmark for 4-3-3 possession-based attacking football. The system relied on careful progression from the back, with Víctor Valdés acting as a modern sweeper-keeper. Carles Puyol provided the defensive aggression and recovery pace, while Rafael Márquez offered elite ball-playing ability from the back. In midfield, Edmílson or Thiago Motta typically anchored the midfield trio, allowing the interiors to dictate the tempo and push forward. When Xavi suffered a major injury, Andrés Iniesta seamlessly stepped into the role, ensuring the team's precise passing rhythm remained undisturbed.</p>
+
+  <p>The defining feature of this side was its devastating attacking trident. Ronaldinho operated on the left, though he was given absolute freedom to roam inside, drop deep, and create magic. To balance his free role, Gio van Bronckhorst constantly overlapped on the left flank to maintain width. On the right, Ludovic Giuly used his explosive pace and direct runs in behind the defense to stretch opponents, while the tireless Samuel Eto'o led the line. Eto'o was not just a lethal finisher, but also the first line of defense, pressing aggressively to win the ball back high up the pitch.</p>
+
+  <p>Deco was the unsung tactical engine of the team. Operating as a box-to-box presence, the Portuguese midfielder combined fierce tackling with exceptional creative vision, bridging the gap between the defense and the attackers. The emergence of a young Lionel Messi added another terrifying dimension to the right wing, introducing a player capable of dribbling past multiple defenders in tight spaces. Meanwhile, Henrik Larsson offered a completely different profile off the bench—an intelligent, unselfish target man who could alter the dynamic of a game with his link-up play.</p>
+
+  <p>While Barcelona's primary weapon was their spellbinding possession and individual brilliance, they could occasionally be vulnerable to quick counter-attacks due to the high positioning of their full-backs. However, their sheer offensive firepower usually overwhelmed opponents before defensive frailties could be fully exposed. The 2005-06 season remains the pinnacle of the Rijkaard era, culminating in a spectacular La Liga and Champions League double. It was a team that not only won titles but captured the imagination of the footballing world, laying the philosophical groundwork for the club's modern dominance.</p>
+</section>
+
+<footer>
+  FC BARCELONA · 2005—06 · SEASON REPORT
+</footer>
+
+</div>
+</body>
+</html>
