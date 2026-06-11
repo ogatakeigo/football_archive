@@ -4,7 +4,7 @@
   const dbName = "jleague-sandbox-lite";
   const storeName = "saves";
   const stateKey = "default";
-  const saveVersion = 3;
+  const saveVersion = 4;
   const positions = ["GK", "CB", "CB", "RB", "LB", "DM", "CM", "AM", "RW", "LW", "CF"];
   const firstNames = ["蓮", "蒼", "湊", "樹", "陽翔", "大和", "朝陽", "悠真", "律", "新"];
   const lastNames = ["佐藤", "鈴木", "高橋", "田中", "伊藤", "渡辺", "山本", "中村", "小林", "加藤", "吉田", "山田"];
@@ -142,9 +142,91 @@
     };
   }
 
+  async function loadJson(path) {
+    try {
+      const response = await fetch(path, { cache: "no-store" });
+      if (!response.ok) return await loadJsonGzip(path) || loadJsonParts(path);
+      return await response.json();
+    } catch {
+      return await loadJsonGzip(path) || loadJsonParts(path);
+    }
+  }
+
+  function relativeUrl(basePath, fileName) {
+    const lastSlash = basePath.lastIndexOf("/");
+    return lastSlash >= 0 ? `${basePath.slice(0, lastSlash + 1)}${fileName}` : fileName;
+  }
+
+  async function loadJsonGzip(path) {
+    try {
+      if (typeof DecompressionStream === "undefined") return null;
+      const response = await fetch(`${path}.gz`, { cache: "no-store" });
+      if (!response.ok || !response.body) return null;
+      const stream = response.body.pipeThrough(new DecompressionStream("gzip"));
+      return JSON.parse(await new Response(stream).text());
+    } catch {
+      return null;
+    }
+  }
+
+  async function loadJsonParts(path) {
+    try {
+      const manifestResponse = await fetch(`${path}.parts.json`, { cache: "no-store" });
+      if (!manifestResponse.ok) return null;
+      const manifest = await manifestResponse.json();
+      if (!Array.isArray(manifest.parts) || !manifest.parts.length) return null;
+      const buffers = await Promise.all(manifest.parts.map(async (part) => {
+        const response = await fetch(relativeUrl(path, part), { cache: "no-store" });
+        if (!response.ok) throw new Error(`Missing JSON part: ${part}`);
+        return new Uint8Array(await response.arrayBuffer());
+      }));
+      const totalLength = buffers.reduce((sum, buffer) => sum + buffer.length, 0);
+      const merged = new Uint8Array(totalLength);
+      let offset = 0;
+      for (const buffer of buffers) {
+        merged.set(buffer, offset);
+        offset += buffer.length;
+      }
+      return JSON.parse(new TextDecoder().decode(merged));
+    } catch {
+      return null;
+    }
+  }
+
+  async function loadCSharpInitialState() {
+    const raw = await loadJson("./Data/csharp_initial_state.json").then((state) => state || loadJson("../Data/csharp_initial_state.json"));
+    if (!raw || !Array.isArray(raw.countries) || !Array.isArray(raw.teams) || !Array.isArray(raw.players) || !Array.isArray(raw.matches)) {
+      return null;
+    }
+    raw.roundResults = await loadJson("./Data/csharp_round_results.json").then((state) => state || loadJson("../Data/csharp_round_results.json"));
+    return hydrateCSharpInitialState(raw);
+  }
+
+  async function loadCSharpStateAfterRound(step) {
+    const raw = await loadJson(`./Data/csharp_state_after_round_${step}.json`).then((state) => state || loadJson(`../Data/csharp_state_after_round_${step}.json`));
+    if (!raw || !Array.isArray(raw.countries) || !Array.isArray(raw.teams) || !Array.isArray(raw.players) || !Array.isArray(raw.matches)) {
+      return null;
+    }
+    return hydrateCSharpInitialState(raw);
+  }
+
+  async function loadCSharpRoundResult(step) {
+    return loadJson(`./Data/csharp_round_results_${step}.json`).then((state) => state || loadJson(`../Data/csharp_round_results_${step}.json`));
+  }
+
   function number(value, fallback = 0) {
     const parsed = Number(value);
     return Number.isFinite(parsed) ? parsed : fallback;
+  }
+
+  function sqliteTextCompare(a, b) {
+    const left = new TextEncoder().encode(String(a || ""));
+    const right = new TextEncoder().encode(String(b || ""));
+    const length = Math.min(left.length, right.length);
+    for (let i = 0; i < length; i += 1) {
+      if (left[i] !== right[i]) return left[i] - right[i];
+    }
+    return left.length - right.length;
   }
 
   function random(seed) {
@@ -157,6 +239,9 @@
   }
 
   async function createInitialState() {
+    const csharpState = await loadCSharpInitialState();
+    if (csharpState) return csharpState;
+
     const seed = await loadSeedRows();
     const countries = seed.countries.map((row, index) => ({
       Id: index + 1,
@@ -250,6 +335,228 @@
     generateNationalTeams(state);
     generateSchedule(state, currentSeason(state));
     return state;
+  }
+
+  function hydrateCSharpInitialState(raw) {
+    const countries = raw.countries.map((country) => ({ ...country }));
+    const countryById = new Map(countries.map((country) => [country.Id, country]));
+    const leagueRows = raw.leagues.filter((league) => number(league.IsActive, 1) === 1);
+    const leagues = leagueRows
+      .filter((league) => number(league.IsNational, 0) === 0)
+      .map((league) => {
+        const country = countryById.get(league.CountryId) || {};
+        return {
+          ...league,
+          CountryCode: country.Code || "",
+          countryCode: country.Code || "",
+          CountryName: country.Name || "",
+          Region: country.Region || "",
+          region: country.Region || "",
+          code: league.Code,
+          name: league.Name
+        };
+      });
+    const leagueById = new Map(leagues.map((league) => [league.Id, league]));
+    const teamRows = raw.teams.map((team) => ({ ...team }));
+    const teams = teamRows
+      .filter((team) => number(team.IsNationalTeam, 0) === 0 && leagueById.has(team.LeagueId))
+      .map((team) => {
+        const league = leagueById.get(team.LeagueId) || {};
+        const country = countryById.get(league.CountryId) || {};
+        return {
+          ...team,
+          id: team.Id,
+          CountryCode: country.Code || "",
+          CountryName: country.Name || "",
+          LeagueCode: league.Code || "",
+          leagueCode: league.Code || "",
+          LeagueName: league.Name || "",
+          name: team.Name,
+          shortName: team.ShortName,
+          City: team.Prefecture || "",
+          Color: team.PrimaryColor
+        };
+      });
+    const teamById = new Map(teamRows.map((team) => [team.Id, team]));
+    const countryByCode = new Map(countries.map((country) => [country.Code, country]));
+    const nationalTeams = teamRows
+      .filter((team) => number(team.IsNationalTeam, 0) === 1)
+      .map((team) => ({
+        ...team,
+        id: team.Id,
+        CountryCode: team.NationalCountryCode,
+        LeagueCode: "NAT",
+        LeagueName: "代表",
+        name: team.Name,
+        shortName: team.ShortName,
+        Color: team.PrimaryColor
+      }))
+      .sort((a, b) => {
+        const ca = countryByCode.get(a.NationalCountryCode) || {};
+        const cb = countryByCode.get(b.NationalCountryCode) || {};
+        return String(ca.Region || "").localeCompare(String(cb.Region || ""))
+          || String(a.NationalCountryCode || "").localeCompare(String(b.NationalCountryCode || ""))
+          || a.Id - b.Id;
+      });
+    const rosterByPlayer = new Map((raw.seasonTeamRoster || []).filter((row) => number(row.SeasonId, 1) === 1).map((row) => [row.PlayerId, row]));
+    const statsByPlayer = new Map((raw.playerSeasonStats || []).filter((row) => number(row.SeasonId, 1) === 1 && row.CompetitionGroup === "All").map((row) => [row.PlayerId, row]));
+    const players = raw.players.map((player) => {
+      const roster = rosterByPlayer.get(player.Id) || {};
+      const stats = statsByPlayer.get(player.Id) || {};
+      const team = teamById.get(player.TeamId) || {};
+      return {
+        ...player,
+        Team: team.ShortName || "",
+        TeamName: team.Name || "",
+        TeamShort: team.ShortName || "",
+        Rating: number(player.Overall, 0),
+        Potential: number(player.Overall, 0),
+        Condition: "Good",
+        UsedPosition: roster.PrimaryPosition || player.PrimaryPosition,
+        ShirtNumber: number(roster.ShirtNumber, 0),
+        Apps: number(stats.Apps, 0),
+        Starts: number(stats.Starts, 0),
+        SubstituteApps: Math.max(0, number(stats.Apps, 0) - number(stats.Starts, 0)),
+        Goals: number(stats.Goals, 0),
+        Assists: number(stats.Assists, 0),
+        Minutes: number(stats.Minutes, 0),
+        RatingMatches: number(stats.RatingMatches, 0),
+        RatingTotal: number(stats.RatingTotal, 0),
+        AvgRating: number(stats.AvgRating, 0),
+        PassAttempts: number(stats.PassAttempts, 0),
+        PassesCompleted: number(stats.PassesCompleted, 0),
+        Shots: number(stats.Shots, 0),
+        ShotsOnTarget: number(stats.ShotsOnTarget, 0),
+        KeyPasses: number(stats.KeyPasses, 0),
+        Dribbles: number(stats.Dribbles, 0),
+        Crosses: number(stats.Crosses, 0),
+        Tackles: number(stats.Tackles, 0),
+        TackleAttempts: number(stats.TackleAttempts, 0),
+        Interceptions: number(stats.Interceptions, 0),
+        AerialsWon: number(stats.AerialsWon, 0),
+        AerialAttempts: number(stats.AerialAttempts, 0),
+        Fouls: number(stats.Fouls, 0),
+        Saves: number(stats.Saves, 0),
+        SaveAttempts: number(stats.Saves, 0) + number(stats.GoalsAgainst, 0),
+        GoalsAgainst: number(stats.GoalsAgainst, 0)
+      };
+    });
+    const leagueByMatchId = new Map(raw.matches.map((match) => [match.Id, leagueById.get(match.LeagueId)]));
+    const matches = raw.matches.map((match) => {
+      const league = leagueByMatchId.get(match.Id) || leagueById.get(match.LeagueId) || {};
+      return {
+        ...match,
+        id: match.Id,
+        Year: 2026,
+        LeagueCode: league.Code || "",
+        LeagueName: league.Name || "",
+        GlobalRound: match.Round,
+        HomeGoals: match.HomeGoals,
+        AwayGoals: match.AwayGoals,
+        WinnerTeamId: match.WinnerTeamId,
+        DecidedBy: match.DecidedBy || ""
+      };
+    });
+    const seasons = raw.seasons.map((season) => ({
+      ...season,
+      id: season.Id,
+      year: season.Year,
+      currentRound: season.CurrentRound,
+      MaxRound: Math.max(1, ...matches.filter((match) => match.SeasonId === season.Id).map((match) => number(match.Round, 1))),
+      maxRound: Math.max(1, ...matches.filter((match) => match.SeasonId === season.Id).map((match) => number(match.Round, 1))),
+      IsSeasonComplete: false
+    }));
+    const competitionDefinitions = buildCompetitionDefinitionsFromMatches(matches, countries);
+    return {
+      version: saveVersion,
+      createdAt: new Date().toISOString(),
+      savedAt: null,
+      nextPlayerId: Math.max(0, ...players.map((player) => number(player.Id))) + 1,
+      nextMatchId: Math.max(0, ...matches.map((match) => number(match.Id))) + 1,
+      countries,
+      leagues,
+      teams,
+      players,
+      seasons,
+      matches,
+      competitionDefinitions,
+      nationalTeams,
+      contracts: raw.contracts || [],
+      nationalTeamSelections: raw.nationalTeamSelections || [],
+      playerPositionFits: raw.playerPositionFits || [],
+      playerPositionSeasonStats: raw.playerPositionSeasonStats || [],
+      seasonShirtNumbers: raw.seasonShirtNumbers || [],
+      clubBudgets: raw.clubBudgets || [],
+      csharpRoundResults: raw.roundResults || null,
+      awards: raw.awards || [],
+      transfers: raw.transfers || [],
+      settings: defaultSettings()
+    };
+  }
+
+  function buildCompetitionDefinitionsFromMatches(matches, countries) {
+    const seen = new Set();
+    const definitions = [];
+    for (const match of matches) {
+      if (match.CompetitionGroup === "League") continue;
+      const key = `${match.CompetitionGroup}:${match.CompetitionCode}`;
+      if (seen.has(key)) continue;
+      seen.add(key);
+      definitions.push({
+        group: match.CompetitionGroup,
+        code: match.CompetitionCode,
+        label: competitionLabel(match.CompetitionGroup, match.CompetitionCode, countries),
+        region: "",
+        countryCode: ""
+      });
+    }
+    return definitions;
+  }
+
+  function competitionLabel(group, code, countries) {
+    const domestic = domesticCupDefinitions().find((item) => item.code === code);
+    if (domestic) {
+      const special = {
+        Emperor: "天皇杯",
+        Levain: "ルヴァンカップ",
+        King: "キングスカップ",
+        ThaiFA: "タイFAカップ",
+        ChinaFA: "中国FAカップ",
+        Emir: "アミールカップ",
+        UaePresident: "UAEプレジデントカップ",
+        KoreaCup: "コリアカップ",
+        MalaysiaFA: "マレーシアFAカップ",
+        Hazfi: "ハズフィーカップ"
+      };
+      if (special[code]) return special[code];
+      const country = countries.find((item) => item.Code === domestic.countryCode);
+      const countryName = domestic.countryCode === "HKG" ? "香港" : (country?.ShortName || country?.Name || domestic.countryCode);
+      return `${countryName}カップ`;
+    }
+    if (group === "Continental") {
+      const labels = {
+        Libertadores: "リベルタドーレス",
+        Sudamericana: "スダメリカーナ",
+        ConcacafChampionsCup: "CONCACAFチャンピオンズカップ",
+        CAFChampionsLeague: "CAFチャンピオンズリーグ",
+        ClubWorldCup: "クラブワールドカップ"
+      };
+      return labels[code] || code;
+    }
+    if (group === "National") return nationalCompetitionLabel(code);
+    return code;
+  }
+
+  function defaultSettings() {
+    return {
+      scoreExpectationDivisor: 15,
+      homeScoreExpectationBase: 1.42,
+      awayScoreExpectationBase: 1.34,
+      homeScoreExpectationMinimum: 0.2,
+      awayScoreExpectationMinimum: 0.18,
+      homeScoreExpectationMaximum: 2.6,
+      awayScoreExpectationMaximum: 2.5
+    };
   }
 
   function currentSeason(state) {
@@ -781,6 +1088,27 @@
   }
 
   function nationalCompetitionLabel(code) {
+    const csharpLabels = {
+      WorldCup: "ワールドカップ",
+      U23WorldCup: "オリンピック",
+      U20WorldCup: "ワールドユース",
+      AsiaCup: "アジアカップ",
+      U23AsiaCup: "U-23アジアカップ",
+      U20AsiaCup: "U-20アジアカップ",
+      Euro: "EURO",
+      U23Euro: "U-23EURO",
+      U20Euro: "U-20EURO",
+      CopaAmerica: "コパアメリカ",
+      U23CopaAmerica: "U-23コパアメリカ",
+      U20CopaAmerica: "U-20コパアメリカ",
+      GoldCup: "ゴールドカップ",
+      U23GoldCup: "U-23ゴールドカップ",
+      U20GoldCup: "U-20ゴールドカップ",
+      AFCON: "アフリカネーションズカップ",
+      U23AFCON: "U-23アフリカネーションズカップ",
+      U20AFCON: "U-20アフリカネーションズカップ"
+    };
+    if (csharpLabels[code]) return csharpLabels[code];
     const labels = {
       WorldCup: "ワールドカップ",
       U23WorldCup: "U-23ワールドカップ",
@@ -913,7 +1241,7 @@
       points: 0
     }));
     const byTeam = new Map(rows.map((row) => [row.teamId, row]));
-    for (const match of state.matches.filter((item) => item.SeasonId === season.Id && item.LeagueId === Number(leagueId) && item.Played)) {
+    for (const match of state.matches.filter((item) => item.SeasonId === season.Id && item.LeagueId === Number(leagueId) && item.CompetitionGroup === "League" && item.Played)) {
       const home = byTeam.get(match.HomeTeamId);
       const away = byTeam.get(match.AwayTeamId);
       if (!home || !away) continue;
@@ -949,7 +1277,14 @@
   }
 
   function matchRows(state, filter = () => true, options = {}) {
-    return state.matches.filter(filter).map((match) => matchDto(state, match, options));
+    const rows = state.matches.filter(filter);
+    if (options.sort === "competition") {
+      rows.sort((a, b) => String(a.CompetitionCode || "").localeCompare(String(b.CompetitionCode || ""))
+        || number(a.CompetitionRound) - number(b.CompetitionRound)
+        || number(a.Round) - number(b.Round)
+        || number(a.Id) - number(b.Id));
+    }
+    return rows.map((match) => matchDto(state, match, options));
   }
 
   function hydrateMatch(state, match) {
@@ -974,7 +1309,7 @@
     const row = hydrateMatch(state, match);
     const dto = {
       Id: row.Id,
-      Round: row.Round,
+      Round: options.includeGlobalRound ? row.CompetitionRound : row.Round,
       CompetitionRound: row.CompetitionRound,
       StageName: row.StageName,
       CompetitionGroup: row.CompetitionGroup,
@@ -994,7 +1329,7 @@
       AwayColor: row.AwayColor
     };
     if (options.includeGlobalRound) dto.GlobalRound = row.GlobalRound;
-    if (options.includeLeagueCode) dto.LeagueCode = row.LeagueCode || "";
+    if (options.includeLeagueCode) dto.LeagueCode = row.LeagueCode || (row.CompetitionGroup === "National" ? "NAT" : "");
     return dto;
   }
 
@@ -1003,8 +1338,8 @@
     return {
       id: row.Id,
       round: row.Round,
-      homeTeam: row.HomeTeam,
-      awayTeam: row.AwayTeam,
+      homeTeam: row.HomeShort || row.HomeTeam,
+      awayTeam: row.AwayShort || row.AwayTeam,
       homeGoals: row.HomeGoals,
       awayGoals: row.AwayGoals,
       competitionGroup: row.CompetitionGroup,
@@ -1032,7 +1367,11 @@
   }
 
   function rosterForTeam(state, teamId) {
-    return state.players.filter((player) => player.TeamId === Number(teamId)).map((player) => ({
+    return state.players
+      .filter((player) => player.TeamId === Number(teamId))
+      .slice()
+      .sort((a, b) => positionOrder(a.PrimaryPosition) - positionOrder(b.PrimaryPosition) || sqliteTextCompare(a.Name, b.Name))
+      .map((player) => ({
       ...player,
       Team: player.TeamName,
       TeamShort: player.TeamShort,
@@ -1052,6 +1391,28 @@
       aerialRate: rate(player.AerialsWon, player.AerialAttempts),
       saveRate: rate(player.Saves, player.SaveAttempts)
     }));
+  }
+
+  function positionOrder(position) {
+    const order = {
+      GK: 1,
+      CB: 2,
+      RB: 3,
+      LB: 4,
+      RWB: 5,
+      LWB: 6,
+      DM: 7,
+      CM: 8,
+      AM: 9,
+      RM: 10,
+      LM: 11,
+      RW: 12,
+      LW: 13,
+      SS: 14,
+      CF: 15,
+      ST: 16
+    };
+    return order[position] || 17;
   }
 
   function per90(row, key) {
@@ -1193,11 +1554,24 @@
         return settingsView(state);
       case "advanceRound":
         {
-        const round = season.CurrentRound;
+        const csharpAdvanceStep = number(state.csharpAdvanceStep, 0) + 1;
+        const csharpRoundResults = await loadCSharpRoundResult(csharpAdvanceStep);
+        const round = number(csharpRoundResults?.round, nextUnplayedRound(state, season, season.CurrentRound) || season.CurrentRound);
+        state.csharpRoundResults = csharpRoundResults || state.csharpRoundResults;
         const simulatedCount = simulateRound(state, season, round, options.onProgress);
-        const matches = state.matches.filter((match) => match.SeasonId === season.Id && match.Round === round).map((match) => advanceMatchDto(state, match));
+        const matches = roundSimulationMatches(state, season.Id, round).map((match) => advanceMatchDto(state, match));
         maybeCompleteSeason(state, season);
-        if (!season.IsSeasonComplete) season.CurrentRound += 1;
+        season.CurrentRound = nextUnplayedRound(state, season, round + 1) || ((season.MaxRound || round) + 1);
+        const csharpStateAfterRound = await loadCSharpStateAfterRound(csharpAdvanceStep);
+        if (csharpStateAfterRound) {
+          Object.assign(state, {
+            ...csharpStateAfterRound,
+            csharpRoundResults: state.csharpRoundResults,
+            csharpAdvanceStep
+          });
+        } else {
+          state.csharpAdvanceStep = csharpAdvanceStep;
+        }
         await writeState(state);
         return {
           seasonId: season.Id,
@@ -1249,10 +1623,11 @@
 
   function dashboard(state) {
     const season = currentSeason(state);
-    const nextMatches = matchRows(state, (match) => match.SeasonId === season.Id && match.Round === season.CurrentRound && !match.Played, { includeLeagueCode: true }).slice(0, 24);
-    const recentMatches = matchRows(state, (match) => match.SeasonId === season.Id && match.Played, { includeLeagueCode: true }).slice(-24).reverse();
+    const nextMatches = roundMatchRows(state, season.Id, season.CurrentRound, false).slice(0, 24);
+    const recentMatches = roundMatchRows(state, season.Id, Math.max(1, season.CurrentRound - 1), true).slice(0, 24);
+    const seasonDto = dashboardSeasonDto(season);
     return {
-      season: dashboardSeasonDto(season),
+      season: seasonDto,
       totals: {
         teams: state.teams.length,
         countries: state.countries.length,
@@ -1272,6 +1647,15 @@
         .filter((team) => team.NationalTeamKind === "Full")
         .map((team) => nationalTeamDto(state, team))
     };
+  }
+
+  function roundMatchRows(state, seasonId, round, played) {
+    return state.matches
+      .filter((match) => match.SeasonId === seasonId && match.Round === round && Boolean(match.Played) === played)
+      .sort((a, b) => String(a.CompetitionGroup).localeCompare(String(b.CompetitionGroup))
+        || leagueLevel(state, a.LeagueId) - leagueLevel(state, b.LeagueId)
+        || a.Id - b.Id)
+      .map((match) => matchDto(state, match, { includeLeagueCode: true }));
   }
 
   function nationalTeamDto(state, team) {
@@ -1334,14 +1718,18 @@
       seasons: state.seasons.map(seasonOptionDto),
       standings: standingRows(state, league.Id, season.Id),
       fixtures: matchRows(state, (match) => match.SeasonId === season.Id && match.LeagueId === league.Id && match.CompetitionGroup === "League", { includeGlobalRound: true }),
-      teams: state.teams.filter((team) => team.LeagueId === league.Id).map(simpleTeamDto),
+      teams: state.teams
+        .filter((team) => team.LeagueId === league.Id)
+        .slice()
+        .sort((a, b) => sqliteTextCompare(a.Name, b.Name))
+        .map(simpleTeamDto),
       topScorers: [],
       topAssists: [],
       topRatings: [],
       detailStatRankings: emptyDetailStatRankings(),
       detailStatRows: [],
       detailMinimumMinutes: 1000,
-      bestEleven: { formation: "4-2-3-1", completed: false, players: [] }
+      bestEleven: { formation: "4-3-3", completed: false, players: [] }
     };
   }
 
@@ -1372,19 +1760,20 @@
     const season = seasonId ? state.seasons.find((item) => item.Id === Number(seasonId)) || currentSeason(state) : currentSeason(state);
     const standings = standingRows(state, team.LeagueId, season.Id);
     const roster = rosterForTeam(state, team.Id);
-    const budget = teamBudget(team);
+    const displayLeagueId = seasonLeagueIdForTeam(state, season.Id, team.Id) || team.LeagueId;
+    const budget = teamBudget(state, team, season);
     return {
       team: teamDetailDto(team),
       season: seasonDto(season),
       seasons: state.seasons.map(seasonOptionDto),
       statsScope: statsScope || "League",
-      leagueTeams: state.teams.filter((item) => item.LeagueId === team.LeagueId).map(simpleTeamDto),
+      leagueTeams: seasonLeagueTeams(state, season.Id, displayLeagueId),
       roster: roster.map(rosterPlayerDto),
       fixtures: matchRows(state, (match) => match.SeasonId === season.Id && match.CompetitionGroup === "League" && (match.HomeTeamId === team.Id || match.AwayTeamId === team.Id), { includeLeagueCode: true }),
       transfers: [],
       budget,
       seasonStanding: teamSeasonStandingDto(state, team, standings.find((row) => row.teamId === team.Id)),
-      bestLineup: { formation: team.Formation, players: buildBestLineup(roster) }
+      bestLineup: { formation: team.Formation, players: buildBestLineup(state, team, season, statsScope || "League", roster) }
     };
   }
 
@@ -1463,7 +1852,51 @@
     };
   }
 
-  function teamBudget(team) {
+  function seasonLeagueIdForTeam(state, seasonId, teamId) {
+    const match = state.matches.find((item) => item.SeasonId === seasonId && item.CompetitionGroup === "League" && (item.HomeTeamId === teamId || item.AwayTeamId === teamId));
+    return match?.LeagueId || null;
+  }
+
+  function seasonLeagueTeams(state, seasonId, leagueId) {
+    const teamIds = new Set();
+    state.matches
+      .filter((match) => match.SeasonId === seasonId && match.LeagueId === leagueId && match.CompetitionGroup === "League")
+      .forEach((match) => {
+        teamIds.add(match.HomeTeamId);
+        teamIds.add(match.AwayTeamId);
+      });
+    const source = teamIds.size
+      ? state.teams.filter((team) => teamIds.has(team.Id))
+      : state.teams.filter((team) => team.LeagueId === leagueId && number(team.IsNationalTeam, 0) === 0);
+    return source.slice().sort((a, b) => sqliteTextCompare(a.Name, b.Name)).map(simpleTeamDto);
+  }
+
+  function teamBudget(state, team, season) {
+    const budgetRow = (state.clubBudgets || []).find((row) => number(row.SeasonId) === number(season.Id) && number(row.TeamId) === number(team.Id));
+    if (budgetRow) {
+      const income = (state.transfers || [])
+        .filter((row) => number(row.SeasonId) === number(season.Id) && number(row.FromTeamId) === number(team.Id) && number(row.ToTeamId, 0) !== 0)
+        .reduce((sum, row) => {
+          const route = row.MarketRoute || "";
+          const fee = number(row.Fee);
+          const value = route === "OffList" ? Math.round(fee * 0.75) : route === "Listed" ? Math.round(fee * 0.5) : Math.trunc(fee / 2);
+          return sum + value;
+        }, 0);
+      const spending = (state.transfers || [])
+        .filter((row) => number(row.SeasonId) === number(season.Id) && number(row.ToTeamId) === number(team.Id))
+        .reduce((sum, row) => sum + ((row.MarketRoute || "") === "OffList" ? Math.round(number(row.Fee) * 1.25) : number(row.Fee)), 0);
+      return {
+        Budget: number(budgetRow.Budget),
+        Income: income,
+        Spending: spending,
+        Balance: income - spending,
+        InitialBudget: number(budgetRow.InitialBudget),
+        BaseBudget: number(budgetRow.BaseBudget),
+        PerformanceBudget: number(budgetRow.PerformanceBudget),
+        CarryoverBudget: number(budgetRow.CarryoverBudget),
+        Strategy: budgetRow.Strategy || ""
+      };
+    }
     const base = Math.max(1000, Math.round(number(team.SponsorPower, 100) * 500 + number(team.Rating, 60) * 150));
     return {
       BaseBudget: base,
@@ -1478,7 +1911,153 @@
     };
   }
 
-  function buildBestLineup(roster) {
+  function formationSlots(formation) {
+    switch (formation) {
+      case "4-4-2":
+        return ["GK", "RB", "CB", "CB", "LB", "RW", "CM", "CM", "LW", "CF", "ST"];
+      case "4-3-3":
+        return ["GK", "RB", "CB", "CB", "LB", "CM", "CM", "CM", "RW", "LW", "CF"];
+      case "3-4-2-1":
+        return ["GK", "CB", "CB", "CB", "RWB", "CM", "CM", "LWB", "AM", "ST", "CF"];
+      case "3-5-2":
+        return ["GK", "CB", "CB", "CB", "RWB", "CM", "CM", "CM", "LWB", "CF", "ST"];
+      default:
+        return ["GK", "RB", "CB", "CB", "LB", "CM", "CM", "RW", "AM", "LW", "CF"];
+    }
+  }
+
+  function playerFitFor(fitsByPlayer, player, position) {
+    const fit = fitsByPlayer.get(player.Id)?.get(position);
+    if (fit != null) return fit;
+    return player.PrimaryPosition === position ? 100 : 0;
+  }
+
+  function compareLineupCandidate(a, b) {
+    return number(b.Appearance?.Minutes) - number(a.Appearance?.Minutes)
+      || number(b.Appearance?.Apps) - number(a.Appearance?.Apps)
+      || number(b.Row?.Starts) - number(a.Row?.Starts)
+      || number(b.Fit) - number(a.Fit)
+      || number(b.Row?.AvgRating) - number(a.Row?.AvgRating)
+      || number(b.Row?.Apps) - number(a.Row?.Apps);
+  }
+
+  function buildBestLineup(state, team, season, competitionGroup, roster) {
+    if (!state.playerPositionFits?.length) {
+      return buildFallbackBestLineup(roster);
+    }
+    const seasonId = number(season.Id, 1);
+    const seasonYear = number(season.Year, 2026);
+    const teamId = number(team.Id);
+    const isNational = number(team.IsNationalTeam, 0) === 1;
+    const statsRows = state.playerSeasonStats || [];
+    const statsByPlayer = new Map(statsRows
+      .filter((row) => number(row.SeasonId) === seasonId && number(row.TeamId) === teamId && row.CompetitionGroup === competitionGroup)
+      .map((row) => [number(row.PlayerId), row]));
+    const shirtByPlayer = new Map((state.seasonShirtNumbers || [])
+      .filter((row) => number(row.SeasonId) === seasonId && number(row.TeamId) === teamId)
+      .map((row) => [number(row.PlayerId), number(row.ShirtNumber)]));
+    const selectedIds = isNational
+      ? new Set((state.nationalTeamSelections || [])
+        .filter((row) => number(row.SeasonId) === seasonId && number(row.TeamId) === teamId)
+        .map((row) => number(row.PlayerId)))
+      : new Set((state.contracts || [])
+        .filter((row) => number(row.TeamId) === teamId && number(row.StartYear) <= seasonYear && number(row.EndYear) >= seasonYear)
+        .map((row) => number(row.PlayerId)));
+    const players = state.players
+      .filter((player) => selectedIds.has(number(player.Id)) && number(player.Retired, 0) === 0)
+      .map((player) => {
+        const stats = statsByPlayer.get(number(player.Id)) || {};
+        return {
+          ...player,
+          Apps: number(stats.Apps, 0),
+          Starts: number(stats.Starts, 0),
+          Goals: number(stats.Goals, 0),
+          Assists: number(stats.Assists, 0),
+          AvgRating: number(stats.AvgRating, 0),
+          ShirtNumber: shirtByPlayer.get(number(player.Id)) ?? number(player.ShirtNumber, 0)
+        };
+      });
+    const playerIds = new Set(players.map((player) => number(player.Id)));
+    const fitsByPlayer = new Map();
+    for (const row of state.playerPositionFits || []) {
+      const playerId = number(row.PlayerId);
+      if (!playerIds.has(playerId)) continue;
+      if (!fitsByPlayer.has(playerId)) fitsByPlayer.set(playerId, new Map());
+      fitsByPlayer.get(playerId).set(row.Position || "", number(row.Fit));
+    }
+    const appearances = new Map();
+    for (const row of state.playerPositionSeasonStats || []) {
+      if (number(row.SeasonId) !== seasonId || number(row.TeamId) !== teamId || row.CompetitionGroup !== competitionGroup || number(row.Minutes) <= 0 || !row.Position) continue;
+      const playerId = number(row.PlayerId);
+      if (!appearances.has(playerId)) appearances.set(playerId, new Map());
+      appearances.get(playerId).set(row.Position, { Apps: number(row.Apps), Minutes: number(row.Minutes) });
+    }
+    const slots = formationSlots(team.Formation)
+      .map((position, index) => ({
+        Position: position,
+        Index: index,
+        CandidateCount: players.filter((player) => playerFitFor(fitsByPlayer, player, position) > 0).length
+      }))
+      .sort((a, b) => a.CandidateCount - b.CandidateCount || a.Index - b.Index);
+    const used = new Set();
+    const starters = [];
+    for (const slot of slots) {
+      const selected = players
+        .filter((player) => !used.has(number(player.Id)))
+        .map((player) => ({
+          Row: player,
+          Fit: playerFitFor(fitsByPlayer, player, slot.Position),
+          Appearance: appearances.get(number(player.Id))?.get(slot.Position) || { Apps: 0, Minutes: 0 }
+        }))
+        .filter((item) => item.Fit > 0)
+        .sort(compareLineupCandidate)[0];
+      if (!selected) continue;
+      used.add(number(selected.Row.Id));
+      starters.push({
+        PlayerId: number(selected.Row.Id),
+        PlayerName: selected.Row.Name,
+        PrimaryPosition: selected.Row.PrimaryPosition,
+        Position: slot.Position,
+        IsStarter: 1,
+        ShirtNumber: number(selected.Row.ShirtNumber),
+        Starts: number(selected.Row.Starts),
+        Apps: number(selected.Row.Apps),
+        Goals: number(selected.Row.Goals),
+        Assists: number(selected.Row.Assists),
+        AvgRating: number(selected.Row.AvgRating)
+      });
+    }
+    const newArrivalIds = isNational
+      ? new Set()
+      : new Set((state.transfers || [])
+        .filter((row) => number(row.SeasonId) === seasonId && number(row.ToTeamId) === teamId)
+        .map((row) => number(row.PlayerId)));
+    for (const starter of starters) {
+      starter.IsNewArrival = newArrivalIds.has(number(starter.PlayerId)) ? 1 : 0;
+      const bench = players
+        .filter((player) => !used.has(number(player.Id)))
+        .map((player) => ({
+          Row: player,
+          Fit: playerFitFor(fitsByPlayer, player, starter.Position),
+          Appearance: appearances.get(number(player.Id))?.get(starter.Position) || { Apps: 0, Minutes: 0 }
+        }))
+        .filter((item) => item.Fit > 0)
+        .sort(compareLineupCandidate)
+        .slice(0, 2);
+      bench.forEach((item, index) => {
+        const prefix = `Bench${index + 1}`;
+        starter[`${prefix}PlayerId`] = number(item.Row.Id);
+        starter[`${prefix}PlayerName`] = item.Row.Name;
+        starter[`${prefix}PrimaryPosition`] = item.Row.PrimaryPosition;
+        starter[`${prefix}ShirtNumber`] = number(item.Row.ShirtNumber);
+        starter[`${prefix}AvgRating`] = number(item.Row.AvgRating);
+        starter[`${prefix}IsNewArrival`] = newArrivalIds.has(number(item.Row.Id)) ? 1 : 0;
+      });
+    }
+    return starters;
+  }
+
+  function buildFallbackBestLineup(roster) {
     const sorted = roster
       .slice()
       .sort((a, b) => number(b.Rating) - number(a.Rating))
@@ -1552,7 +2131,7 @@
     return {
       seasons: state.seasons.slice().reverse().map((season) => ({
         season: seasonOptionDto(season),
-        champions: state.leagues.map((league) => ({
+        champions: state.leagues.slice().sort((a, b) => number(a.Level) - number(b.Level) || number(a.Id) - number(b.Id)).map((league) => ({
           league: league.Code,
           name: league.Name,
           champion: standingRows(state, league.Id, season.Id)[0] || null
@@ -1563,7 +2142,7 @@
 
   function annualAwardsView(state, scopeCode) {
     const season = currentSeason(state);
-    const scopeName = scopeCode === "World" ? "荳也阜" : scopeCode;
+    const scopeName = scopeCode === "World" ? "世界" : scopeCode;
     return {
       season: seasonDto(season),
       seasons: state.seasons.map(seasonOptionDto),
@@ -1592,7 +2171,7 @@
     const rows = competitionDefinitions(state, group).map((definition) => ({
       code: definition.code,
       label: definition.label,
-      matches: matchRows(state, (match) => match.SeasonId === season.Id && match.CompetitionGroup === group && match.CompetitionCode === definition.code, { includeLeagueCode: true })
+      matches: matchRows(state, (match) => match.SeasonId === season.Id && match.CompetitionGroup === group && match.CompetitionCode === definition.code, { includeLeagueCode: true, sort: "competition" })
     }));
     return {
       season: seasonDto(season),
@@ -1605,7 +2184,7 @@
     const season = seasonById(state, seasonId);
     const definition = competitionDefinitions(state, group).find((item) => item.code === code)
       || { code: code || "", label: code || group, group };
-    const fixtures = matchRows(state, (match) => match.SeasonId === season.Id && match.CompetitionGroup === group && match.CompetitionCode === definition.code, { includeLeagueCode: true });
+    const fixtures = matchRows(state, (match) => match.SeasonId === season.Id && match.CompetitionGroup === group && match.CompetitionCode === definition.code, { includeLeagueCode: true, sort: "competition" });
     const teamIds = new Set();
     fixtures.forEach((match) => {
       teamIds.add(match.HomeTeamId);
@@ -1841,12 +2420,48 @@
   }
 
   function simulateRound(state, season, round, onProgress) {
-    const matches = state.matches.filter((match) => match.SeasonId === season.Id && match.Round === round && !match.Played);
+    const csharpCount = applyCSharpRoundResults(state, season, round, onProgress);
+    if (csharpCount != null) return csharpCount;
+    const matches = roundSimulationMatches(state, season.Id, round).filter((match) => !match.Played);
     matches.forEach((match, index) => {
       simulateMatch(state, match);
       onProgress?.({ completed: index + 1, total: matches.length, percent: Math.round((index + 1) * 100 / Math.max(1, matches.length)), currentRound: round, maxRound: season.MaxRound });
     });
     return matches.length;
+  }
+
+  function applyCSharpRoundResults(state, season, round, onProgress) {
+    const result = state.csharpRoundResults;
+    if (!result || number(result.seasonId) !== number(season.Id) || number(result.round) !== number(round) || !Array.isArray(result.matches)) return null;
+    const byId = new Map(result.matches.map((match) => [number(match.id), match]));
+    const matches = roundSimulationMatches(state, season.Id, round).filter((match) => !match.Played && byId.has(number(match.Id)));
+    if (!matches.length) return null;
+    matches.forEach((match, index) => {
+      const source = byId.get(number(match.Id));
+      match.HomeGoals = number(source.homeGoals);
+      match.AwayGoals = number(source.awayGoals);
+      match.WinnerTeamId = source.winnerTeamId == null ? null : number(source.winnerTeamId);
+      match.DecidedBy = source.decidedBy || "";
+      match.Played = 1;
+      onProgress?.({ completed: index + 1, total: matches.length, percent: Math.round((index + 1) * 100 / Math.max(1, matches.length)), currentRound: round, maxRound: season.MaxRound });
+    });
+    return matches.length;
+  }
+
+  function roundSimulationMatches(state, seasonId, round) {
+    return state.matches
+      .filter((match) => match.SeasonId === seasonId && match.Round === round)
+      .slice()
+      .sort((a, b) => String(a.CompetitionGroup || "").localeCompare(String(b.CompetitionGroup || ""))
+        || number(a.LeagueId) - number(b.LeagueId)
+        || number(a.Id) - number(b.Id));
+  }
+
+  function nextUnplayedRound(state, season, minRound) {
+    const rounds = state.matches
+      .filter((match) => match.SeasonId === season.Id && number(match.Round) >= number(minRound) && !match.Played)
+      .map((match) => number(match.Round));
+    return rounds.length ? Math.min(...rounds) : null;
   }
 
   function skipSeasons(state, count, onProgress) {
