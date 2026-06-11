@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>J1〜J2 シミュレーションサンドボックス</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div class="app">
+    <aside class="side">
+      <div class="brand">
+        <div class="brand-title">J1〜J2</div>
+        <div class="brand-sub">観戦サンドボックス</div>
+      </div>
+      <button class="nav-button active" data-route="dashboard">ホーム</button>
+      <div id="favoriteNav" class="favorite-nav"></div>
+      <div class="nav-section">
+        <div class="nav-label">リーグ</div>
+        <div id="leagueNav"></div>
+      </div>
+      <div class="nav-section">
+        <div class="nav-label">検索</div>
+        <input id="searchBox" class="search" type="search" placeholder="クラブ・選手名">
+        <div id="searchResults" class="search-results"></div>
+      </div>
+      <div class="nav-section">
+        <button id="archiveButton" class="nav-button">シーズン履歴</button>
+        <button class="nav-button" data-route="settings">設定</button>
+      </div>
+    </aside>
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <div id="pageTitle" class="page-title">読み込み中</div>
+          <div id="pageMeta" class="page-meta">データベースを初期化しています</div>
+        </div>
+        <div class="top-actions">
+          <button id="backButton" class="small-button">戻る</button>
+          <button id="advanceButton" class="primary-button">次の節へ</button>
+        </div>
+      </header>
+      <section id="notice" class="notice hidden"></section>
+      <section id="content" class="content loading">読み込み中...</section>
+    </main>
+  </div>
+  <script src="./local_api.js"></script>
+  <script src="./player_traits.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>
