@@ -329,14 +329,22 @@
     let maxRound = 1;
     for (const [leagueId, teams] of byLeague.entries()) {
       const league = state.leagues.find((item) => item.Id === leagueId);
-      const rounds = Math.max(1, teams.length - 1);
-      maxRound = Math.max(maxRound, rounds);
-      for (let round = 1; round <= rounds; round += 1) {
-        for (let i = 0; i < Math.floor(teams.length / 2); i += 1) {
-          const home = teams[(i + round - 1) % teams.length];
-          const away = teams[(teams.length - 1 - i + round - 1) % teams.length];
+      const baseRounds = Math.max(1, teams.length - 1);
+      const repeatCount = Math.max(1, Math.ceil(34 / baseRounds));
+      const totalRounds = baseRounds * repeatCount;
+      maxRound = Math.max(maxRound, totalRounds);
+      for (let cycle = 0; cycle < repeatCount; cycle += 1) {
+        for (let baseRound = 1; baseRound <= baseRounds; baseRound += 1) {
+          const round = cycle * baseRounds + baseRound;
+          for (let i = 0; i < Math.floor(teams.length / 2); i += 1) {
+          const home = teams[(i + baseRound - 1) % teams.length];
+          const away = teams[(teams.length - 1 - i + baseRound - 1) % teams.length];
           if (home.Id === away.Id) continue;
-          state.matches.push(newMatch(state, season, league, round, round % 2 ? home : away, round % 2 ? away : home));
+          const reverse = cycle % 2 === 1;
+          const homeTeam = reverse ? away : home;
+          const awayTeam = reverse ? home : away;
+          state.matches.push(newMatch(state, season, league, round, round % 2 ? homeTeam : awayTeam, round % 2 ? awayTeam : homeTeam));
+          }
         }
       }
     }
@@ -354,21 +362,14 @@
       LeagueCode: league.Code,
       LeagueName: league.Name,
       Round: round,
+      GlobalRound: round,
+      CompetitionRound: round,
+      StageName: `リーグ第${round}節`,
       CompetitionGroup: "League",
       CompetitionCode: "League",
       Played: 0,
       HomeTeamId: home.Id,
       AwayTeamId: away.Id,
-      HomeTeam: home.Name,
-      AwayTeam: away.Name,
-      HomeShort: home.ShortName,
-      AwayShort: away.ShortName,
-      HomeColor: home.PrimaryColor,
-      AwayColor: away.PrimaryColor,
-      HomeFormation: home.Formation,
-      AwayFormation: away.Formation,
-      HomeTactic: home.Tactic,
-      AwayTactic: away.Tactic,
       HomeGoals: null,
       AwayGoals: null,
       WinnerTeamId: null,
@@ -432,7 +433,25 @@
   }
 
   function matchRows(state, filter = () => true) {
-    return state.matches.filter(filter).map((match) => ({ ...match }));
+    return state.matches.filter(filter).map((match) => hydrateMatch(state, match));
+  }
+
+  function hydrateMatch(state, match) {
+    const home = state.teams.find((team) => team.Id === match.HomeTeamId) || {};
+    const away = state.teams.find((team) => team.Id === match.AwayTeamId) || {};
+    return {
+      ...match,
+      HomeTeam: home.Name || match.HomeTeam || "",
+      AwayTeam: away.Name || match.AwayTeam || "",
+      HomeShort: home.ShortName || match.HomeShort || "",
+      AwayShort: away.ShortName || match.AwayShort || "",
+      HomeColor: home.PrimaryColor || match.HomeColor || "#78909c",
+      AwayColor: away.PrimaryColor || match.AwayColor || "#78909c",
+      HomeFormation: home.Formation || match.HomeFormation || "",
+      AwayFormation: away.Formation || match.AwayFormation || "",
+      HomeTactic: home.Tactic || match.HomeTactic || "",
+      AwayTactic: away.Tactic || match.AwayTactic || ""
+    };
   }
 
   function topPlayers(state, leagueId, key) {
@@ -590,11 +609,23 @@
         return settingsView(state);
       case "advanceRound":
         {
-        const simulatedCount = simulateRound(state, season, season.CurrentRound, options.onProgress);
+        const round = season.CurrentRound;
+        const simulatedCount = simulateRound(state, season, round, options.onProgress);
+        const matches = matchRows(state, (match) => match.SeasonId === season.Id && match.Round === round);
         maybeCompleteSeason(state, season);
         if (!season.IsSeasonComplete) season.CurrentRound += 1;
         await writeState(state);
-        return { year: season.Year, round: season.CurrentRound, simulatedCount, seasonEnded: season.IsSeasonComplete };
+        return {
+          seasonId: season.Id,
+          year: season.Year,
+          round,
+          nextRound: season.CurrentRound,
+          simulatedCount,
+          seasonEnded: season.IsSeasonComplete,
+          pendingYearUpdate: false,
+          nextSeason: null,
+          matches
+        };
         }
       case "advanceToRound":
         {
@@ -662,29 +693,65 @@
       teams: state.teams.filter((team) => team.LeagueId === league.Id),
       topScorers: topPlayers(state, league.Id, "Goals"),
       topRatings: topPlayers(state, league.Id, "AvgRating"),
-      bestEleven: { Formation: "4-2-3-1", players: [] },
+      bestEleven: { Formation: "4-2-3-1", formation: "4-2-3-1", completed: false, players: buildLeagueBestEleven(state, league.Id) },
       detailRankings: [],
       detailHighlights: []
     };
+  }
+
+  function buildLeagueBestEleven(state, leagueId) {
+    const teamIds = new Set(state.teams.filter((team) => team.LeagueId === leagueId).map((team) => team.Id));
+    return state.players
+      .filter((player) => teamIds.has(player.TeamId))
+      .sort((a, b) => number(b, "Rating") - number(a, "Rating"))
+      .slice(0, 11)
+      .map((player, index) => ({ ...player, positionOrder: index + 1, IsStarter: 1, Starter: 1 }));
   }
 
   function teamView(state, teamId, seasonId = null, statsScope = "League") {
     const team = state.teams.find((item) => item.Id === Number(teamId)) || state.teams[0];
     const season = seasonId ? state.seasons.find((item) => item.Id === Number(seasonId)) || currentSeason(state) : currentSeason(state);
     const standings = standingRows(state, team.LeagueId, season.Id);
+    const roster = rosterForTeam(state, team.Id);
+    const budget = teamBudget(team);
     return {
       team,
       season: seasonDto(season),
       seasons: state.seasons.map(seasonDto),
       statsScope: statsScope || "League",
       leagueTeams: state.teams.filter((item) => item.LeagueId === team.LeagueId),
-      roster: rosterForTeam(state, team.Id),
+      roster,
       fixtures: matchRows(state, (match) => match.SeasonId === season.Id && (match.HomeTeamId === team.Id || match.AwayTeamId === team.Id)),
       transfers: [],
-      budget: { Balance: team.SponsorPower * 100000, WageBudget: team.Rating * 10000, TransferBudget: team.SponsorPower * 50000 },
+      budget,
       seasonStanding: standings.find((row) => row.teamId === team.Id),
-      bestLineup: { Formation: team.Formation, players: [] }
+      bestLineup: { Formation: team.Formation, formation: team.Formation, players: buildBestLineup(roster) }
     };
+  }
+
+  function teamBudget(team) {
+    const base = Math.max(1000, Math.round(number(team.SponsorPower, 100) * 500 + number(team.Rating, 60) * 150));
+    return {
+      BaseBudget: base,
+      InitialBudget: base,
+      Budget: base,
+      TransferBudget: Math.round(base * 0.6),
+      WageBudget: Math.round(base * 0.35),
+      CarryoverBudget: 0,
+      Income: 0,
+      Spending: 0,
+      PerformanceBudget: 0,
+      Balance: base,
+      Strategy: "即戦力"
+    };
+  }
+
+  function buildBestLineup(roster) {
+    return roster
+      .slice()
+      .sort((a, b) => number(b, "Rating") - number(a, "Rating"))
+      .slice(0, 11)
+      .map((player, index) => ({ ...player, positionOrder: index + 1, IsStarter: 1, Starter: 1 }));
   }
 
   function playerView(state, playerId, seasonId = null, statsScope = "League") {
@@ -702,7 +769,8 @@
   }
 
   function matchView(state, matchId) {
-    const match = state.matches.find((item) => item.Id === Number(matchId));
+    const rawMatch = state.matches.find((item) => item.Id === Number(matchId));
+    const match = rawMatch ? hydrateMatch(state, rawMatch) : null;
     if (!match) throw new Error("試合が見つかりません。");
     const lineups = [...rosterForTeam(state, match.HomeTeamId).slice(0, 11), ...rosterForTeam(state, match.AwayTeamId).slice(0, 11)]
       .map((player, index) => ({ ...player, TeamId: index < 11 ? match.HomeTeamId : match.AwayTeamId, Starter: 1 }));
